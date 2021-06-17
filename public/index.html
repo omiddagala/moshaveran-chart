@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <meta
+            name="description"
+            content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png"/>
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>انتخاب برتر</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css"
+            integrity="sha384-JvExCACAZcHNJEc7156QaHXTnQL3hQBixvj5RV5buE7vgnNEzzskDtx9NQ4p6BJe"
+            crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v28.0.0/dist/font-face.css" rel="stylesheet"
+          type="text/css"/>
+    <style>
+        body {
+            font-family: 'Vazir', sans-serif;
+        }
+
+        .spinner-loading {
+            right: 50%;
+            top: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 999 !important;
+        }
+
+        .table-level-rank {
+            height: 500px;
+            overflow: auto;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 17rem;
+        }
+
+        .input-box {
+            border-radius: 55px;
+            -webkit-box-shadow: 5px 5px 49px -7px rgba(0,0,0,0.23);
+            box-shadow: 5px 5px 49px -7px rgba(0,0,0,0.23);
+        }
+
+        .z-index-99 {
+            z-index: 99 !important;
+        }
+
+        @font-face {
+            font-family: Vazir;
+            src: url('./fonts/Vazir-Regular-FD-UI.eot');
+            src: url('./fonts/Vazir-Regular-FD-UI.eot?#iefix') format('embedded-opentype'),
+            url('./fonts/Vazir-Regular-FD-UI.woff2') format('woff2'),
+            url('./fonts/Vazir-Regular-FD-UI.woff') format('woff'),
+            url('./fonts/Vazir-Regular-FD-UI.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: Vazir;
+            src: url('./fonts/Vazir-Bold-FD-UI.eot');
+            src: url('./fonts/Vazir-Bold-FD-UI.eot?#iefix') format('embedded-opentype'),
+            url('./fonts/Vazir-Bold-FD-UI.woff2') format('woff2'),
+            url('./fonts/Vazir-Bold-FD-UI.woff') format('woff'),
+            url('./fonts/Vazir-Bold-FD-UI.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: Vazir;
+            src: url('./fonts/Vazir-Black-FD-UI.eot');
+            src: url('./fonts/Vazir-Black-FD-UI.eot?#iefix') format('embedded-opentype'),
+            url('./fonts/Vazir-Black-FD-UI.woff2') format('woff2'),
+            url('./fonts/Vazir-Black-FD-UI.woff') format('woff'),
+            url('./fonts/Vazir-Black-FD-UI.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: Vazir;
+            src: url('./fonts/Vazir-Medium-FD-UI.eot');
+            src: url('./fonts/Vazir-Medium-FD-UI.eot?#iefix') format('embedded-opentype'),
+            url('./fonts/Vazir-Medium-FD-UI.woff2') format('woff2'),
+            url('./fonts/Vazir-Medium-FD-UI.woff') format('woff'),
+            url('./fonts/Vazir-Medium-FD-UI.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: Vazir;
+            src: url('./fonts/Vazir-Light-FD-UI.eot');
+            src: url('./fonts/Vazir-Light-FD-UI.eot?#iefix') format('embedded-opentype'),
+            url('./fonts/Vazir-Light-FD-UI.woff2') format('woff2'),
+            url('./fonts/Vazir-Light-FD-UI.woff') format('woff'),
+            url('./fonts/Vazir-Light-FD-UI.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: Vazir;
+            src: url('./fonts/Vazir-Thin-FD-UI.eot');
+            src: url('./fonts/Vazir-Thin-FD-UI.eot?#iefix') format('embedded-opentype'),
+            url('./fonts/Vazir-Thin-FD-UI.woff2') format('woff2'),
+            url('./fonts/Vazir-Thin-FD-UI.woff') format('woff'),
+            url('./fonts/Vazir-Thin-FD-UI.ttf') format('truetype');
+            font-weight: 100;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body dir="rtl" lang="en">
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+        integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+        crossorigin="anonymous"></script>
+</body>
+</html>
