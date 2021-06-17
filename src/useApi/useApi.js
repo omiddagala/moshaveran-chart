@@ -11,7 +11,7 @@ export const apiStates = {
 };
 
 export default function (fetchData, postProcess, watch = [], condition = true) {
-    let apiBaseUrl = 'http://157.90.20.200:8080/';
+    let apiBaseUrl = 'http://127.0.0.1:8080/';
     const [data, setData] = useState([{}, '']);
     const history = useHistory()
     const authContext = useContext(AuthContext)

@@ -266,7 +266,7 @@ export default function AdminChart() {
                         }}>
                             <div className={'has-validation'}>
                                 <label htmlFor="">تراز</label>
-                                <InputNumber className={`form-control ${validation.level ? 'is-invalid' : ''}`}
+                                <InputNumber type={'float'} className={`form-control ${validation.level ? 'is-invalid' : ''}`}
                                              value={selectedRow.level} onchange={(v) => {
                                     setSelectedRow({
                                         ...selectedRow,
@@ -277,7 +277,7 @@ export default function AdminChart() {
                             </div>
                             <div className={'has-validation'}>
                                 <label htmlFor="" className={'mt-3'}>رتبه</label>
-                                <InputNumber className={`form-control ${validation.rank ? 'is-invalid' : ''}`}
+                                <InputNumber type={'float'} className={`form-control ${validation.rank ? 'is-invalid' : ''}`}
                                              value={selectedRow.rank} onchange={(v) => setSelectedRow({
                                     ...selectedRow,
                                     rank: fixPersianNumbers(v)
