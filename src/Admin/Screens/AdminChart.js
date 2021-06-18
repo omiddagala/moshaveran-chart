@@ -9,6 +9,7 @@ import {fixPersianNumbers} from '../../HelperFunction'
 import Select from "../../Components/Select";
 import cogoToast from 'cogo-toast';
 import InputNumber from "../../Components/InputNumber";
+import { CSVLink } from "react-csv";
 
 export default function AdminChart() {
     const [data, setData] = useState([])
@@ -25,6 +26,9 @@ export default function AdminChart() {
     const [filterGroup, setFilterGroup] = useState(null)
     const [filterField, setFilterField] = useState(null)
     const [validation, setValidation] = useState({level: false, rank: false})
+    const [typeFile, setTypeFile] = useState(null)
+    const [uploadActive, setUploadActive] = useState(false)
+    const [file, setFile] = useState(null)
 
     useEffect(() => {
         let labels = data.map(function (item) {
@@ -182,12 +186,68 @@ export default function AdminChart() {
         },
     };
 
+    function dataForUpload(condition) {
+        let formData = new FormData();
+        if (condition) {
+            formData.append('file', file)
+            formData.append('fieldId', filterField);
+            formData.append('type', typeFile);
+        }
+        return formData;
+    }
+
+    const [uploadData, uploadStatus] = useApi(
+        preProcessAdmin('upload', dataForUpload(uploadActive && typeFile)),
+        postProcessAdmin, [uploadActive],
+        uploadActive && typeFile);
+
+    useEffect(() => {
+        console.log(uploadStatus);
+        if (uploadStatus === 'SUCCESS') {
+            cogoToast.success('عملیات آپلود با موفقیت انجام شد');
+        } else if (uploadStatus === 'ERROR') {
+            cogoToast.error('عملیات آپلود با خطا مواجه شد');
+        }
+        setTypeFile(null)
+        setUploadActive(false)
+        setGetData(true)
+    }, [uploadStatus])
+
+    useEffect(() => {
+        if (typeFile !== null) {
+            setUploadActive(true)
+        }
+    }, [typeFile])
+
+    const csvData = data.map((item, index) => {
+        return {level: item.level, rank: item.rank, field: item.field.name, group: item.field.group.name}
+        });
+
+    const headers = [
+        { label: "level", key: "level" },
+        { label: "rank", key: "rank" },
+        { label: "field", key: "field" },
+        { label: "group", key: "group" }
+    ];
+
     return AdminRequireLoginMiddleware(<div>
         <SpinnerLoading
-            show={[chartStatus, deleteStatus, addStatus, groupsStatus, filterFieldStatus].includes('LOADING')}/>
+            show={[chartStatus, deleteStatus, addStatus, groupsStatus, filterFieldStatus, uploadStatus].includes('LOADING')}/>
         <div className={'container pt-5'}>
             <div className={'d-flex justify-content-between'}>
-                <div className={'col-6'}>
+                {filterField && <div className={'col-3'}>
+                    <label htmlFor="">فایل رشته</label>
+                    <input onChange={(event) => {
+                    setFile(event.target.files[0])
+                    }} className={'form-control'} type="file"/>
+                    {file &&
+                    <button type={'button'} className={'btn btn-primary align-self-end mt-2'}
+                        onClick={() => {
+                            setTypeFile('LEVEL_RANK')
+                        }}>آپلود فایل رشته
+                    </button>}
+                </div>}
+                <div className={'col-3'}>
                     <button className={'btn btn-primary'} onClick={() => {
                         console.log(filterGroup, filterField);
                         if (filterField && filterGroup) {
@@ -198,7 +258,12 @@ export default function AdminChart() {
                     }}>افزودن
                     </button>
                 </div>
-                <div className={'d-flex col-6'}>
+                {data.length > 0 &&<div className={'col-3'}>
+                     <CSVLink filename={"level-rank.csv"}
+                     className={'btn btn-primary align-self-end mt-2'} 
+                     data={csvData} headers={headers}>دانلود دیتا</CSVLink>
+                </div>}
+                <div className={'d-flex col-3'}>
                     <Select className={'mx-2'} placeHolder={'انتخاب گروه'} options={groups} value={filterGroup}
                             onChange={value => setFilterGroup(value)}/>
                     {filterFieldList.length > 0 &&

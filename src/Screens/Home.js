@@ -31,7 +31,7 @@ export default function Home() {
         true);
 
     const [fieldsData, fieldsStatus] = useApi(
-        preProcessUser('fields', {id: selectedGroup}),
+        preProcessUser('fields', {id: selectedGroup?.id}),
         postProcessUser, [selectedGroup],
         selectedGroup);
 
@@ -49,7 +49,7 @@ export default function Home() {
         getCourses);
 
     const [predictionData, predictionStatus] = useApi(
-        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id}),
+        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id, group: selectedGroup?.id}),
         postProcessUser, [getPrediction],
         getPrediction);
 
@@ -139,6 +139,13 @@ export default function Home() {
         setSelectedField(filtered !== [] ? filtered[0] : null)
     }
 
+    function selectGroupHandle(value) {
+        let filtered = groups.filter(item => {
+            return item.id.toString() === value;
+        })
+        setSelectedGroup(filtered !== [] ? filtered[0] : null)
+    }
+
     function textInputOnChange(v, index) {
         if (v >= -33.33 && v <= 100) {
             let temp = courses;
@@ -201,7 +208,7 @@ export default function Home() {
                         <div className={'mx-5 mb-5'}>
                             <label htmlFor="select">گروه خود را انتخاب کنید:</label>
                             <Select placeHolder={'انتخاب گروه'} options={groups}
-                                    onChange={value => setSelectedGroup(value)}/>
+                                    onChange={value => selectGroupHandle(value)}/>
                         </div>
                         {fields.length > 0 && <div className={'mx-5 mb-5'}>
                             <label htmlFor="select">رشته خود را انتخاب کنید:</label>
