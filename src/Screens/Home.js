@@ -183,25 +183,65 @@ export default function Home() {
     return <div className={'bg-main'}>
         <SpinnerLoading
             show={[groupsStatus , fieldsStatus , tendenciesStatus , coursesStatus, predictionStatus].includes('LOADING')}/>
-        <div className={'pb-4 d-flex flex-column container'} ref={messagesEndRef}>
-            <div className="row align-items-center">
-                <div className="pt-4 pt-lg-0  d-flex flex-column justify-content-center ">
-                    <div className="px-4 text-center">
+        <div className={' pb-4 d-flex flex-column container align-items-center'} ref={messagesEndRef}>
+            <div className="row w-100 justify-content-center">
+                <div className="pt-4 pt-lg-0  d-flex flex-column">
                         <img className="d-block mx-auto mb-2" src="/logo.svg" alt="" width="172"
                              height="157"/>
-                        <h1 className="display-5 fw-bold mb-5">به شما می گوییم کجا قبول می شوید</h1>
-                        <div className=" mx-auto">
-                            <p className="lead mb-5">ما در نرم افزار انتخاب رشته برتر، کدرشته های
-                                قبول شده و قبول نشده بیش از 109،000 کارنامه نهایی ارشد 99 را در دانشگاه های سراسری و
-                                آزاد
-                                تحلیل
-                                کرده
-                                ایم. </p>
+                        <div className={'input-box p-5 mb-5'}>
+                            <h2 className="display-5 fw-bold mb-5  text-center">مهمترین عوامل در دقت و صحت تخمین رتبه</h2>
+                            <div className=" mx-auto">
+                              <ul className={'d-flex flex-wrap'}>
+                                   <li className={'col-12 col-lg-6 mt-3'}>تعداد زیاد داده‌ها</li>
+                                  <li className={'col-12 col-lg-6 mt-3'}>پیاده‌سازی دقیق فرمول‌های ترازدهی، رتبه‌بندی و تاثیر معدل</li>
+                                 <li className={'col-12 col-lg-6 mt-3'}>نوع سهمیه ( آزاد، ایثارگری ۵ درصد و ۲۵ درصد )</li>
+                                 <li className={'col-12 col-lg-6 mt-3'}>مقایسه تفاوت درصدها و سطح سوالات به‌صورت سال به سال (۵ سال اخیر)</li>
+                              </ul>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
-            <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5'}>
+            <div className={'input-box d-flex flex-wrap w-100 mb-5 p-5'}>
+                <div className={'col-12 col-lg-6 border-right-responsive'}>
+                    <h4 className={'text-center'}>نرم‌افزار تخمین رتبه ارشد وزارت علوم</h4>
+                    <ul className={'d-flex flex-wrap list-unstyled'}>
+                        <li className={'col-12 col-lg-6 text-center mt-3'}>
+                            <a href="#">سرور اول</a>
+                        </li>
+                        <li className={'col-12 col-lg-6  text-center mt-3'}>
+                            <a href="#">سرور دوم</a>
+                        </li>
+                        <li className={'col-12 col-lg-6  text-center mt-3'}>
+                            <a href="#">سرور سوم</a>
+                        </li>
+                        <li className={'col-12 col-lg-6  text-center mt-3'}>
+                            <a href="#">سرور چهارم</a>
+                        </li>
+                    </ul>
+                </div>
+                <div className={'col-12 col-lg-6 mt-lg-0 mt-5'}>
+                    <h4 className={'text-center'}>نرم‌افزار تخمین رتبه ارشد وزارت علوم</h4>
+                    <ul className={'d-flex flex-wrap list-unstyled'}>
+                        <li className={'col-12 col-lg-6 text-center mt-3'}>
+                            <a href="#">سرور اول</a>
+                        </li>
+                        <li className={'col-12 col-lg-6  text-center mt-3'}>
+                            <a href="#">سرور دوم</a>
+                        </li>
+                        <li className={'col-12 col-lg-6  text-center mt-3'}>
+                            <a href="#">سرور سوم</a>
+                        </li>
+                        <li className={'col-12 col-lg-6  text-center mt-3'}>
+                            <a href="#">سرور چهارم</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center bg-primary text-white'}>
+                <h2>تخمین رتبه فقط یک آگهی حدودی از رتبه نیست</h2>
+                <h4 className={'mt-5'}>تخمین رتبه سرآغاز تحلیل درست شرایط و نظم بخشیدن به افکار مزاحم، پراکنده، غلط و آشفته است</h4>
+            </div>
+            <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5  mb-5 w-100'}>
 
                 <div className="d-flex flex-column col-12 col-lg-6 align-items-center mt-3">
                     <form className={'d-flex flex-wrap justify-content-center w-100'}>
@@ -309,6 +349,36 @@ export default function Home() {
                 </div>
                 <div className="col-lg-6 col-12 d-none d-lg-flex">
                     <img src={hero} className="hero-img" alt=""/>
+                </div>
+            </div>
+            <div className={'input-box d-flex flex-wrap w-100 p-5'}>
+                <div className={'col-12 col-lg-6 border-right-responsive'}>
+                    <h4 className={'text-center'}>لیست رشته‌های وزارت علوم</h4>
+                    <ol className={'d-flex flex-column align-items-center text-center'}>
+                        <li className={'mt-3'}>
+                            رشته اول
+                        </li>
+                        <li className={'mt-3'}>
+                            رشته اول
+                        </li>
+                        <li className={'mt-3'}>
+                            رشته اول
+                        </li>
+                    </ol>
+                </div>
+                <div className={'col-12 col-lg-6 mt-lg-0 mt-5'}>
+                    <h4 className={'text-center'}>نرم‌افزار تخمین رتبه ارشد وزارت بهداشت</h4>
+                    <ol className={'d-flex flex-column align-items-center text-center'}>
+                        <li className={'mt-3'}>
+                           رشته اول
+                        </li>
+                        <li className={'mt-3'}>
+                            رشته اول
+                        </li>
+                        <li className={'mt-3'}>
+                            رشته اول
+                        </li>
+                    </ol>
                 </div>
             </div>
         </div>
