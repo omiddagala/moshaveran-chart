@@ -26,6 +26,26 @@ const apiAddress = [
         url: 'v1/user/prediction',
         method: 'post',
     },
+    {
+        name: 'register',
+        url: 'v1/user/register',
+        method: 'post',
+    },
+    {
+        name: 'confirm',
+        url: 'v1/user/confirm',
+        method: 'post',
+    },
+    {
+        name: 'takhminFree',
+        url: 'v1/user/takhmin-free',
+        method: 'post',
+    },
+    {
+        name: 'pay',
+        url: 'v1/user/pay',
+        method: 'post',
+    },
 ];
 
 function preProcessUser(urlName, params) {
@@ -33,9 +53,22 @@ function preProcessUser(urlName, params) {
 }
 
 function postProcessUser(urlName, data) {
-    return {
-        list: data,
-    };
+    switch (urlName){
+        case 'register':
+            return {}
+        case 'confirm':
+            return {
+                freeTries:data.freeTries
+            }
+        case 'takhminFree':
+            return {
+                freeTries:data.number
+            }
+        default:
+            return {
+                list: data,
+            };
+    }
 }
 
 export {preProcessUser, postProcessUser};

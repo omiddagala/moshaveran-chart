@@ -12,7 +12,7 @@ export default function InputNumber({value, className, onchange, type = 'integer
                       if (type === 'float') {
                           temp = temp.match(/[-]?\d*.?\d*/)[0]
                       }else if ('integer'){
-                          temp = temp.match(/\d*/)
+                          temp = temp.match(/\d*/)[0]
                       }
                       setValueInput(temp)
                       onchange(temp)

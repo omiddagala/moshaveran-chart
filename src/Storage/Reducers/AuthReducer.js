@@ -46,6 +46,7 @@ const logout = (prevState, action) => {
     };
 };
 
+
 function AuthReducer(prevState, action) {
     switch (action.type) {
         case 'LOGIN':
