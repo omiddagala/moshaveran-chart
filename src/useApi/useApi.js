@@ -29,10 +29,13 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                     setData([{}, apiStates.ERROR]);
                     return null;
                 }
+                if (fetchData.urlName==='pay'){
+                    window.location.href = response.request.responseURL;
+                }
                 return response.data;
             })
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     setData([
                         postProcess
                             ? postProcess(fetchData.urlName, response)
@@ -41,6 +44,7 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                     ]);
                 })
                 .catch((e) => {
+                    console.log(e.status);
                     if (e.status === 401) {
                         Store.remove('USER_INFO')
                         authContext.authDispatch({
@@ -48,7 +52,7 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                         });
                         history.push('/zinc/login')
                     }
-                    console.log(e);
+                    // console.log(e);
                     setData([{}, apiStates.ERROR]);
                 });
         }

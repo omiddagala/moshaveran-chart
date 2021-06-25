@@ -58,7 +58,8 @@ function postProcessUser(urlName, data) {
             return {}
         case 'confirm':
             return {
-                freeTries:data.freeTries
+                freeTries:data.freeTries,
+                code:data.code
             }
         case 'takhminFree':
             return {

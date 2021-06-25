@@ -37,7 +37,7 @@ export default function App() {
 
     return auth.apiToken !== undefined ? <AuthContext.Provider value={{auth, authDispatch}}>
         <Router>
-            <Route exact path="/"><Home/></Route>
+            <Route exact path="/takhmin"><Home/></Route>
             <Route path="/zinc"><Admin/></Route>
         </Router>
     </AuthContext.Provider> : null

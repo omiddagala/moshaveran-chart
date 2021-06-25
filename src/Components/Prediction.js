@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState,useRef} from 'react'
 import Select from "./Select";
 import InputNumber from "./InputNumber";
 import {Modal} from "react-bootstrap";
@@ -7,8 +7,9 @@ import {postProcessUser, preProcessUser} from "../useApi/preProcesses/UserProces
 import SpinnerLoading from "./Spinner";
 import Store from "../Storage/Store";
 import {numberWithCommas} from "../HelperFunction";
+import cogoToast from "cogo-toast";
 
-export default function Prediction({parentEndRef}){
+export default function Prediction({parentEndRef,setLoading}){
     const [groups, setGroups] = useState([])
     const [fields, setFields] = useState([])
     const [tendencies, setTendencies] = useState([])
@@ -32,7 +33,12 @@ export default function Prediction({parentEndRef}){
     const [codeValidation,setCodeValidation] = useState(false)
     const [freeTries,setFreeTries] = useState(0)
     const [postTakhminFree,setPostTakhminFree] = useState(false)
-    const [packageNumber ,setPackageNumber] = useState(null)
+    const [packageSelected ,setPackageSelected] = useState(null)
+    const [postPay ,setPostPay] = useState(false)
+    const [packages]=useState([{number:1,amount:1500},{number:3,amount:4000},{number:5,amount:5000}])
+    const initialResendTimer = 5;
+    const [resendTimer, setResendTimer] = useState(initialResendTimer);
+    const timer = useRef(false);
 
     const [groupsData, groupsStatus] = useApi(
         preProcessUser('groups', {}),
@@ -77,6 +83,14 @@ export default function Prediction({parentEndRef}){
         postProcessUser, [postTakhminFree],
         postTakhminFree);
 
+    const [payData, payStatus] = useApi(
+        preProcessUser('pay', {mobile,number:packages[packageSelected]?.number??0,amount:packages[packageSelected]?.amount??0}),
+        postProcessUser, [postPay],
+        postPay && packageSelected!==null);
+
+    useEffect(()=>{
+        setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus,groupsStatus,payStatus].includes('LOADING'))
+    },[takhminFreeStatus, confirmStatus, registerStatus, predictionStatus, coursesStatus, tendenciesStatus, fieldsStatus, groupsStatus,payStatus])
     useEffect(()=>{
         Store.get('MOBILE_USER').then(mobile=>{
                 setMobile(mobile)
@@ -135,7 +149,11 @@ export default function Prediction({parentEndRef}){
     useEffect(() => {
         if (predictionStatus === 'SUCCESS') {
             setPredictions(predictionData.list)
-            setFreeTries(predictionData.list[0].freeTries)
+            setFreeTries(predictionData.list[0]?.freeTries??0)
+            if (predictionData.list[0]?.freeTries??0 === 0){
+                cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
+                setStep(4)
+            }
         }
         setGetPrediction(false)
     }, [predictionStatus])
@@ -161,6 +179,16 @@ export default function Prediction({parentEndRef}){
 
     useEffect(() => {
         if (registerStatus === 'SUCCESS') {
+            setResendTimer(initialResendTimer)
+                timer.current = setInterval(() => {
+                    setResendTimer((prevState) => {
+                        if (prevState === 1) {
+                            clearTimeout(timer.current);
+                        }
+                        return prevState - 1;
+                    });
+                }, 1000);
+
             setStep(2)
         }
         setPostRegister(false)
@@ -168,9 +196,19 @@ export default function Prediction({parentEndRef}){
 
     useEffect(() => {
         if (confirmStatus === 'SUCCESS') {
-            setFreeTries(confirmData.freeTries)
-            Store.store('MOBILE_USER', mobile).then();
-            setStep(3)
+            if (confirmData.code ==='1'){
+                setFreeTries(confirmData.freeTries)
+                Store.store('MOBILE_USER', mobile).then();
+                if (confirmData.freeTries ===0){
+                    setStep(4)
+                }else{
+                    setStep(3)
+                }
+                setCodeValidation(false)
+
+            }else{
+                setCodeValidation(true)
+            }
         }
         setPostConfirm(false)
     }, [confirmStatus])
@@ -186,6 +224,7 @@ export default function Prediction({parentEndRef}){
         }
         setPostTakhminFree(false)
     }, [takhminFreeStatus])
+
 
     useEffect(() => {
         parentEndRef.current.scrollIntoView({block: 'end', behavior: 'smooth'});
@@ -243,9 +282,9 @@ export default function Prediction({parentEndRef}){
         return mobile.match(/09([0-9][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/)
     }
 
-    return <div>
+    return <>
         <SpinnerLoading
-            show={[groupsStatus , fieldsStatus , tendenciesStatus , coursesStatus, predictionStatus].includes('LOADING')}/>
+            show={true}/>
         {step===0 && <div className={'d-flex flex-column align-items-center'}>
             <button className={'btn btn-primary '} style={{fontSize:'2rem'}} onClick={()=>{
                 if (mobile){
@@ -304,141 +343,132 @@ export default function Prediction({parentEndRef}){
                     <p className={'invalid-feedback'}>کد وارد شده اشتباه است</p>
                 </div>
                 <button className={'btn btn-primary mt-3'}>مرحله بعد</button>
-                <button className={'btn btn-info mt-3'} type={'button'} onClick={()=>setStep(1)}>ویرایش شماره موبایل</button>
+                <button className={'btn btn-secondary mt-3'} type={'button'} onClick={()=> {
+                    if (resendTimer<=0){
+                        setPostRegister(true)
+                    }
+                }} disabled={resendTimer>0}>{resendTimer>0?`${resendTimer} مانده تا ارسال دوباره یا ویرایش شماره موبایل`:'ارسال دوباره'}</button>
+                {resendTimer <= 0 && <button className={'btn btn-info mt-3'} type={'button'} onClick={()=> {
+                    clearTimeout(timer.current);
+                    setStep(1)
+                }}>ویرایش شماره موبایل</button>}
             </form>
         </div>}
-        {step===3 && <>
-            <div className={'alert alert-success'}>
-                 تعداد درخواست باقی‌مانده: {freeTries}
-            </div>
-            <form className={'d-flex flex-wrap justify-content-center w-100'}>
-                <div className={'mx-5 mb-5'}>
-                    <label htmlFor="select">گروه خود را انتخاب کنید:</label>
-                    <Select placeHolder={'انتخاب گروه'} options={groups}
-                            onChange={value => selectGroupHandle(value)}/>
+        <div>
+            {[3,4].includes(step) && <button className={'btn btn-primary mb-2'} onClick={()=>{
+                Store.remove('MOBILE_USER')
+                setMobile('')
+                setStep(1)
+            }}>ویرایش شماره موبایل</button>}
+            {step===3 && <>
+                <div className={'alert alert-success'}>
+                    تعداد درخواست باقی‌مانده: {freeTries}
                 </div>
-                {fields.length > 0 && <div className={'mx-5 mb-5'}>
-                    <label htmlFor="select">رشته خود را انتخاب کنید:</label>
-                    <Select placeHolder={'انتخاب رشته'} options={fields}
-                            onChange={value => selectFieldHandle(value)}/>
-                </div>}
-                {tendencies.length > 0 && <div className={'mx-5 mb-5'}>
-                    <label htmlFor="select">گرایش خود را انتخاب کنید:</label>
-                    <Select placeHolder={'انتخاب گرایش'} options={tendencies}
-                            onChange={value => setSelectedTendencies(value)}/>
-                </div>}
-            </form>
-            {courses.length > 0 && <div className={'d-flex flex-column align-items-center'}>
-                <div className={'table-responsive'}>
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">نام درس</th>
-                            <th scope="col">درصد (33.33- تا 100)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {validations && courses.map((item, index) => {
-                            return <tr key={index}>
-                                <th scope="row">{index + 1}</th>
-                                <td>{item.name}</td>
-                                <td>
-                                    <div className={'has-validation'}>
-                                        <InputNumber onchange={(v) => textInputOnChange(v, index)}
-                                                     type={'float'}
-                                                     className={`form-control w-100 banner ${validations[index] ? "is-invalid" : ""}`}/>
-                                        <div className={'invalid-feedback p-2 bg-danger text-white rounded'}>
-                                            مقدار مجاز 33.33- تا 100 می‌باشد
-                                        </div>
-                                    </div>
-                                </td>
+                <form className={'d-flex flex-wrap justify-content-center w-100'}>
+                    <div className={'mx-5 mb-5'}>
+                        <label htmlFor="select">گروه خود را انتخاب کنید:</label>
+                        <Select placeHolder={'انتخاب گروه'} options={groups}
+                                onChange={value => selectGroupHandle(value)}/>
+                    </div>
+                    {fields.length > 0 && <div className={'mx-5 mb-5'}>
+                        <label htmlFor="select">رشته خود را انتخاب کنید:</label>
+                        <Select placeHolder={'انتخاب رشته'} options={fields}
+                                onChange={value => selectFieldHandle(value)}/>
+                    </div>}
+                    {tendencies.length > 0 && <div className={'mx-5 mb-5'}>
+                        <label htmlFor="select">گرایش خود را انتخاب کنید:</label>
+                        <Select placeHolder={'انتخاب گرایش'} options={tendencies}
+                                onChange={value => setSelectedTendencies(value)}/>
+                    </div>}
+                </form>
+                {courses.length > 0 && <div className={'d-flex flex-column align-items-center'}>
+                    <div className={'table-responsive'}>
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">نام درس</th>
+                                <th scope="col">درصد (33.33- تا 100)</th>
                             </tr>
-                        })}
-                        </tbody>
-                    </table>
-                    <div className={'has-validation mx-5 mb-5 text-center bg-main rounded p-3'}>
-                        <label htmlFor="select">معدل خود را وارد کنید(از ۱۰ تا ۲۰):</label>
-                        <InputNumber placeHolder={'مثال: 14.5'} value={ave} type={'float'} onchange={(v) => setAve(v)}
-                                     className={`form-control ${aveValidation ? 'is-invalid' : ''}`}/>
-                        <div className={'invalid-feedback p-2 bg-danger text-white rounded'}>
-                            مقدار مجاز 10 تا 20 می‌باشد
+                            </thead>
+                            <tbody>
+                            {validations && courses.map((item, index) => {
+                                return <tr key={index}>
+                                    <th scope="row">{index + 1}</th>
+                                    <td>{item.name}</td>
+                                    <td>
+                                        <div className={'has-validation'}>
+                                            <InputNumber onchange={(v) => textInputOnChange(v, index)}
+                                                         type={'float'}
+                                                         className={`form-control w-100 banner ${validations[index] ? "is-invalid" : ""}`}/>
+                                            <div className={'invalid-feedback p-2 bg-danger text-white rounded'}>
+                                                مقدار مجاز 33.33- تا 100 می‌باشد
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            })}
+                            </tbody>
+                        </table>
+                        <div className={'has-validation mx-5 mb-5 text-center bg-main rounded p-3'}>
+                            <label htmlFor="select">معدل خود را وارد کنید(از ۱۰ تا ۲۰):</label>
+                            <InputNumber placeHolder={'مثال: 14.5'} value={ave} type={'float'} onchange={(v) => setAve(v)}
+                                         className={`form-control ${aveValidation ? 'is-invalid' : ''}`}/>
+                            <div className={'invalid-feedback p-2 bg-danger text-white rounded'}>
+                                مقدار مجاز 10 تا 20 می‌باشد
+                            </div>
                         </div>
                     </div>
-                </div>
-                <button onClick={() => {
-                    if (validationCourses()) {
-                        setGetPrediction(true)
-                    }
-                }} className={'btn btn-primary mt-3'}> رتبه
-                    من
-                    را نشان بده
-                </button>
-            </div>}
-            <Modal show={showModal} onHide={hideModal}>
-                <Modal.Header>
-                    <Modal.Title>اعلام نتایج</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {predictions.length > 0 && <div className={'mt-3'}>
-                        <div className={'text-center'} style={{fontSize:'2rem'}}>
-                            رتبه تخمینی شما از
-                            <span className={'badge badge-success mx-2'}>{numberWithCommas(predictions[0].rank)}</span>
-                            تا
-                            <span className={'badge badge-warning mx-2'}>{numberWithCommas(predictions[2].rank)}</span>
-                            خواهد بود.
-                            {/*{predictions.map((item, index) => {*/}
-                            {/*    if (item.level === 1) {*/}
-                            {/*        return <div key={index} className={'col-12 col-lg-4 p-3'}>*/}
-                            {/*            <div className={'rounded bg-success p-2'}>*/}
-                            {/*                <h6 className={'text-white m-0'}>حالت خوشبینانه</h6>*/}
-                            {/*                <h3 className={'mt-3 text-white'}>{item.rank}</h3>*/}
-                            {/*            </div>*/}
-                            {/*        </div>*/}
-                            {/*    } else if (item.level === 2) {*/}
-                            {/*        return <div key={index} className={'col-12 col-lg-4 p-3'}>*/}
-                            {/*            <div className={'rounded bg-primary p-2'}>*/}
-                            {/*                <h6 className={'text-white m-0'}>حالت نرمال</h6>*/}
-                            {/*                <h3 className={'mt-3 text-white'}>{item.rank}</h3>*/}
-                            {/*            </div>*/}
-                            {/*        </div>*/}
-                            {/*    } else if (item.level === 3) {*/}
-                            {/*        return <div key={index} className={'col-12 col-lg-4 p-3'}>*/}
-                            {/*            <div className={'rounded bg-warning p-2'}>*/}
-                            {/*                <h6 className={'text-white m-0'}>حالت بدبینانه</h6>*/}
-                            {/*                <h3 className={'mt-3 text-white'}>{item.rank}</h3>*/}
-                            {/*            </div>*/}
-                            {/*        </div>*/}
-                            {/*    }*/}
-                            {/*})}*/}
-                        </div>
-                    </div>}
-                    <button className={'btn btn-secondary mt-3 mx-2'} type={'button'}
-                            onClick={hideModal}>بستن
+                    <button onClick={() => {
+                        if (validationCourses()) {
+                            setGetPrediction(true)
+                        }
+                    }} className={'btn btn-primary mt-3'}> رتبه
+                        من
+                        را نشان بده
                     </button>
-                </Modal.Body>
-            </Modal>
-        </>}
-        {step===4&& <div>
-            <p className={'alert alert-info'}>لطفا برای درخواست بیشتر، یکی از پکیج‌های زیر را خریداری نمایید.</p>
-            <div className={'card p-5'} onChange={(e)=>{
-                setPackageNumber(e.target.value)
-              }
-            }>
-                <label htmlFor="package-5">
-                    <input type="radio" name={'package'} value={5} id={'package-5'} className={'mx-2'}/>
-                    تعداد ۵ درخواست به مبلغ 5000 تومان
-                </label>
-                <label htmlFor="package-10">
-                    <input type="radio" name={'package'} value={10} id={'package-10'} className={'mx-2'}/>
-                    تعداد 10 درخواست به مبلغ 10000 تومان
-                </label>
-                <label htmlFor="package-20">
-                    <input type="radio" name={'package'} value={20} id={'package-20'} className={'mx-2'}/>
-                    تعداد 20 درخواست به مبلغ 20000 تومان
-                </label>
-                <button className={'btn btn-success mt-3'}>پرداخت</button>
-            </div>
-        </div>}
-    </div>
+                </div>}
+                <Modal show={showModal} onHide={hideModal}>
+                    <Modal.Header>
+                        <Modal.Title>اعلام نتایج</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {predictions.length > 0 && <div className={'mt-3'}>
+                            <div className={'text-center'} style={{fontSize:'2rem'}}>
+                                رتبه تخمینی شما از
+                                <span className={'badge badge-success mx-2'}>{numberWithCommas(predictions[0].rank)}</span>
+                                تا
+                                <span className={'badge badge-warning mx-2'}>{numberWithCommas(predictions[2].rank)}</span>
+                                خواهد بود.
+                            </div>
+                        </div>}
+                        <button className={'btn btn-secondary mt-3 mx-2'} type={'button'}
+                                onClick={hideModal}>بستن
+                        </button>
+                    </Modal.Body>
+                </Modal>
+            </>}
+            {step===4&& <div>
+                <p className={'alert alert-info'}>لطفا برای درخواست بیشتر، یکی از پکیج‌های زیر را خریداری نمایید.</p>
+                <form onSubmit={(e)=>{
+                    e.preventDefault()
+                    setPostPay(true)
+                }}>
+                    <div className={'card p-5'} onChange={(e)=>{
+                        setPackageSelected(e.target.value)
+                    }
+                    }>
+                        {packages.map((item,index)=>{
+                            return  <label htmlFor={`package-${index}`}>
+                                <input type="radio" name={'package'} value={index} id={`package-${index}`} className={'mx-2'}/>
+                                تعداد {item.number} درخواست به مبلغ {item.amount} تومان
+                            </label>
+                        })}
+                        <button className={'btn btn-success mt-3'} disabled={packageSelected===null}>پرداخت</button>
+                    </div>
+                </form>
+            </div>}
+        </div>
+
+    </>
 }
