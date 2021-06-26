@@ -10,6 +10,7 @@ import {numberWithCommas} from "../HelperFunction";
 import cogoToast from "cogo-toast";
 
 export default function Prediction({parentEndRef,setLoading}){
+    const [key,setKey] = useState(1)
     const [groups, setGroups] = useState([])
     const [fields, setFields] = useState([])
     const [tendencies, setTendencies] = useState([])
@@ -36,7 +37,7 @@ export default function Prediction({parentEndRef,setLoading}){
     const [packageSelected ,setPackageSelected] = useState(null)
     const [postPay ,setPostPay] = useState(false)
     const [packages]=useState([{number:1,amount:1500},{number:3,amount:4000},{number:5,amount:5000}])
-    const initialResendTimer = 5;
+    const initialResendTimer = 60;
     const [resendTimer, setResendTimer] = useState(initialResendTimer);
     const timer = useRef(false);
 
@@ -87,6 +88,15 @@ export default function Prediction({parentEndRef,setLoading}){
         preProcessUser('pay', {mobile,number:packages[packageSelected]?.number??0,amount:packages[packageSelected]?.amount??0}),
         postProcessUser, [postPay],
         postPay && packageSelected!==null);
+
+    function resetValues(){
+        setSelectedGroup(null)
+        setSelectedField(null)
+        setSelectedTendencies(null)
+        setFields([])
+        setCourses([])
+        setCode('')
+    }
 
     useEffect(()=>{
         setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus,groupsStatus,payStatus].includes('LOADING'))
@@ -148,9 +158,11 @@ export default function Prediction({parentEndRef,setLoading}){
 
     useEffect(() => {
         if (predictionStatus === 'SUCCESS') {
+            let free = predictionData.list[0]?.freeTries??0
             setPredictions(predictionData.list)
-            setFreeTries(predictionData.list[0]?.freeTries??0)
-            if (predictionData.list[0]?.freeTries??0 === 0){
+            setFreeTries(free)
+            console.log(free,'free');
+            if (free === 0){
                 cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
                 setStep(4)
             }
@@ -282,7 +294,7 @@ export default function Prediction({parentEndRef,setLoading}){
         return mobile.match(/09([0-9][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/)
     }
 
-    return <>
+    return <div>
         <SpinnerLoading
             show={true}/>
         {step===0 && <div className={'d-flex flex-column align-items-center'}>
@@ -305,7 +317,7 @@ export default function Prediction({parentEndRef,setLoading}){
             </div>
         </div>}
         {step === 1 &&
-        <div className={'d-flex justify-content-center'}>
+        <div  key={'mobile'+ key} className={'d-flex justify-content-center'} >
             <form onSubmit={(e)=>{
                 e.preventDefault();
                 console.log(mobileValidation());
@@ -327,7 +339,7 @@ export default function Prediction({parentEndRef,setLoading}){
             </form>
         </div>}
         {step===2 &&
-        <div className={'d-flex justify-content-center'}>
+        <div key={'code'+ key} className={'d-flex justify-content-center'}>
             <form className={'col-12 col-lg-6 d-flex flex-column align-items-center text-center'} onSubmit={(e)=>{
                 e.preventDefault();
                 if (code){
@@ -354,13 +366,15 @@ export default function Prediction({parentEndRef,setLoading}){
                 }}>ویرایش شماره موبایل</button>}
             </form>
         </div>}
-        <div>
+        <div key={'prediction'+ key}>
             {[3,4].includes(step) && <button className={'btn btn-primary mb-2'} onClick={()=>{
                 Store.remove('MOBILE_USER')
                 setMobile('')
+                setKey(key+1)
                 setStep(1)
+                resetValues()
             }}>ویرایش شماره موبایل</button>}
-            {step===3 && <>
+            {step===3 && key && <>
                 <div className={'alert alert-success'}>
                     تعداد درخواست باقی‌مانده: {freeTries}
                 </div>
@@ -470,5 +484,5 @@ export default function Prediction({parentEndRef,setLoading}){
             </div>}
         </div>
 
-    </>
+    </div>
 }

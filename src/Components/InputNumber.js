@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {fixPersianNumbers} from '../HelperFunction'
 
 export default function InputNumber({value, className, onchange, type = 'integer',placeHolder}) {
-    const [valueInput, setValueInput] = useState(value ?? null)
+    const [valueInput, setValueInput] = useState(value ?? '')
     return <input type="text"
                   className={className}
                   value={valueInput}

@@ -3,6 +3,7 @@ import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Store from "../Storage/Store";
 import AuthContext from "../Storage/Contexts/AuthContext";
+import cogoToast from "cogo-toast";
 
 export const apiStates = {
     LOADING: 'LOADING',
@@ -44,6 +45,7 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                     ]);
                 })
                 .catch((e) => {
+                    cogoToast.error('عملیات با خطا واجه شد');
                     console.log(e.status);
                     if (e.status === 401) {
                         Store.remove('USER_INFO')

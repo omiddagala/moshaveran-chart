@@ -260,7 +260,7 @@ export default function AdminChart() {
                 </div>
                 {data.length > 0 &&<div className={'col-3'}>
                      <CSVLink filename={"level-rank.csv"}
-                     className={'btn btn-primary align-self-end mt-2'} 
+                     className={'btn btn-primary align-self-end mt-2'}
                      data={csvData} headers={headers}>دانلود دیتا</CSVLink>
                 </div>}
                 <div className={'d-flex col-3'}>
