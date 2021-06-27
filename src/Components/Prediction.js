@@ -9,7 +9,7 @@ import Store from "../Storage/Store";
 import {numberWithCommas} from "../HelperFunction";
 import cogoToast from "cogo-toast";
 
-export default function Prediction({parentEndRef,setLoading}){
+export default function Prediction({setLoading}){
     const [key,setKey] = useState(1)
     const [groups, setGroups] = useState([])
     const [fields, setFields] = useState([])
@@ -37,9 +37,11 @@ export default function Prediction({parentEndRef,setLoading}){
     const [packageSelected ,setPackageSelected] = useState(null)
     const [postPay ,setPostPay] = useState(false)
     const [packages]=useState([{number:1,amount:1500},{number:3,amount:4000},{number:5,amount:5000}])
-    const initialResendTimer = 60;
+    const initialResendTimer = 180;
     const [resendTimer, setResendTimer] = useState(initialResendTimer);
     const timer = useRef(false);
+    const endRef = React.createRef()
+    const [mobileTemp,setMobileTemp] = useState(null)
 
     const [groupsData, groupsStatus] = useApi(
         preProcessUser('groups', {}),
@@ -161,8 +163,7 @@ export default function Prediction({parentEndRef,setLoading}){
             let free = predictionData.list[0]?.freeTries??0
             setPredictions(predictionData.list)
             setFreeTries(free)
-            console.log(free,'free');
-            if (free === 0){
+            if (predictionData.list.length===0){
                 cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
                 setStep(4)
             }
@@ -192,14 +193,18 @@ export default function Prediction({parentEndRef,setLoading}){
     useEffect(() => {
         if (registerStatus === 'SUCCESS') {
             setResendTimer(initialResendTimer)
-                timer.current = setInterval(() => {
-                    setResendTimer((prevState) => {
-                        if (prevState === 1) {
-                            clearTimeout(timer.current);
-                        }
-                        return prevState - 1;
-                    });
-                }, 1000);
+            try {
+                clearTimeout(timer.current)
+            }catch (e){}
+            timer.current = setInterval(() => {
+                setResendTimer((prevState) => {
+                    if (prevState === 1) {
+                        clearTimeout(timer.current);
+                        setStep(1)
+                    }
+                    return prevState - 1;
+                });
+            }, 1000);
 
             setStep(2)
         }
@@ -239,7 +244,11 @@ export default function Prediction({parentEndRef,setLoading}){
 
 
     useEffect(() => {
-        parentEndRef.current.scrollIntoView({block: 'end', behavior: 'smooth'});
+        if (courses.concat(fields).concat(tendencies).length>0){
+            console.log('aaa');
+            endRef.current.scrollIntoView({block: 'end', behavior: 'smooth'});
+
+        }
     }, [courses, fields, tendencies])
 
     function selectFieldHandle(value) {
@@ -294,7 +303,22 @@ export default function Prediction({parentEndRef,setLoading}){
         return mobile.match(/09([0-9][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/)
     }
 
-    return <div>
+    function secondsToTimeString  (seconds) {
+
+        var s = Math.floor(seconds%60);
+        var m = Math.floor((seconds*1000/(1000*60))%60);
+        var strFormat = "MM:SS";
+
+        if(s < 10) s = "0" + s;
+        if(m < 10) m = "0" + m;
+
+        strFormat = strFormat.replace(/MM/, m);
+        strFormat = strFormat.replace(/SS/, s);
+
+        return strFormat;
+    }
+
+    return <div ref={endRef}>
         <SpinnerLoading
             show={true}/>
         {step===0 && <div className={'d-flex flex-column align-items-center'}>
@@ -320,9 +344,12 @@ export default function Prediction({parentEndRef,setLoading}){
         <div  key={'mobile'+ key} className={'d-flex justify-content-center'} >
             <form onSubmit={(e)=>{
                 e.preventDefault();
-                console.log(mobileValidation());
                 if (mobileValidation()){
-                    setPostRegister(true);
+                    if (mobileTemp !== mobile){
+                        setPostRegister(true);
+                    }else{
+                        setStep(2)
+                    }
                     setMobileValidationState(false)
                 }else{
                     setMobileValidationState(true)
@@ -359,11 +386,11 @@ export default function Prediction({parentEndRef,setLoading}){
                     if (resendTimer<=0){
                         setPostRegister(true)
                     }
-                }} disabled={resendTimer>0}>{resendTimer>0?`${resendTimer} مانده تا ارسال دوباره یا ویرایش شماره موبایل`:'ارسال دوباره'}</button>
-                {resendTimer <= 0 && <button className={'btn btn-info mt-3'} type={'button'} onClick={()=> {
-                    clearTimeout(timer.current);
+                }} disabled={resendTimer>0}>{resendTimer>0?`${secondsToTimeString(resendTimer)} مانده تا ارسال دوباره `:'ارسال دوباره'}</button>
+                <button className={'btn btn-info mt-3'} type={'button'} onClick={()=> {
+                    setMobileTemp(mobile)
                     setStep(1)
-                }}>ویرایش شماره موبایل</button>}
+                }}>ویرایش شماره موبایل</button>
             </form>
         </div>}
         <div key={'prediction'+ key}>

@@ -4,7 +4,6 @@ import Prediction from "../Components/Prediction";
 import SpinnerLoading from "../Components/Spinner";
 
 export default function Home() {
-    const parentEndRef = React.createRef()
     const [loading,setLoading] = useState(false)
     return <div className={'bg-main'}>
         <SpinnerLoading
@@ -67,9 +66,9 @@ export default function Home() {
                 <h2>تخمین رتبه فقط یک آگهی حدودی از رتبه نیست</h2>
                 <h4 className={'mt-5'}>تخمین رتبه سرآغاز تحلیل درست شرایط و نظم بخشیدن به افکار مزاحم، پراکنده، غلط و آشفته است</h4>
             </div>
-            <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5  mb-5 w-100'}  ref={parentEndRef}>
+            <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5  mb-5 w-100'} >
                 <div className="d-flex flex-column col-12 col-lg-6 align-self-center mt-3">
-                    <Prediction parentEndRef={parentEndRef} setLoading={setLoading}/>
+                    <Prediction setLoading={setLoading}/>
                 </div>
                 <div className="col-lg-6 col-12 d-none d-lg-flex">
                     <img src={hero} className="hero-img align-self-center"/>
@@ -106,5 +105,10 @@ export default function Home() {
                 </div>
             </div>
         </div>
+        <a referrerPolicy="origin" target="_blank"
+           href="https://trustseal.enamad.ir/?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l">
+            <img referrerPolicy="origin"src="https://Trustseal.eNamad.ir/logo.aspx?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l" alt=""
+                                                                                            id="cGhpi3pgrmOWGbTUyG2l"/></a>
+
     </div>
 }

@@ -4,7 +4,6 @@ import {
     Route, useHistory,
 } from "react-router-dom";
 import Home from "./Screens/Home";
-import Header from "./Components/Header";
 import AuthReducer from './Storage/Reducers/AuthReducer';
 import AuthContext from './Storage/Contexts/AuthContext';
 import Admin from "./Admin/Screens/Admin";
