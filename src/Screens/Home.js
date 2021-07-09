@@ -10,8 +10,7 @@ export default function Home({group}) {
             show={loading}/>
         <div className={' pb-4 d-flex flex-column container align-items-center'}>
             <div className={'d-flex justify-content-start w-100'}>
-                <img className="d-block mb-2" src="/logo.svg" alt="" width="172"
-                     height="157"/>
+                <img className="d-block my-4" src='./logo.png' alt=""/>
             </div>
             <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center bg-primary text-white'}>
                 <h2>تخمین رتبه فقط یک آگاهی حدودی از رتبه نیست</h2>

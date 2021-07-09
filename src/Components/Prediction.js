@@ -41,6 +41,7 @@ export default function Prediction({setLoading,group}){
     const timer = useRef(false);
     const endRef = React.createRef()
     const [mobileTemp,setMobileTemp] = useState(null)
+    const [mobileEdit,setMobileEdit] = useState(null)
 
     const location = useLocation();
 
@@ -78,7 +79,7 @@ export default function Prediction({setLoading,group}){
         postConfirm);
 
     const [takhminFreeData, takhminFreeStatus] = useApi(
-        preProcessUser('takhminFree'),
+        preProcessUser('takhminFree',{mobile}),
         postProcessUser, [postTakhminFree],
         postTakhminFree);
 
@@ -90,17 +91,23 @@ export default function Prediction({setLoading,group}){
     function resetValues(){
         setSelectedField(null)
         setSelectedTendencies(null)
-        setFields([])
-        setCourses([])
         setCode('')
     }
 
     useEffect(()=>{
         setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus,payStatus].includes('LOADING'))
     },[takhminFreeStatus, confirmStatus, registerStatus, predictionStatus, coursesStatus, tendenciesStatus, fieldsStatus,,payStatus])
+
     useEffect(()=>{
         Store.get('MOBILE_USER').then(mobile=>{
+            if (mobile){
                 setMobile(mobile)
+                setStep(3)
+                setPostTakhminFree(true)
+            }
+            else{
+                setStep(1)
+            }
         })
     },[])
 
@@ -141,10 +148,10 @@ export default function Prediction({setLoading,group}){
 
     useEffect(() => {
         if (predictionStatus === 'SUCCESS') {
-            let free = predictionData.list[0]?.freeTries??0
-            setPredictions(predictionData.list)
+            let free = predictionData.freeTries
+            setPredictions(predictionData.subtendancies)
             setFreeTries(free)
-            if (predictionData.list.length===0){
+            if (predictionData.length===0){
                 cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
                 setStep(4)
             }
@@ -311,6 +318,13 @@ export default function Prediction({setLoading,group}){
         {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
         {/*    </div>*/}
         {/*</div>}*/}
+        {[1,2].includes(step) && <button className={'btn btn-primary mb-2'} onClick={()=>{
+            setMobile(mobileEdit)
+            Store.store('MOBILE_USER',mobileEdit)
+            setKey(key+1)
+            resetValues()
+            setStep(3)
+        }}>ادامه با شماره موبایل قبلی</button>}
         {step === 1 &&
         <div  key={'mobile'+ key} className={'d-flex justify-content-center'} >
             <form onSubmit={(e)=>{
@@ -367,6 +381,7 @@ export default function Prediction({setLoading,group}){
         <div key={'prediction'+ key}>
             {[3,4].includes(step) && <button className={'btn btn-primary mb-2'} onClick={()=>{
                 Store.remove('MOBILE_USER')
+                setMobileEdit(mobile)
                 setMobile('')
                 setKey(key+1)
                 setStep(1)
@@ -440,15 +455,18 @@ export default function Prediction({setLoading,group}){
                         <Modal.Title>اعلام نتایج</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {predictions.length > 0 && <div className={'mt-3'}>
-                            <div className={'text-center'} style={{fontSize:'2rem'}}>
-                                رتبه تخمینی شما از
-                                <span className={'badge badge-success mx-2'}>{numberWithCommas(predictions[0].rank)}</span>
-                                تا
-                                <span className={'badge badge-warning mx-2'}>{numberWithCommas(predictions[2].rank)}</span>
-                                خواهد بود.
+                         <div className={'mt-3'}>
+                             <ul>
+                                 {
+                                     predictions.map((item,index)=>{
+                                         return <li className={'mt-2'}>تخمین رتبه شما در گرایش <span className={'font-weight-bold'}> {item.name} </span>
+                                             از <span className={'badge badge-success'}>{numberWithCommas(item.predictionDTOS[0].rank)}</span> تا
+                                             <span className={'badge badge-warning mx-1'}>{numberWithCommas(item.predictionDTOS[2].rank)}</span>خواهد بود.</li>
+                                     })
+                                 }
+
+                             </ul>
                             </div>
-                        </div>}
                         <button className={'btn btn-secondary mt-3 mx-2'} type={'button'}
                                 onClick={hideModal}>بستن
                         </button>
@@ -476,6 +494,5 @@ export default function Prediction({setLoading,group}){
                 </form>
             </div>}
         </div>
-
     </div>
 }

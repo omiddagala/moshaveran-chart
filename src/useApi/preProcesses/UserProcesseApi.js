@@ -65,6 +65,11 @@ function postProcessUser(urlName, data) {
             return {
                 freeTries:data.number
             }
+        case 'prediction':
+            return {
+                freeTries:data.freeTries,
+                subtendancies:data.subtendancies
+            }
         default:
             return {
                 list: data,
