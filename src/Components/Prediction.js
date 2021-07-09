@@ -150,7 +150,7 @@ export default function Prediction({setLoading,group}){
             let free = predictionData.freeTries
             setPredictions(predictionData.subtendancies)
             setFreeTries(free)
-            if (predictionData.length===0){
+            if (predictionData.subtendancies.length===0){
                 cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
                 setStep(4)
             }
