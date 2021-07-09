@@ -3,16 +3,30 @@ import hero from '../assets/hero-img.png'
 import Prediction from "../Components/Prediction";
 import SpinnerLoading from "../Components/Spinner";
 
-export default function Home() {
+export default function Home({group}) {
     const [loading,setLoading] = useState(false)
     return <div className={'bg-main'}>
         <SpinnerLoading
             show={loading}/>
         <div className={' pb-4 d-flex flex-column container align-items-center'}>
+            <div className={'d-flex justify-content-start w-100'}>
+                <img className="d-block mb-2" src="/logo.svg" alt="" width="172"
+                     height="157"/>
+            </div>
+            <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center bg-primary text-white'}>
+                <h2>تخمین رتبه فقط یک آگاهی حدودی از رتبه نیست</h2>
+                <h4 className={'mt-5'}>تخمین رتبه سرآغاز تحلیل درست شرایط و نظم بخشیدن به افکار مزاحم، پراکنده، غلط و آشفته است</h4>
+            </div>
+            <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5  mb-5 w-100'} >
+                <div className="d-flex flex-column col-12 col-lg-6 align-self-center mt-3">
+                    <Prediction setLoading={setLoading} group={group}/>
+                </div>
+                <div className="col-lg-6 col-12 d-none d-lg-flex">
+                    <img src={hero} className="hero-img align-self-center"/>
+                </div>
+            </div>
             <div className="row w-100 justify-content-center">
                 <div className="pt-4 pt-lg-0  d-flex flex-column">
-                        <img className="d-block mx-auto mb-2" src="/logo.svg" alt="" width="172"
-                             height="157"/>
                         <div className={'input-box p-5 mb-5'}>
                             <h2 className="display-5 fw-bold mb-5  text-center">مهمترین عوامل در دقت و صحت تخمین رتبه</h2>
                             <div className=" mx-auto">
@@ -62,18 +76,7 @@ export default function Home() {
                     </ul>
                 </div>
             </div>
-            <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center bg-primary text-white'}>
-                <h2>تخمین رتبه فقط یک آگهی حدودی از رتبه نیست</h2>
-                <h4 className={'mt-5'}>تخمین رتبه سرآغاز تحلیل درست شرایط و نظم بخشیدن به افکار مزاحم، پراکنده، غلط و آشفته است</h4>
-            </div>
-            <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5  mb-5 w-100'} >
-                <div className="d-flex flex-column col-12 col-lg-6 align-self-center mt-3">
-                    <Prediction setLoading={setLoading}/>
-                </div>
-                <div className="col-lg-6 col-12 d-none d-lg-flex">
-                    <img src={hero} className="hero-img align-self-center"/>
-                </div>
-            </div>
+
             <div className={'input-box d-flex flex-wrap w-100 p-5'}>
                 <div className={'col-12 col-lg-6 border-right-responsive'}>
                     <h4 className={'text-center'}>لیست رشته‌های وزارت علوم</h4>
@@ -110,7 +113,7 @@ export default function Home() {
             referrerPolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l"
             alt="" style={{cursor:'pointer'}} id="cGhpi3pgrmOWGbTUyG2l"/></a><img id="nbqewlaosizpwlaojzpefukz"
                                                                              style={{cursor:'pointer'}}
-                                                                             onClick="window.open(&quot;https://logo.samandehi.ir/Verify.aspx?id=249476&amp;p=uiwkaodspfvlaodsjyoegvka&quot;, &quot;Popup&quot;,&quot;toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30&quot;)"
+                                                                             // onClick="window.open(&quot;https://logo.samandehi.ir/Verify.aspx?id=249476&amp;p=uiwkaodspfvlaodsjyoegvka&quot;, &quot;Popup&quot;,&quot;toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30&quot;)"
                                                                              alt="logo-samandehi"
                                                                              src="https://logo.samandehi.ir/logo.aspx?id=249476&amp;p=odrfshwlbsiyshwlyndtwlbq"/>
         </div>

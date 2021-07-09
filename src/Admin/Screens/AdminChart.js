@@ -10,12 +10,13 @@ import Select from "../../Components/Select";
 import cogoToast from 'cogo-toast';
 import InputNumber from "../../Components/InputNumber";
 import { CSVLink } from "react-csv";
+import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 
 export default function AdminChart() {
     const [data, setData] = useState([])
     const [groups, setGroups] = useState([])
     const [filterFieldList, setFilterFieldList] = useState([])
-    const [fields, setFields] = useState([])
+    const [filterTendencyList, setFilterTendencyList] = useState([])
     const [getData, setGetData] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [showModalDelete, setShowModalDelete] = useState(false)
@@ -23,8 +24,9 @@ export default function AdminChart() {
     const [addActive, setAddActive] = useState(false)
     const [deleteActive, setDeleteActive] = useState(false)
     const [dataForChart, setDataForChart] = useState(null)
-    const [filterGroup, setFilterGroup] = useState(null)
-    const [filterField, setFilterField] = useState(null)
+    const [filterGroup, setFilterGroup] = useState('')
+    const [filterField, setFilterField] = useState('')
+    const [filterTendency, setFilterTendency] = useState('')
     const [validation, setValidation] = useState({level: false, rank: false})
     const [typeFile, setTypeFile] = useState(null)
     const [uploadActive, setUploadActive] = useState(false)
@@ -58,12 +60,26 @@ export default function AdminChart() {
         true);
 
     const [filterFieldData, filterFieldStatus] = useApi(
-        preProcessAdmin('fields', {id: filterGroup}),
-        postProcessAdmin, [filterGroup],
-        filterGroup !== null);
+        preProcessUser('fields', {id: filterGroup}),
+        postProcessUser, [filterGroup],
+        filterGroup);
+
+    const [filterTendencyData, filterTendencyStatus] = useApi(
+        preProcessUser('tendencies', {id: filterField}),
+        postProcessUser, [filterField],
+        filterField && filterGroup === "2");
+
+
+    function dataForAdd(){
+        let data = {...selectedRow, field: {id: filterField}};
+        if(filterGroup==='2'){
+            data = {...data,subtendancy:{id:filterTendency}}
+        }
+        return data;
+    }
 
     const [addData, addStatus] = useApi(
-        preProcessAdmin('addAndEdit', {...selectedRow, field: {id: filterField}}),
+        preProcessAdmin('addAndEdit', dataForAdd()),
         postProcessAdmin, [addActive],
         addActive);
 
@@ -119,22 +135,22 @@ export default function AdminChart() {
     }, [filterFieldStatus])
 
     useEffect(() => {
-        if (filterFieldStatus === 'SUCCESS') {
-            setFilterFieldList(filterFieldData.list)
+        if (filterTendencyStatus === 'SUCCESS') {
+            setFilterTendencyList(filterTendencyData.list)
         }
-    }, [filterFieldStatus])
+    }, [filterTendencyStatus])
 
     useEffect(() => {
-        if (filterField !== null) {
+        if (filterGroup ==='1' && filterField){
             setGetData(true)
         }
     }, [filterField])
 
-
-
     useEffect(() => {
-        setGetData(true)
-    }, [])
+        if (filterTendency){
+            setGetData(true)
+        }
+    }, [filterTendency])
 
     useEffect(() => {
         if (chartStatus === 'SUCCESS') {
@@ -144,6 +160,7 @@ export default function AdminChart() {
     }, [chartStatus])
 
     useEffect(() => {
+        console.log(filterGroup);
         setFilterFieldList([])
         setFilterField(null)
         setData([])
@@ -192,6 +209,11 @@ export default function AdminChart() {
             formData.append('file', file)
             formData.append('fieldId', filterField);
             formData.append('type', typeFile);
+            if (filterGroup === '2'){
+                formData.append('subtendancyId', filterTendency);
+            }else{
+                formData.append('subtendancyId', null);
+            }
         }
         return formData;
     }
@@ -205,12 +227,12 @@ export default function AdminChart() {
         console.log(uploadStatus);
         if (uploadStatus === 'SUCCESS') {
             cogoToast.success('عملیات آپلود با موفقیت انجام شد');
+            setTypeFile(null)
+            setUploadActive(false)
+            setGetData(true)
         } else if (uploadStatus === 'ERROR') {
             cogoToast.error('عملیات آپلود با خطا مواجه شد');
         }
-        setTypeFile(null)
-        setUploadActive(false)
-        setGetData(true)
     }, [uploadStatus])
 
     useEffect(() => {
@@ -235,41 +257,46 @@ export default function AdminChart() {
             show={[chartStatus, deleteStatus, addStatus, groupsStatus, filterFieldStatus, uploadStatus].includes('LOADING')}/>
         <div className={'container pt-5'}>
             <div className={'d-flex justify-content-between'}>
-                {filterField && <div className={'col-3'}>
-                    <label htmlFor="">فایل رشته</label>
-                    <input onChange={(event) => {
-                    setFile(event.target.files[0])
-                    }} className={'form-control'} type="file"/>
-                    {file &&
-                    <button type={'button'} className={'btn btn-primary align-self-end mt-2'}
-                        onClick={() => {
-                            setTypeFile('LEVEL_RANK')
-                        }}>آپلود فایل رشته
-                    </button>}
-                </div>}
-                <div className={'col-3'}>
-                    <button className={'btn btn-primary'} onClick={() => {
+
+                <div className={'card d-flex flex-column align-items-center justify-content-center col-12 col-lg-3 py-2'}>
+                    <button className={'btn btn-primary w-100'} onClick={() => {
                         console.log(filterGroup, filterField);
-                        if (filterField && filterGroup) {
+                        if ((filterGroup === '1' && filterField) || (filterGroup === '2' && filterField && filterTendency)) {
                             setShowModal(true)
-                        } else {
-                            cogoToast.error('لطفا گروه و رشته را انتخاب نمایید');
+                        }
+                        else {
+                            cogoToast.error('لطفا گروه و رشته (و گرایش) را انتخاب نمایید');
                         }
                     }}>افزودن
                     </button>
+                    {((filterGroup === '1' && filterField) || (filterGroup === '2' && filterField && filterTendency) )&& <div className={'mt-3'}>
+                        <label htmlFor="">فایل رشته</label>
+                        <input onChange={(event) => {
+                        setFile(event.target.files[0])
+                        }} className={'form-control'} type="file"/>
+                        {file &&
+                        <button type={'button'} className={'btn btn-primary align-self-end mt-2 w-100'}
+                            onClick={() => {
+                                setTypeFile('LEVEL_RANK')
+                            }}>آپلود فایل رشته
+                        </button>}
+                    </div>}
                 </div>
-                {data.length > 0 &&<div className={'col-3'}>
-                     <CSVLink filename={"level-rank.csv"}
-                     className={'btn btn-primary align-self-end mt-2'}
-                     data={csvData} headers={headers}>دانلود دیتا</CSVLink>
-                </div>}
-                <div className={'d-flex col-3'}>
-                    <Select className={'mx-2'} placeHolder={'انتخاب گروه'} options={groups} value={filterGroup}
+                <div className={'card d-flex flex-column align-items-center col-12 col-lg-4 py-2'}>
+
+                    <Select className={'mb-2'} placeHolder={'انتخاب گروه'} options={groups} value={filterGroup}
                             onChange={value => setFilterGroup(value)}/>
                     {filterFieldList.length > 0 &&
-                    <Select placeHolder={'انتخاب رشته'} options={filterFieldList} value={filterField}
+                    <Select className={'mb-2'} placeHolder={'انتخاب رشته'} options={filterFieldList}
                             onChange={value => setFilterField(value)}/>}
-
+                    {filterTendencyList.length > 0 && <Select className={'mb-2'} placeHolder={'انتخاب گرایش'} options={filterTendencyList} value={filterTendency}
+                                                             onChange={value => setFilterTendency(value)}/>
+                    }
+                    {data.length > 0 &&
+                        <CSVLink filename={"level-rank.csv"}
+                                 className={'btn btn-primary align-self-end mt-2 w-100'}
+                                 data={csvData} headers={headers}>دانلود دیتا</CSVLink>
+                    }
                 </div>
             </div>
             {data.length > 0 && <div>

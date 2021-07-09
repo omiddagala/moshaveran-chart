@@ -8,10 +8,10 @@ import SpinnerLoading from "./Spinner";
 import Store from "../Storage/Store";
 import {numberWithCommas} from "../HelperFunction";
 import cogoToast from "cogo-toast";
+import { useLocation } from 'react-router-dom'
 
-export default function Prediction({setLoading}){
+export default function Prediction({setLoading,group}){
     const [key,setKey] = useState(1)
-    const [groups, setGroups] = useState([])
     const [fields, setFields] = useState([])
     const [tendencies, setTendencies] = useState([])
     const [courses, setCourses] = useState([])
@@ -19,13 +19,12 @@ export default function Prediction({setLoading}){
     const [getCourses, setGetCourses] = useState(false)
     const [getPrediction, setGetPrediction] = useState(false)
     const [validations, setValidations] = useState([])
-    const [selectedGroup, setSelectedGroup] = useState(null)
     const [selectedField, setSelectedField] = useState(null)
     const [selectedTendencies, setSelectedTendencies] = useState(null)
     const [showModal, setShowModal] = useState(false)
     const [ave, setAve] = useState('')
     const [aveValidation, setAveValidation] = useState(false)
-    const [step,setStep] = useState(0)
+    const [step,setStep] = useState(1)
     const [mobile,setMobile] = useState('')
     const [code,setCode] = useState('')
     const [postRegister,setPostRegister] = useState(false)
@@ -43,15 +42,12 @@ export default function Prediction({setLoading}){
     const endRef = React.createRef()
     const [mobileTemp,setMobileTemp] = useState(null)
 
-    const [groupsData, groupsStatus] = useApi(
-        preProcessUser('groups', {}),
-        postProcessUser, [],
-        true);
+    const location = useLocation();
 
     const [fieldsData, fieldsStatus] = useApi(
-        preProcessUser('fields', {id: selectedGroup?.id}),
-        postProcessUser, [selectedGroup],
-        selectedGroup);
+        preProcessUser('fields', {id: group}),
+        postProcessUser, [group],
+        group);
 
     const [tendenciesData, tendenciesStatus] = useApi(
         preProcessUser('tendencies', {id: selectedField?.id}),
@@ -67,7 +63,7 @@ export default function Prediction({setLoading}){
         getCourses);
 
     const [predictionData, predictionStatus] = useApi(
-        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id, group: selectedGroup?.id,mobile}),
+        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id, group: group,mobile}),
         postProcessUser, [getPrediction],
         getPrediction);
 
@@ -82,17 +78,16 @@ export default function Prediction({setLoading}){
         postConfirm);
 
     const [takhminFreeData, takhminFreeStatus] = useApi(
-        preProcessUser('takhminFree', {mobile}),
+        preProcessUser('takhminFree'),
         postProcessUser, [postTakhminFree],
         postTakhminFree);
 
     const [payData, payStatus] = useApi(
-        preProcessUser('pay', {mobile,number:packages[packageSelected]?.number??0,amount:packages[packageSelected]?.amount??0}),
+        preProcessUser('pay', {mobile,number:packages[packageSelected]?.number??0,amount:packages[packageSelected]?.amount??0,callback:location.pathname}),
         postProcessUser, [postPay],
         postPay && packageSelected!==null);
 
     function resetValues(){
-        setSelectedGroup(null)
         setSelectedField(null)
         setSelectedTendencies(null)
         setFields([])
@@ -101,21 +96,13 @@ export default function Prediction({setLoading}){
     }
 
     useEffect(()=>{
-        setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus,groupsStatus,payStatus].includes('LOADING'))
-    },[takhminFreeStatus, confirmStatus, registerStatus, predictionStatus, coursesStatus, tendenciesStatus, fieldsStatus, groupsStatus,payStatus])
+        setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus,payStatus].includes('LOADING'))
+    },[takhminFreeStatus, confirmStatus, registerStatus, predictionStatus, coursesStatus, tendenciesStatus, fieldsStatus,,payStatus])
     useEffect(()=>{
         Store.get('MOBILE_USER').then(mobile=>{
                 setMobile(mobile)
         })
     },[])
-
-    useEffect(() => {
-        setFields([])
-        setTendencies([])
-        setCourses([])
-        setSelectedField(null)
-        setSelectedTendencies(null)
-    }, [selectedGroup])
 
     useEffect(() => {
         setTendencies([])
@@ -129,12 +116,6 @@ export default function Prediction({setLoading}){
         setValidations([])
         setAve(null)
     }, [selectedTendencies])
-
-    useEffect(() => {
-        if (groupsStatus === 'SUCCESS') {
-            setGroups(groupsData.list)
-        }
-    }, [groupsStatus])
 
     useEffect(() => {
         if (fieldsStatus === 'SUCCESS') {
@@ -245,7 +226,6 @@ export default function Prediction({setLoading}){
 
     useEffect(() => {
         if (courses.concat(fields).concat(tendencies).length>0){
-            console.log('aaa');
             endRef.current.scrollIntoView({block: 'end', behavior: 'smooth'});
 
         }
@@ -256,13 +236,6 @@ export default function Prediction({setLoading}){
             return item.id.toString() === value;
         })
         setSelectedField(filtered !== [] ? filtered[0] : null)
-    }
-
-    function selectGroupHandle(value) {
-        let filtered = groups.filter(item => {
-            return item.id.toString() === value;
-        })
-        setSelectedGroup(filtered !== [] ? filtered[0] : null)
     }
 
     function textInputOnChange(v, index) {
@@ -319,27 +292,25 @@ export default function Prediction({setLoading}){
     }
 
     return <div ref={endRef}>
-        <SpinnerLoading
-            show={true}/>
-        {step===0 && <div className={'d-flex flex-column align-items-center'}>
-            <button className={'btn btn-primary '} style={{fontSize:'2rem'}} onClick={()=>{
-                if (mobile){
-                    setPostTakhminFree(true)
-                }else{
-                    setStep(1)
-                }
-            }
-            }>
-                <i className="bi bi-award-fill"></i>
-                رتبه من را تخمین بزن
-                <i className="bi bi-award-fill"></i>
-            </button>
-            <div className={'d-flex mt-3'}>
-                <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>
-                <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>
-                <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>
-            </div>
-        </div>}
+        {/*{step===0 && <div className={'d-flex flex-column align-items-center'}>*/}
+        {/*    <button className={'btn btn-primary '} style={{fontSize:'2rem'}} onClick={()=>{*/}
+        {/*        if (mobile){*/}
+        {/*            setPostTakhminFree(true)*/}
+        {/*        }else{*/}
+        {/*            setStep(1)*/}
+        {/*        }*/}
+        {/*    }*/}
+        {/*    }>*/}
+        {/*        <i className="bi bi-award-fill"></i>*/}
+        {/*        رتبه من را تخمین بزن*/}
+        {/*        <i className="bi bi-award-fill"></i>*/}
+        {/*    </button>*/}
+        {/*    <div className={'d-flex mt-3'}>*/}
+        {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
+        {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
+        {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
+        {/*    </div>*/}
+        {/*</div>}*/}
         {step === 1 &&
         <div  key={'mobile'+ key} className={'d-flex justify-content-center'} >
             <form onSubmit={(e)=>{
@@ -406,11 +377,6 @@ export default function Prediction({setLoading}){
                     تعداد درخواست باقی‌مانده: {freeTries}
                 </div>
                 <form className={'d-flex flex-wrap justify-content-center w-100'}>
-                    <div className={'mx-5 mb-5'}>
-                        <label htmlFor="select">گروه خود را انتخاب کنید:</label>
-                        <Select placeHolder={'انتخاب گروه'} options={groups}
-                                onChange={value => selectGroupHandle(value)}/>
-                    </div>
                     {fields.length > 0 && <div className={'mx-5 mb-5'}>
                         <label htmlFor="select">رشته خود را انتخاب کنید:</label>
                         <Select placeHolder={'انتخاب رشته'} options={fields}
