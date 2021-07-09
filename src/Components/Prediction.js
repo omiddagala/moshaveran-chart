@@ -4,7 +4,6 @@ import InputNumber from "./InputNumber";
 import {Modal} from "react-bootstrap";
 import useApi from "../useApi/useApi";
 import {postProcessUser, preProcessUser} from "../useApi/preProcesses/UserProcesseApi";
-import SpinnerLoading from "./Spinner";
 import Store from "../Storage/Store";
 import {numberWithCommas} from "../HelperFunction";
 import cogoToast from "cogo-toast";
@@ -318,8 +317,9 @@ export default function Prediction({setLoading,group}){
         {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
         {/*    </div>*/}
         {/*</div>}*/}
-        {[1,2].includes(step) && <button className={'btn btn-primary mb-2'} onClick={()=>{
+        {[1,2].includes(step) && mobileEdit && <button className={'btn btn-primary mb-2'} onClick={()=>{
             setMobile(mobileEdit)
+            setMobileEdit('')
             Store.store('MOBILE_USER',mobileEdit)
             setKey(key+1)
             resetValues()
