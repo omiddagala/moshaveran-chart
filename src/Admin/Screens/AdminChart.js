@@ -88,8 +88,16 @@ export default function AdminChart() {
         postProcessAdmin, [deleteActive],
         deleteActive);
 
+    function dataForChartX(){
+        let data = {field: {id: filterField},subtendancy:null};
+        if(filterGroup==='2'){
+            data = {...data,subtendancy:{id:filterTendency}}
+        }
+        return data;
+    }
+
     const [chartData, chartStatus] = useApi(
-        preProcessAdmin('ranks', {id: filterField}),
+        preProcessAdmin('ranks', dataForChartX()),
         postProcessAdmin, [getData],
         getData);
 
@@ -254,7 +262,7 @@ export default function AdminChart() {
 
     return AdminRequireLoginMiddleware(<div>
         <SpinnerLoading
-            show={[chartStatus, deleteStatus, addStatus, groupsStatus, filterFieldStatus, uploadStatus].includes('LOADING')}/>
+            show={[chartStatus, deleteStatus, addStatus, groupsStatus, filterFieldStatus, uploadStatus,filterTendencyStatus].includes('LOADING')}/>
         <div className={'container pt-5'}>
             <div className={'d-flex justify-content-between'}>
 
