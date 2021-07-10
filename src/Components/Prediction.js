@@ -47,7 +47,7 @@ export default function Prediction({setLoading,group}){
     const [fieldsData, fieldsStatus] = useApi(
         preProcessUser('fields', {id: group}),
         postProcessUser, [group],
-        group);
+        group && step === 3);
 
     const [tendenciesData, tendenciesStatus] = useApi(
         preProcessUser('tendencies', {id: selectedField?.id}),
