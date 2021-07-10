@@ -71,7 +71,7 @@ export default function AdminChart() {
 
 
     function dataForAdd(){
-        let data = {...selectedRow, field: {id: filterField}};
+        let data = {...selectedRow, field: {id: filterField},subtendancy:null};
         if(filterGroup==='2'){
             data = {...data,subtendancy:{id:filterTendency}}
         }
@@ -160,7 +160,6 @@ export default function AdminChart() {
     }, [chartStatus])
 
     useEffect(() => {
-        console.log(filterGroup);
         setFilterFieldList([])
         setFilterTendencyList([])
         setFilterField(null)
