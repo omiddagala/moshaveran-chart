@@ -162,7 +162,9 @@ export default function AdminChart() {
     useEffect(() => {
         console.log(filterGroup);
         setFilterFieldList([])
+        setFilterTendencyList([])
         setFilterField(null)
+        setFilterTendency(null)
         setData([])
     }, [filterGroup])
 
@@ -224,7 +226,6 @@ export default function AdminChart() {
         uploadActive && typeFile);
 
     useEffect(() => {
-        console.log(uploadStatus);
         if (uploadStatus === 'SUCCESS') {
             cogoToast.success('عملیات آپلود با موفقیت انجام شد');
             setTypeFile(null)

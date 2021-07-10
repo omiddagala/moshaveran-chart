@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react'
 import hero from '../assets/hero-img.png'
 import Prediction from "../Components/Prediction";
 import SpinnerLoading from "../Components/Spinner";
+import {useLocation} from "react-router-dom";
 
-export default function Home({group}) {
+export default function Home({group,year}) {
     const [loading,setLoading] = useState(false)
+    console.log(year);
     return <div className={'bg-main'}>
         <SpinnerLoading
             show={loading}/>
@@ -13,7 +15,8 @@ export default function Home({group}) {
                 <img className="d-block my-4" src='./logo.png' alt=""/>
             </div>
             <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center bg-primary text-white'}>
-                <h2>تخمین رتبه فقط یک آگاهی حدودی از رتبه نیست</h2>
+                <h2>تخمین رتبه فقط
+                    یک آگاهی حدودی از رتبه نیست</h2>
                 <h4 className={'mt-5'}>تخمین رتبه سرآغاز تحلیل درست شرایط و نظم بخشیدن به افکار مزاحم، پراکنده، غلط و آشفته است</h4>
             </div>
             <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5  mb-5 w-100'} >

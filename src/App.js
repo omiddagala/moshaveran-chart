@@ -1,13 +1,14 @@
-import React, {useReducer, useEffect} from 'react';
+import React, {useReducer, useEffect, useState} from 'react';
 import {
     BrowserRouter as Router,
-    Route, useHistory,
+    Route, useLocation,Switch
 } from "react-router-dom";
 import Home from "./Screens/Home";
 import AuthReducer from './Storage/Reducers/AuthReducer';
 import AuthContext from './Storage/Contexts/AuthContext';
 import Admin from "./Admin/Screens/Admin";
 import Store from "./Storage/Store";
+import NotFound from "./Screens/NotFound";
 
 const initializeUser = {
     user: null,
@@ -16,6 +17,9 @@ const initializeUser = {
 
 export default function App() {
     const [auth, authDispatch] = useReducer(AuthReducer, {});
+    const [year,setYear] = useState(null)
+    let years =[1400,1401];//برای هر سال به این آرایه اضافه می کنیم
+    const [path,setPath] = useState();
     const retrieveAuthData = async () => {
         try {
             let result = await Store.get('USER_INFO');
@@ -26,6 +30,21 @@ export default function App() {
     };
 
     useEffect(() => {
+        let temp1 =[]
+        let temp2 =[]
+        years.forEach(item=>{
+            let url1 ='/نرم-افزار-تخمین-رتبه-بهداشت-'+item;
+            let url2 ='/نرم-افزار-تخمین-رتبه-علوم-'+item;
+
+            if ([url1,url2].includes(decodeURI(window.location.pathname))){
+                setYear(item)
+                console.log(item);
+            }
+            temp1.push(url1);
+            temp2.push(url2);
+        })
+        setPath([temp1,temp2])
+
         retrieveAuthData().then((data) => {
             authDispatch({
                 type: 'INIT_DATA',
@@ -36,9 +55,12 @@ export default function App() {
 
     return auth.apiToken !== undefined ? <AuthContext.Provider value={{auth, authDispatch}}>
         <Router>
-            <Route path={/نرم-افزار-تخمین-رتبه-بهداشت/}><Home group={1}/></Route>
-            <Route path={/نرم-افزار-تخمین-رتبه-علوم/}><Home group={2}/></Route>
-            <Route path="/zinc"><Admin/></Route>
+            <Switch>
+                <Route path={path[0]}><Home group={1} year={year}/></Route>
+                <Route path={path[1]}><Home group={2} year={year}/></Route>
+                <Route path="/zinc"><Admin/></Route>
+                <Route path=""><NotFound/></Route>
+            </Switch>
         </Router>
     </AuthContext.Provider> : null
 }

@@ -1,12 +1,12 @@
 // key : string;
 const get = async (key) => {
-    let result = sessionStorage.getItem(key);
+    let result = localStorage.getItem(key);
     return result ? JSON.parse(result) : false;
 };
 
 const store = async (key, parameters) => {
     try {
-        await sessionStorage.setItem(key, JSON.stringify(parameters));
+        await localStorage.setItem(key, JSON.stringify(parameters));
         return true;
     } catch (e) {
         return false;
@@ -15,8 +15,8 @@ const store = async (key, parameters) => {
 
 const refresh = async (key, parameters) => {
     try {
-        await sessionStorage.removeItem(key).then(() => {
-            sessionStorage.setItem(key, JSON.stringify(parameters));
+        await localStorage.removeItem(key).then(() => {
+            localStorage.setItem(key, JSON.stringify(parameters));
         });
         return true;
     } catch (e) {
@@ -26,7 +26,7 @@ const refresh = async (key, parameters) => {
 
 const remove = async (key) => {
     try {
-        await sessionStorage.removeItem(key);
+        await localStorage.removeItem(key);
         return true;
     } catch (e) {
         return false;

@@ -83,7 +83,7 @@ export default function Prediction({setLoading,group}){
         postTakhminFree);
 
     const [payData, payStatus] = useApi(
-        preProcessUser('pay', {mobile,number:packages[packageSelected]?.number??0,amount:packages[packageSelected]?.amount??0,callback:location.pathname}),
+        preProcessUser('pay', {mobile,number:packages[packageSelected]?.number??0,amount:packages[packageSelected]?.amount??0,callback:location.pathname.replace('/',''),paymentType:group ===1 ?'TAKHMIN_BEHDASHT':'TAKHMIN_OLOOM'}),
         postProcessUser, [postPay],
         postPay && packageSelected!==null);
 
@@ -203,6 +203,7 @@ export default function Prediction({setLoading,group}){
             if (confirmData.code ==='1'){
                 setFreeTries(confirmData.freeTries)
                 Store.store('MOBILE_USER', mobile).then();
+                setCode('')
                 if (confirmData.freeTries ===0){
                     setStep(4)
                 }else{
@@ -241,7 +242,7 @@ export default function Prediction({setLoading,group}){
         let filtered = fields.filter(item => {
             return item.id.toString() === value;
         })
-        setSelectedField(filtered !== [] ? filtered[0] : null)
+        setSelectedField(filtered.length > 0 ? filtered[0] : null)
     }
 
     function textInputOnChange(v, index) {
@@ -375,6 +376,7 @@ export default function Prediction({setLoading,group}){
                 <button className={'btn btn-info mt-3'} type={'button'} onClick={()=> {
                     setMobileTemp(mobile)
                     setStep(1)
+                    setCode('')
                 }}>ویرایش شماره موبایل</button>
             </form>
         </div>}
@@ -385,6 +387,7 @@ export default function Prediction({setLoading,group}){
                 setMobile('')
                 setKey(key+1)
                 setStep(1)
+                setCode('')
                 resetValues()
             }}>ویرایش شماره موبایل</button>}
             {step===3 && key && <>
@@ -459,7 +462,7 @@ export default function Prediction({setLoading,group}){
                              <ul>
                                  {
                                      predictions.map((item,index)=>{
-                                         return <li className={'mt-2'}>تخمین رتبه شما در گرایش <span className={'font-weight-bold'}> {item.name} </span>
+                                         return <li key={index} className={'mt-2'}>تخمین رتبه شما در گرایش <span className={'font-weight-bold'}> {item.name} </span>
                                              از <span className={'badge badge-success'}>{numberWithCommas(item.predictionDTOS[0].rank)}</span> تا
                                              <span className={'badge badge-warning mx-1'}>{numberWithCommas(item.predictionDTOS[2].rank)}</span>خواهد بود.</li>
                                      })
@@ -484,7 +487,7 @@ export default function Prediction({setLoading,group}){
                     }
                     }>
                         {packages.map((item,index)=>{
-                            return  <label htmlFor={`package-${index}`}>
+                            return  <label key={index} htmlFor={`package-${index}`}>
                                 <input type="radio" name={'package'} value={index} id={`package-${index}`} className={'mx-2'}/>
                                 تعداد {item.number} درخواست به مبلغ {item.amount} تومان
                             </label>

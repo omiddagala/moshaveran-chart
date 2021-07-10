@@ -6,7 +6,7 @@ export default function Select({placeHolder, options, value, onChange, className
                    onChange={(e) => {
                        onChange(e.target.value)
                    }}>
-        <option key={'null'} value={''}>{placeHolder}</option>
+        <option key={'null'} value=''>{placeHolder}</option>
         {options.map((item, index) => {
             return <option key={index} value={item.id}>{item.name}</option>
         })}
