@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom'
 
 export default function Prediction({setLoading,group}){
     const [key,setKey] = useState(1)
+    const [selectedGroup,setSelectedGroup] = useState(null)
     const [fields, setFields] = useState([])
     const [tendencies, setTendencies] = useState([])
     const [courses, setCourses] = useState([])
@@ -46,8 +47,8 @@ export default function Prediction({setLoading,group}){
 
     const [fieldsData, fieldsStatus] = useApi(
         preProcessUser('fields', {id: group}),
-        postProcessUser, [group],
-        group && step === 3);
+        postProcessUser, [selectedGroup],
+        selectedGroup);
 
     const [tendenciesData, tendenciesStatus] = useApi(
         preProcessUser('tendencies', {id: selectedField?.id}),
@@ -92,6 +93,12 @@ export default function Prediction({setLoading,group}){
         setSelectedTendencies(null)
         setCode('')
     }
+
+    useEffect(()=>{
+     if (step === 3){
+         setSelectedGroup(group)
+     }
+    },[step])
 
     useEffect(()=>{
         setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus,payStatus].includes('LOADING'))
