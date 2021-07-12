@@ -220,8 +220,6 @@ export default function AdminChart() {
             formData.append('type', typeFile);
             if (filterGroup === '2'){
                 formData.append('subtendancyId', filterTendency);
-            }else{
-                formData.append('subtendancyId', null);
             }
         }
         return formData;
