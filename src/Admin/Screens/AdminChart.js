@@ -83,12 +83,7 @@ export default function AdminChart() {
         postProcessAdmin, [addActive],
         addActive);
 
-    const [deleteData, deleteStatus] = useApi(
-        preProcessAdmin('delete', {id: selectedRow.id}),
-        postProcessAdmin, [deleteActive],
-        deleteActive);
-
-    function dataForChartX(){
+    function dataForChartAndDelete(){
         let data = {field: {id: filterField},subtendancy:null};
         if(filterGroup==='2'){
             data = {...data,subtendancy:{id:filterTendency}}
@@ -96,8 +91,14 @@ export default function AdminChart() {
         return data;
     }
 
+    const [deleteData, deleteStatus] = useApi(
+        preProcessAdmin('delete', dataForChartAndDelete()),
+        postProcessAdmin, [deleteActive],
+        deleteActive);
+
+
     const [chartData, chartStatus] = useApi(
-        preProcessAdmin('ranks', dataForChartX()),
+        preProcessAdmin('ranks', dataForChartAndDelete()),
         postProcessAdmin, [getData],
         getData);
 
