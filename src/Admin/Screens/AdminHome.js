@@ -12,6 +12,7 @@ export default function AdminHome() {
     const [fieldFile, setFieldFile] = useState(null)
     const [tendencyFile, setTendencyFile] = useState(null)
     const [courseFile, setCourseFile] = useState(null)
+    const [rotbeZaribFile, setRotbeZaribFile] = useState(null)
     const [typeFile, setTypeFile] = useState(null)
     const [uploadActive, setUploadActive] = useState(false)
 
@@ -34,6 +35,9 @@ export default function AdminHome() {
                     break
                 case 'COURSE':
                     file = courseFile;
+                    break
+                case 'ROTBE_ZARIB':
+                    file = rotbeZaribFile;
                     break
             }
             formData.append('file', file)
@@ -118,6 +122,17 @@ export default function AdminHome() {
                                 <button className={'btn btn-primary align-self-end mt-2'} onClick={() => {
                                     setTypeFile('COURSE')
                                 }}>آپلود فایل درس
+                                </button>}
+                            </div>
+                            <div className={'mt-4'}>
+                                <label htmlFor="">فایل رتبه ضریب</label>
+                                <input onChange={(event) => {
+                                    setRotbeZaribFile(event.target.files[0])
+                                }} className={'form-control'} type="file"/>
+                                {rotbeZaribFile &&
+                                <button className={'btn btn-primary align-self-end mt-2'} onClick={() => {
+                                    setTypeFile('ROTBE_ZARIB')
+                                }}>آپلود فایل رتبه ضریب
                                 </button>}
                             </div>
                         </div>}
