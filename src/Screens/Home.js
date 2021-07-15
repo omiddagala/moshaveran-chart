@@ -3,6 +3,7 @@ import hero from '../assets/hero-img.png'
 import Prediction from "../Components/Prediction";
 import SpinnerLoading from "../Components/Spinner";
 import {useLocation} from "react-router-dom";
+import SamandehiLogo from "../Components/Samandehi/SamandehiLogo";
 
 export default function Home({group,year}) {
     const [loading,setLoading] = useState(false)
@@ -110,14 +111,13 @@ export default function Home({group,year}) {
                 </div>
             </div>
         </div>
-        <div className="col-md-4 col-xs-12"><a referrerPolicy="origin" target="_blank"
-                                               href="https://trustseal.enamad.ir/?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l"><img
-            referrerPolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l"
-            alt="" style={{cursor:'pointer'}} id="cGhpi3pgrmOWGbTUyG2l"/></a><img id="nbqewlaosizpwlaojzpefukz"
-                                                                             style={{cursor:'pointer'}}
-                                                                             // onClick="window.open(&quot;https://logo.samandehi.ir/Verify.aspx?id=249476&amp;p=uiwkaodspfvlaodsjyoegvka&quot;, &quot;Popup&quot;,&quot;toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30&quot;)"
-                                                                             alt="logo-samandehi"
-                                                                             src="https://logo.samandehi.ir/logo.aspx?id=249476&amp;p=odrfshwlbsiyshwlyndtwlbq"/>
+        <div className={'w-100 d-flex justify-content-center'}>
+            <SamandehiLogo
+                 // optional true | false
+                sid="249476"
+                sp="uiwkaodspfvlaodsjyoegvka"
+            />
         </div>
+
     </div>
 }
