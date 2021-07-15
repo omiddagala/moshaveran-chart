@@ -4,6 +4,7 @@ import Prediction from "../Components/Prediction";
 import SpinnerLoading from "../Components/Spinner";
 import {useLocation} from "react-router-dom";
 import SamandehiLogo from "../Components/Samandehi/SamandehiLogo";
+import EnamadLogo from "../Components/Samandehi/EnamadLogo";
 
 export default function Home({group,year}) {
     const [loading,setLoading] = useState(false)
@@ -111,12 +112,13 @@ export default function Home({group,year}) {
                 </div>
             </div>
         </div>
-        <div className={'w-100 d-flex justify-content-center'}>
+        <div className={'w-100 d-flex justify-content-center mt-4'}>
             <SamandehiLogo
                  // optional true | false
                 sid="249476"
                 sp="uiwkaodspfvlaodsjyoegvka"
             />
+            <EnamadLogo/>
         </div>
 
     </div>
