@@ -42,6 +42,8 @@ export default function Prediction({setLoading,group}){
     const endRef = React.createRef()
     const [mobileTemp,setMobileTemp] = useState(null)
     const [mobileEdit,setMobileEdit] = useState(null)
+    const [keyEdit,setKeyEdit] = useState(0)
+    const [changeKey,setChangeKey] = useState(0)
 
     const location = useLocation();
 
@@ -306,25 +308,6 @@ export default function Prediction({setLoading,group}){
     }
 
     return <div ref={endRef}>
-        {/*{step===0 && <div className={'d-flex flex-column align-items-center'}>*/}
-        {/*    <button className={'btn btn-primary '} style={{fontSize:'2rem'}} onClick={()=>{*/}
-        {/*        if (mobile){*/}
-        {/*            setPostTakhminFree(true)*/}
-        {/*        }else{*/}
-        {/*            setStep(1)*/}
-        {/*        }*/}
-        {/*    }*/}
-        {/*    }>*/}
-        {/*        <i className="bi bi-award-fill"></i>*/}
-        {/*        رتبه من را تخمین بزن*/}
-        {/*        <i className="bi bi-award-fill"></i>*/}
-        {/*    </button>*/}
-        {/*    <div className={'d-flex mt-3'}>*/}
-        {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
-        {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
-        {/*        <i className="bi bi-hand-index-thumb-fill text-warning mx-2" style={{fontSize:'2rem'}}></i>*/}
-        {/*    </div>*/}
-        {/*</div>}*/}
         {[1,2].includes(step) && mobileEdit && <button className={'btn btn-primary mb-2'} onClick={()=>{
             setMobile(mobileEdit)
             setMobileEdit('')
@@ -405,12 +388,18 @@ export default function Prediction({setLoading,group}){
                     {fields.length > 0 && <div className={'mx-5 mb-5'}>
                         <label htmlFor="select">رشته خود را انتخاب کنید:</label>
                         <Select placeHolder={'انتخاب رشته'} options={fields}
-                                onChange={value => selectFieldHandle(value)}/>
+                                onChange={value => {
+                                    setKeyEdit(keyEdit+1)
+                                    selectFieldHandle(value)
+                                }}/>
                     </div>}
                     {tendencies.length > 0 && <div className={'mx-5 mb-5'}>
                         <label htmlFor="select">گرایش خود را انتخاب کنید:</label>
                         <Select placeHolder={'انتخاب گرایش'} options={tendencies}
-                                onChange={value => setSelectedTendencies(value)}/>
+                                onChange={value => {
+                                    setKeyEdit(keyEdit+1)
+                                    setSelectedTendencies(value)
+                                }}/>
                     </div>}
                 </form>
                 {courses.length > 0 && <div className={'d-flex flex-column align-items-center'}>
@@ -430,7 +419,10 @@ export default function Prediction({setLoading,group}){
                                     <td>{item.name}</td>
                                     <td>
                                         <div className={'has-validation'}>
-                                            <InputNumber onchange={(v) => textInputOnChange(v, index)}
+                                            <InputNumber onchange={(v) => {
+                                                setKeyEdit(keyEdit+1)
+                                                textInputOnChange(v, index)
+                                            }}
                                                          type={'float'}
                                                          className={`form-control w-100 banner ${validations[index] ? "is-invalid" : ""}`}/>
                                             <div className={'invalid-feedback p-2 bg-danger text-white rounded'}>
@@ -444,7 +436,10 @@ export default function Prediction({setLoading,group}){
                         </table>
                         <div className={'has-validation mx-5 mb-5 text-center bg-main rounded p-3'}>
                             <label htmlFor="select">معدل خود را وارد کنید(از ۱۰ تا ۲۰):</label>
-                            <InputNumber placeHolder={'مثال: 14.5'} value={ave} type={'float'} onchange={(v) => setAve(v)}
+                            <InputNumber placeHolder={'مثال: 14.5'} value={ave} type={'float'} onchange={(v) => {
+                                setKeyEdit(keyEdit+1)
+                                setAve(v)
+                            }}
                                          className={`form-control ${aveValidation ? 'is-invalid' : ''}`}/>
                             <div className={'invalid-feedback p-2 bg-danger text-white rounded'}>
                                 مقدار مجاز 10 تا 20 می‌باشد
@@ -452,9 +447,15 @@ export default function Prediction({setLoading,group}){
                         </div>
                     </div>
                     <button onClick={() => {
-                        if (validationCourses()) {
-                            setGetPrediction(true)
+                        if(keyEdit > changeKey){
+                            setChangeKey(keyEdit)
+                            if (validationCourses()) {
+                                setGetPrediction(true)
+                            }
+                        }else{
+                            setShowModal(true)
                         }
+
                     }} className={'btn btn-primary mt-3'}> رتبه
                         من
                         را نشان بده
