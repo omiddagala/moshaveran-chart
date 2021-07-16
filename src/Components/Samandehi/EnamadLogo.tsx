@@ -21,7 +21,7 @@ const EnamadLogo = ({
             onClick(e);
         } else
             window.open(
-                `https://trustseal.enamad.ir/?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l`,
+                `https://trustseal.enamad.ir/?id=221605&Code=cGhpi3pgrmOWGbTUyG2l`,
                 "Popup",
                 "toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30"
             );
