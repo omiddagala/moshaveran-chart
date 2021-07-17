@@ -334,7 +334,8 @@ export default function Prediction({setLoading,group}){
             } className={'col-12 col-lg-6 d-flex flex-column align-items-center'}>
                 <div className={'has-validation'}>
                     <label htmlFor="">لطفا شماره موبایل خود را وارد نمایید</label>
-                    <InputNumber className={`form-control ${mobileValidationState?'is-invalid':''}`} type={'integer'} onchange={(val)=>setMobile(val)}/>
+                    <label htmlFor="">و بلافاصله کد تایید اختصاصی را دریافت کرده و از دو تخمین رتبه رایگان اختصاصی خودتان استفاده کنید</label>
+                    <InputNumber placeHolder="0912448XXXX" className={`form-control ${mobileValidationState?'is-invalid':''}`} type={'integer'} onchange={(val)=>setMobile(val)}/>
                     <p className={'invalid-feedback'}>شماره موبایل وارد شده اشتباه است</p>
                 </div>
 
