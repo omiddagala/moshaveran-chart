@@ -9,7 +9,8 @@ import AuthContext from './Storage/Contexts/AuthContext';
 import Admin from "./Admin/Screens/Admin";
 import Store from "./Storage/Store";
 import NotFound from "./Screens/NotFound";
-import EntekhabReshteh from "./Screens/EntekhabReshteh";
+import EntekhabHome from "./Screens/entekhab/Home";
+import StartStep from "./Screens/entekhab/StartStep";
 
 const initializeUser = {
     user: null,
@@ -59,7 +60,8 @@ export default function App() {
             <Switch>
                 <Route path={path[0]}><Home group={1} year={year}/></Route>
                 <Route path={path[1]}><Home group={2} year={year}/></Route>
-                <Route path='/entekhab'><EntekhabReshteh/></Route>
+                <Route path='/entekhab'><EntekhabHome/></Route>
+                <Route path='/start'><StartStep/></Route>
                 <Route path="/zinc"><Admin/></Route>
                 <Route path=""><NotFound/></Route>
             </Switch>

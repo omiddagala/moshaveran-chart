@@ -1,12 +1,12 @@
 import React from "react";
-import hero from "../assets/hero-img.png";
-import {numberWithCommas} from "../HelperFunction";
-import SamandehiLogo from "../Components/Samandehi/SamandehiLogo";
-import EnamadLogo from "../Components/Samandehi/EnamadLogo";
-export default function EntekhabReshteh(){
+import hero from "../../assets/hero-img.png";
+import {numberWithCommas} from "../../HelperFunction";
+import SamandehiLogo from "../../Components/Samandehi/SamandehiLogo";
+import EnamadLogo from "../../Components/Samandehi/EnamadLogo";
+export default function Home(){
     return <div className={'bg-name'}>
         <div className={' pb-4 d-flex flex-column container align-items-center'}>
-                <img className="d-block my-4" src='./logo.png' alt=""/>
+            <img className="d-block my-4" src='./logo.png' alt=""/>
             <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center bg-gradient text-white '}>
                 <h2 className={'font-weight-bold'}>مشاوران تحصیلی</h2>
                 <h4 className={'mt-3'}>موجی تازه در نرم افزارهای آموزشی ایران</h4>
