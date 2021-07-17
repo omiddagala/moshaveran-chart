@@ -28,12 +28,15 @@ const EnamadLogo = ({
 
     return (
         <div id="enamad-logo">
+            <a referrerPolicy="origin" target="_blank"
+               href="https://trustseal.enamad.ir/?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l" dideo-checked="true">
             <img
                 src={enamdLogo}
                 alt={alt}
-                onClick={handleClick}
+                // onClick={handleClick}
                 {...props}
             />
+            </a>
         </div>
     );
 };
