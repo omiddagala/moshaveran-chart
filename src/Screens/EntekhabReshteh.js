@@ -37,28 +37,28 @@ export default function EntekhabReshteh(){
                         <h3 className="display-5 fw-bold mb-5  text-center">ویژگی‌ها</h3>
                         <div className="d-flex justify-content-around flex-wrap w-100">
                             <div className={'col-12 col-lg-4 p-2'}>
-                                <div className={'property-rounded bg-primary text-center p-2'}>
-                                    <h4 className={'text-white'}>ویژگی</h4>
+                                <div className={'property-rounded border border-primary text-center p-2'}>
+                                    <h4 className={'text-primary'}>ویژگی</h4>
                                     <img className={'img-rounded w-100 p-2'} src="https://picsum.photos/150" alt=""/>
                                 </div>
                             </div>
 
                             <div className={'col-12 col-lg-4 p-2'}>
-                                <div className={'property-rounded bg-primary text-center p-2'}>
-                                    <h4 className={'text-white'}>ویژگی</h4>
+                                <div className={'property-rounded border border-primary text-center p-2'}>
+                                    <h4 className={'text-primary'}>ویژگی</h4>
                                     <img className={'img-rounded w-100 p-2'} src="https://picsum.photos/150" alt=""/>
                                 </div>
                             </div>
                             <div className={'col-12 col-lg-4 p-2'}>
-                                <div className={'property-rounded bg-primary text-center p-2'}>
-                                    <h4 className={'text-white'}>ویژگی</h4>
+                                <div className={'property-rounded border border-primary text-center p-2'}>
+                                    <h4 className={'text-primary'}>ویژگی</h4>
                                     <img className={'img-rounded w-100 p-2'} src="https://picsum.photos/150" alt=""/>
                                 </div>
                             </div>
 
                         </div>
-                        <div className={'property-rounded bg-secondary text-center p-2 col-6 mt-4'}>
-                            <h4 className={'text-white'}>ویدیو استفاده از نرم افزار</h4>
+                        <div className={'property-rounded border border-secondary text-center p-2 col-6 mt-4'}>
+                            <h4 className={'text-secondary'}>ویدیو استفاده از نرم افزار</h4>
                             <video className={'img-rounded w-100 p-2'} width="320" height="240" controls>
                                 <source src="https://static.cdn.asset.aparat.com/avt/35419313_15s.mp4" type="video/mp4"/>
                             </video>
