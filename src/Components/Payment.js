@@ -4,7 +4,7 @@ import {postProcessUser, preProcessUser} from "../useApi/preProcesses/UserProces
 import { useLocation } from 'react-router-dom'
 import cogoToast from "cogo-toast";
 
-export default function Payment({userId,setLoading,group,type='radio'}){
+export default function Payment({userId,setLoading,group,type='radio',pageType='TAKHMIN_BEHDASHT'}){
     const [packageSelected ,setPackageSelected] = useState([])
     const [postPay ,setPostPay] = useState(false)
     const location = useLocation();
@@ -16,7 +16,7 @@ export default function Payment({userId,setLoading,group,type='radio'}){
         postPay && packageSelected!==null);
 
     const [packagesData, packagesStatus] = useApi(
-        preProcessUser('packages', {type: 'TAKHMIN_BEHDASHT'}),
+        preProcessUser('packages', {type: pageType}),
         postProcessUser, [],
         true);
 

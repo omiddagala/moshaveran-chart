@@ -474,7 +474,7 @@ export default function Prediction({setLoading,group}){
                     </Modal.Body>
                 </Modal>
             </>}
-            {step===4&& <Payment userId={mobile} setLoading={setLoading} group={group} type={'radio'}/>}
+            {step===4&& <Payment userId={mobile} setLoading={setLoading} group={group} type={'radio'} pageType={group === 1 ? 'TAKHMIN_BEHDASHT':'TAKHMIN_OLOOM'}/>}
         </div>
     </div>
 }
