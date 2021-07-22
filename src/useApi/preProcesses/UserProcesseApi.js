@@ -46,6 +46,11 @@ const apiAddress = [
         url: 'v1/user/pay',
         method: 'post',
     },
+    {
+        name: 'packages',
+        url: 'v1/choice/package',
+        method: 'get',
+    },
 ];
 
 function preProcessUser(urlName, params) {

@@ -7,7 +7,7 @@ import {postProcessUser, preProcessUser} from "../useApi/preProcesses/UserProces
 import Store from "../Storage/Store";
 import {numberWithCommas} from "../HelperFunction";
 import cogoToast from "cogo-toast";
-import { useLocation } from 'react-router-dom'
+import Payment from "./Payment";
 
 export default function Prediction({setLoading,group}){
     const [key,setKey] = useState(1)
@@ -33,9 +33,6 @@ export default function Prediction({setLoading,group}){
     const [codeValidation,setCodeValidation] = useState(false)
     const [freeTries,setFreeTries] = useState(0)
     const [postTakhminFree,setPostTakhminFree] = useState(false)
-    const [packageSelected ,setPackageSelected] = useState(null)
-    const [postPay ,setPostPay] = useState(false)
-    const [packages]=useState([{number:1,amount:1500},{number:3,amount:4000},{number:5,amount:5000}])
     const initialResendTimer = 180;
     const [resendTimer, setResendTimer] = useState(initialResendTimer);
     const timer = useRef(false);
@@ -44,8 +41,6 @@ export default function Prediction({setLoading,group}){
     const [mobileEdit,setMobileEdit] = useState(null)
     const [keyEdit,setKeyEdit] = useState(0)
     const [changeKey,setChangeKey] = useState(0)
-
-    const location = useLocation();
 
     const [fieldsData, fieldsStatus] = useApi(
         preProcessUser('fields', {id: group}),
@@ -81,14 +76,9 @@ export default function Prediction({setLoading,group}){
         postConfirm);
 
     const [takhminFreeData, takhminFreeStatus] = useApi(
-        preProcessUser('takhminFree',{mobile}),
+        preProcessUser('takhminFree',{userId:mobile}),
         postProcessUser, [postTakhminFree],
         postTakhminFree);
-
-    const [payData, payStatus] = useApi(
-        preProcessUser('pay', {mobile,number:packages[packageSelected]?.number??0,amount:packages[packageSelected]?.amount??0,callback:location.pathname.replace('/',''),paymentType:group ===1 ?'TAKHMIN_BEHDASHT':'TAKHMIN_OLOOM'}),
-        postProcessUser, [postPay],
-        postPay && packageSelected!==null);
 
     function resetValues(){
         setSelectedField(null)
@@ -103,8 +93,8 @@ export default function Prediction({setLoading,group}){
     },[step])
 
     useEffect(()=>{
-        setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus,payStatus].includes('LOADING'))
-    },[takhminFreeStatus, confirmStatus, registerStatus, predictionStatus, coursesStatus, tendenciesStatus, fieldsStatus,,payStatus])
+        setLoading([takhminFreeStatus,confirmStatus,registerStatus,predictionStatus,coursesStatus,tendenciesStatus,fieldsStatus].includes('LOADING'))
+    },[takhminFreeStatus, confirmStatus, registerStatus, predictionStatus, coursesStatus, tendenciesStatus, fieldsStatus])
 
     useEffect(()=>{
         Store.get('MOBILE_USER').then(mobile=>{
@@ -243,7 +233,6 @@ export default function Prediction({setLoading,group}){
     useEffect(() => {
         if (courses.concat(fields).concat(tendencies).length>0){
             endRef.current.scrollIntoView({block: 'end', behavior: 'smooth'});
-
         }
     }, [courses, fields, tendencies])
 
@@ -294,9 +283,9 @@ export default function Prediction({setLoading,group}){
 
     function secondsToTimeString  (seconds) {
 
-        var s = Math.floor(seconds%60);
-        var m = Math.floor((seconds*1000/(1000*60))%60);
-        var strFormat = "MM:SS";
+        let s = Math.floor(seconds%60);
+        let m = Math.floor((seconds*1000/(1000*60))%60);
+        let strFormat = "MM:SS";
 
         if(s < 10) s = "0" + s;
         if(m < 10) m = "0" + m;
@@ -485,26 +474,7 @@ export default function Prediction({setLoading,group}){
                     </Modal.Body>
                 </Modal>
             </>}
-            {step===4&& <div>
-                <p className={'alert alert-info'}>لطفا برای درخواست بیشتر، یکی از پکیج‌های زیر را خریداری نمایید.</p>
-                <form onSubmit={(e)=>{
-                    e.preventDefault()
-                    setPostPay(true)
-                }}>
-                    <div className={'card p-5'} onChange={(e)=>{
-                        setPackageSelected(e.target.value)
-                    }
-                    }>
-                        {packages.map((item,index)=>{
-                            return  <label key={index} htmlFor={`package-${index}`}>
-                                <input type="radio" name={'package'} value={index} id={`package-${index}`} className={'mx-2'}/>
-                                تعداد {item.number} درخواست به مبلغ {item.amount} تومان
-                            </label>
-                        })}
-                        <button className={'btn btn-success mt-3'} disabled={packageSelected===null}>پرداخت</button>
-                    </div>
-                </form>
-            </div>}
+            {step===4&& <Payment userId={mobile} setLoading={setLoading} group={group}/>}
         </div>
     </div>
 }
