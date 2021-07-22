@@ -17,15 +17,22 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
     const [data, setData] = useState([{}, '']);
     const history = useHistory()
     const authContext = useContext(AuthContext)
+    let params ={
+        method: fetchData.method,
+        url: apiBaseUrl + fetchData.url,
+        headers: fetchData.headers
+    }
+
+    if (fetchData.method==='post'){
+        params.data = fetchData.data
+    }else{
+        params.params = fetchData.data
+    }
+
     useEffect(() => {
         if (condition) {
             setData([{}, apiStates.LOADING]);
-            axios({
-                method: fetchData.method,
-                url: apiBaseUrl + fetchData.url,
-                headers: fetchData.headers,
-                data: fetchData.data
-            }).then((response) => {
+            axios(params).then((response) => {
                 console.log(response);
                 if (response.status !== 200) {
                     setData([{}, apiStates.ERROR]);

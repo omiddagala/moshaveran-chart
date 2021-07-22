@@ -5,6 +5,7 @@ export default function PreProcess(apiAddress, urlName, params) {
     if (apiData === undefined) {
         return false;
     }
+
     return {
         urlName: urlName,
         method: apiData.method,
