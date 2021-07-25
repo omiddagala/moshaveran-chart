@@ -20,7 +20,6 @@ const setEmail = (prevState, action) => {
         ...prevState,
         ...data,
     };
-    ;
 };
 
 const login = (prevState, action) => {

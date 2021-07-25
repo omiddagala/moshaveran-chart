@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import hero from '../assets/hero-img.png'
 import Prediction from "../Components/Prediction";
 import SpinnerLoading from "../Components/Spinner";
-import {useLocation} from "react-router-dom";
 import SamandehiLogo from "../Components/Samandehi/SamandehiLogo";
 import EnamadLogo from "../Components/Samandehi/EnamadLogo";
 
@@ -48,7 +47,7 @@ export default function Home({group,year}) {
                 <div className="row w-100 justify-content-center">
                     <div className="pt-4 pt-lg-0  d-flex flex-column">
                             <div className={'input-box p-5 mb-5'}>
-                                
+
                                 <h2 className="display-5 fw-bold mb-5  text-center">نرم‌افزار تخمین رتبه ارشد وزارت بهداشت</h2>
                                 <div className=" mx-auto">
                                 <ul className={'d-flex flex-wrap'}>
@@ -57,10 +56,10 @@ export default function Home({group,year}) {
                                     <li className={'col-12 col-lg-6 mt-3 p-0'}>سقف تاثیر معدل، ۲۰ نمره است</li>
                                     <li className={'col-12 col-lg-6 mt-3 p-0'}>تعداد کم داوطلبان سهمیه‌های ایثارگران، اهمیت رتبه کشوری آنها را بیشتر می‌کند</li>
                                 </ul>
-                                </div> 
+                                </div>
                             </div>
                     </div>
-                </div> 
+                </div>
             :
                 <div className="row w-100 justify-content-center">
                     <div className="pt-4 pt-lg-0  d-flex flex-column">

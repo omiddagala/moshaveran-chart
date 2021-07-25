@@ -51,6 +51,36 @@ const apiAddress = [
         url: 'v1/choice/package',
         method: 'get',
     },
+    {
+        name: 'registerChoice',
+        url: 'v1/choice/code/register',
+        method: 'get',
+    },
+    {
+        name: 'sms',
+        url: 'v1/choice/code/sms',
+        method: 'post',
+    },
+    {
+        name: 'login',
+        url: 'v1/choice/code/login',
+        method: 'post',
+    },
+    {
+        name: 'benefits',
+        url: 'v1/choice/benefits',
+        method: 'get',
+    },
+    {
+        name: 'first',
+        url: 'v1/choice/first',
+        method: 'post',
+    },
+    {
+        name: 'zaribha',
+        url: 'v1/choice/codes',
+        method: 'post',
+    },
 ];
 
 function preProcessUser(urlName, params) {
@@ -59,7 +89,12 @@ function preProcessUser(urlName, params) {
 
 function postProcessUser(urlName, data) {
     switch (urlName){
+        case 'registerChoice':
+            return {
+                code:data.code
+            }
         case 'register':
+        case 'sms':
             return {}
         case 'confirm':
             return {
