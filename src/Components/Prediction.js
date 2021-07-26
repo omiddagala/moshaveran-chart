@@ -61,7 +61,7 @@ export default function Prediction({setLoading,group}){
         getCourses);
 
     const [predictionData, predictionStatus] = useApi(
-        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id, group: group,mobile, tendency: selectedTendencies}),
+        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id, group: group,mobile, tendency: parseInt(selectedTendencies)}),
         postProcessUser, [getPrediction],
         getPrediction);
 
@@ -147,11 +147,15 @@ export default function Prediction({setLoading,group}){
     useEffect(() => {
         if (predictionStatus === 'SUCCESS') {
             let free = predictionData.freeTries
-            setPredictions(predictionData.subtendancies)
             setFreeTries(free)
-            if (predictionData.subtendancies.length===0){
+            if (free === 0){
                 cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
                 setStep(4)
+            }
+            if (predictionData.subtendancies.length===0){
+                cogoToast.error('نتیجه‌ای یافت نشد.');
+            }else{
+                setPredictions(predictionData.subtendancies)
             }
         }
         setGetPrediction(false)
@@ -307,7 +311,7 @@ export default function Prediction({setLoading,group}){
         <div  key={'mobile'+ key} className={'d-flex justify-content-center'} >
             <form onSubmit={(e)=>{
                 e.preventDefault();
-                if (mobileValidation()){
+                if (mobileValidation(mobile)){
                     if (mobileTemp !== mobile){
                         setPostRegister(true);
                     }else{
