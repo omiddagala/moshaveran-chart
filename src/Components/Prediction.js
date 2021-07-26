@@ -61,7 +61,7 @@ export default function Prediction({setLoading,group}){
         getCourses);
 
     const [predictionData, predictionStatus] = useApi(
-        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id, group: group,mobile}),
+        preProcessUser('prediction', {courses: courses, ave, field: selectedField?.id, group: group,mobile, tendency: selectedTendencies}),
         postProcessUser, [getPrediction],
         getPrediction);
 
