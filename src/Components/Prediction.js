@@ -5,7 +5,7 @@ import {Modal} from "react-bootstrap";
 import useApi from "../useApi/useApi";
 import {postProcessUser, preProcessUser} from "../useApi/preProcesses/UserProcesseApi";
 import Store from "../Storage/Store";
-import {numberWithCommas} from "../HelperFunction";
+import {numberWithCommas,mobileValidation} from "../HelperFunction";
 import cogoToast from "cogo-toast";
 import Payment from "./Payment";
 
@@ -277,9 +277,7 @@ export default function Prediction({setLoading,group}){
         setShowModal(false)
     }
 
-    function mobileValidation(){
-        return mobile.match(/09([0-9][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/)
-    }
+
 
     function secondsToTimeString  (seconds) {
 

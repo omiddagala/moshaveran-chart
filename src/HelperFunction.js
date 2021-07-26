@@ -11,4 +11,8 @@ const fixPersianNumbers = (str) => {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-export {fixPersianNumbers,numberWithCommas}
+function mobileValidation(mobile){
+    return mobile.match(/09([0-9][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/)
+}
+
+export {fixPersianNumbers,numberWithCommas,mobileValidation}
