@@ -445,7 +445,11 @@ export default function Prediction({setLoading,group}){
                                 setGetPrediction(true)
                             }
                         }else{
-                            setShowModal(true)
+                            if (predictions.subtendancies === undefined){
+                                cogoToast.error('نتیجه‌ای یافت نشد.');
+                            }else{
+                                setShowModal(true)
+                            }
                         }
 
                     }} className={'btn btn-primary mt-3'}> رتبه
