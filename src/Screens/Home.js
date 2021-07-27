@@ -7,7 +7,6 @@ import EnamadLogo from "../Components/Samandehi/EnamadLogo";
 
 export default function Home({group,year}) {
     const [loading,setLoading] = useState(false)
-    console.log(year);
     return <div className={'bg-main'}>
         <SpinnerLoading
             show={loading}/>

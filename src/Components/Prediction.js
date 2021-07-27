@@ -148,10 +148,6 @@ export default function Prediction({setLoading,group}){
         if (predictionStatus === 'SUCCESS') {
             let free = predictionData.freeTries
             setFreeTries(free)
-            if (free === 0){
-                cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
-                setStep(4)
-            }
             if (predictionData.subtendancies.length===0){
                 cogoToast.error('نتیجه‌ای یافت نشد.');
             }else{
@@ -431,8 +427,7 @@ export default function Prediction({setLoading,group}){
                             <InputNumber placeHolder={'مثال: 14.5'} value={ave} type={'float'} onchange={(v) => {
                                 setKeyEdit(keyEdit+1)
                                 setAve(v)
-                            }}
-                                         className={`form-control ${aveValidation ? 'is-invalid' : ''}`}/>
+                            }} className={`form-control ${aveValidation ? 'is-invalid' : ''}`}/>
                             <div className={'invalid-feedback p-2 bg-danger text-white rounded'}>
                                 مقدار مجاز 10 تا 20 می‌باشد
                             </div>
@@ -442,7 +437,12 @@ export default function Prediction({setLoading,group}){
                         if(keyEdit > changeKey){
                             setChangeKey(keyEdit)
                             if (validationCourses()) {
-                                setGetPrediction(true)
+                                if(freeTries >1) {
+                                    setGetPrediction(true)
+                                }else{
+                                    cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
+                                    setStep(4)
+                                }
                             }
                         }else{
                             if (predictions.subtendancies === undefined){

@@ -77,6 +77,11 @@ const apiAddress = [
         method: 'post',
     },
     {
+        name: 'second',
+        url: 'v1/choice/second',
+        method: 'post',
+    },
+    {
         name: 'zaribha',
         url: 'v1/choice/codes',
         method: 'post',

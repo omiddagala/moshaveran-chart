@@ -54,6 +54,7 @@ export default function App() {
         });
     }, [])
 
+    console.log(auth.apiToken);
     return auth.apiToken !== undefined ? <AuthContext.Provider value={{auth, authDispatch}}>
         <Router>
             <Switch>

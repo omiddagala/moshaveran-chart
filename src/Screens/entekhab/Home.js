@@ -51,9 +51,8 @@ export default function Home({dispatch}){
                 <div className="col-12 col-lg-6 d-flex flex-column justify-content-center h-100 text-center"
                      data-aos="fade-left">
                     <h2 className="hero-title my-5">شروع!</h2>
-                    <Link to={'/entekhab/start-with-code'} className="btn btn-primary">کد اختصاصی ندارم</Link>
-                    {/*<button className="btn btn-primary">کد اختصاصی ندارم</button>*/}
-                    <button className="btn btn-secondary mt-4">قبلا کد اختصاصی دریافت کرده ام</button>
+                    <Link to={'/entekhab/start-without-code'} className="btn btn-primary">کد اختصاصی ندارم</Link>
+                    <Link to={'/entekhab/start-with-code'}  className="btn btn-secondary mt-4">قبلا کد اختصاصی دریافت کرده ام</Link>
                 </div>
                 <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center h-100"
                      data-aos="fade-right">
