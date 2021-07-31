@@ -33,7 +33,6 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
         if (condition) {
             setData([{}, apiStates.LOADING]);
             axios(params).then((response) => {
-                console.log(response);
                 if (response.status !== 200) {
                     setData([{}, apiStates.ERROR]);
                     return null;
@@ -44,7 +43,6 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                 return response.data;
             })
                 .then((response) => {
-                    // console.log(response);
                     setData([
                         postProcess
                             ? postProcess(fetchData.urlName, response)
@@ -54,7 +52,6 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                 })
                 .catch((e) => {
                     cogoToast.error('خطا در انجام عملیات');
-                    console.log(e.status);
                     if (e.status === 401) {
                         Store.remove('USER_INFO')
                         authContext.authDispatch({
@@ -62,7 +59,6 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                         });
                         history.push('/zinc/login')
                     }
-                    // console.log(e);
                     setData([{}, apiStates.ERROR]);
                 });
         }

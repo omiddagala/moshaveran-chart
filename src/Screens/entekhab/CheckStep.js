@@ -31,13 +31,13 @@ export default function CheckStep({state,dispatch}){
                         <label htmlFor="">
                             رشته امتحانی:
                         </label>
-                        <p className={'font-weight-bold'}>{state.data.field.id}</p>
+                        <p className={'font-weight-bold'}>{state.data.fieldOfChoice.id}</p>
                     </div>
                     <div className={'p-4 col-4'}>
                         <label htmlFor="">
                             سهمیه:
                         </label>
-                        <p className={'font-weight-bold'}>{state.data.sahmie.id}</p>
+                        <p className={'font-weight-bold'}>{state.data.share.id}</p>
                     </div>
                     <div className={'p-4 col-4'}>
                         <label htmlFor="">
@@ -66,7 +66,7 @@ export default function CheckStep({state,dispatch}){
                                     {item.rotbeBiSahmie}
                                 </td>
                                 {
-                                    state.data.sahmie === '2' && <td>{item.rotbeBaSahmie}</td>
+                                    state.data.share === '2' && <td>{item.rotbeBaSahmie}</td>
                                 }
                                 <td>
                                     <input className={'form-control'} type="checkbox" checked={item.allowed} />

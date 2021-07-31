@@ -39,7 +39,6 @@ export default function App() {
 
             if ([url1,url2].includes(decodeURI(window.location.pathname))){
                 setYear(item)
-                console.log(item);
             }
             temp1.push(url1);
             temp2.push(url2);
@@ -54,7 +53,6 @@ export default function App() {
         });
     }, [])
 
-    console.log(auth.apiToken);
     return auth.apiToken !== undefined ? <AuthContext.Provider value={{auth, authDispatch}}>
         <Router>
             <Switch>

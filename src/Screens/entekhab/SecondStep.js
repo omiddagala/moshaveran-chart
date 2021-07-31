@@ -4,6 +4,7 @@ import useApi from "../../useApi/useApi";
 import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 import {useHistory} from "react-router-dom";
 import InputNumber from "../../Components/InputNumber";
+import Store from "../../Storage/Store";
 export default function SecondStep({dispatch,state}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
@@ -12,9 +13,9 @@ export default function SecondStep({dispatch,state}){
     const [editKey,setEditKey] = useState(0)
     const history = useHistory()
     const [zaribhaData, zaribhaStatus] = useApi(
-        preProcessUser('zaribha', {id:state.data.field.id}),
-        postProcessUser, [],
-        true);
+        preProcessUser('zaribha', {id:state.data.fieldOfChoice.id}),
+        postProcessUser, [state.data.fieldOfChoice],
+        state.data.fieldOfChoice?.id);
 
     const [secondData, secondStatus] = useApi(
         preProcessUser('second', {...state.data,
@@ -30,7 +31,6 @@ export default function SecondStep({dispatch,state}){
                     return false;
                 })
             })
-            console.log(state.data.ranks.length,'dddss');
             if (state.data.ranks.length === 0){
                 let zaribs = zaribhaData.list.map((item)=>{
                     return {
@@ -50,7 +50,10 @@ export default function SecondStep({dispatch,state}){
 
     useEffect(()=>{
         if (secondStatus==='SUCCESS'){
-            history.push('/entekhab/check')
+            Store.store('data-choice',{data: state.data}).then(d=> {
+                    history.push('/entekhab/check')
+                }
+            )
         }
         setSecondPost(false)
     },[secondStatus])
@@ -65,7 +68,11 @@ export default function SecondStep({dispatch,state}){
         })
         setInvalid({...temp})
         if (!(temp.name || temp.family || temp.gender || temp.zaribha.includes(true))){
-            setSecondPost(true)
+            if (editKey > changeKey){
+                setSecondPost(true)
+            }else{
+                history.push('/entekhab/check')
+            }
         }
     }
 
@@ -112,7 +119,7 @@ export default function SecondStep({dispatch,state}){
                         <th>کد ضریب</th>
                         <th>رتبه در سهمیه</th>
                         {
-                            state.data.sahmie === '2' && <th>رتبه بدون سهمیه</th>
+                            state.data.share === '2' && <th>رتبه بدون سهمیه</th>
                         }
                         <th>مجاز به انتخاب دوره‌های روزانه و نوبت دوم</th>
                     </tr>
@@ -135,7 +142,7 @@ export default function SecondStep({dispatch,state}){
 
                             </td>
                             {
-                                state.data.sahmie === '2' && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBaSahmie} onChange={(e)=>{
+                                state.data.share === '2' && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBaSahmie} onChange={(e)=>{
                                     setEditKey(editKey+1)
                                     let temp = state.data.ranks;
                                     temp[index].rotbeBaSahmie = e.target.value;
@@ -157,11 +164,7 @@ export default function SecondStep({dispatch,state}){
             </table>
             <div>
                 <button className={'btn btn-primary mx-2'} onClick={()=> {
-                    if (editKey > changeKey){
                         validation()
-                    }else{
-                        history.push('/entekhab/check')
-                    }
                 }}>مرحله بعد</button>
                 <button className={'btn btn-info mx-2'} onClick={()=>history.replace('/entekhab/first')}>مرحله قبل</button>
             </div>

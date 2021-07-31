@@ -5,7 +5,6 @@ import {useHistory} from "react-router-dom";
 export default function AdminRequireLoginMiddleware(screen) {
     const authContext = useContext(AuthContext)
     const history = useHistory()
-    console.log(authContext);
     if (authContext.auth?.apiToken !== '') {
         return screen;
     } else {

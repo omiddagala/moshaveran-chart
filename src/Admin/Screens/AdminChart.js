@@ -267,7 +267,6 @@ export default function AdminChart() {
 
                 <div className={'card d-flex flex-column align-items-center justify-content-center col-12 col-lg-3 py-2'}>
                     <button className={'btn btn-primary w-100'} onClick={() => {
-                        console.log(filterGroup, filterField);
                         if ((filterGroup === '1' && filterField) || (filterGroup === '2' && filterField && filterTendency)) {
                             setShowModal(true)
                         }

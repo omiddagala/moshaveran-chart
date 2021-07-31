@@ -67,8 +67,8 @@ const apiAddress = [
         method: 'post',
     },
     {
-        name: 'benefits',
-        url: 'v1/choice/benefits',
+        name: 'shares',
+        url: 'v1/choice/shares',
         method: 'get',
     },
     {
@@ -86,6 +86,41 @@ const apiAddress = [
         url: 'v1/choice/codes',
         method: 'post',
     },
+    {
+        name: 'fieldsChoice',
+        url: 'v1/choice/fields',
+        method: 'get',
+    },
+    {
+        name: 'off',
+        url: 'v1/choice/off',
+        method: 'get',
+    },
+    {
+        name: 'levelsChoice',
+        url: 'v1/choice/levels',
+        method: 'post',
+    },
+    {
+        name: 'provinces',
+        url: 'v1/choice/provinces',
+        method: 'get',
+    },
+    {
+        name: 'tendenciesChoice',
+        url: 'v1/choice/tendencies',
+        method: 'get',
+    },
+    {
+        name: 'subTendenciesChoice',
+        url: 'v1/choice/subtendencies',
+        method: 'get',
+    },
+    {
+        name: 'periods',
+        url: 'v1/choice/periods',
+        method: 'get',
+    },
 ];
 
 function preProcessUser(urlName, params) {
@@ -101,6 +136,8 @@ function postProcessUser(urlName, data) {
         case 'register':
         case 'sms':
             return {}
+        case 'off':
+            return {amount:data.amount}
         case 'confirm':
             return {
                 freeTries:data.freeTries,

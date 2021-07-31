@@ -8,11 +8,9 @@ import {mobileValidation} from "../../HelperFunction";
 import AuthContext from "../../Storage/Contexts/AuthContext";
 import Store from "../../Storage/Store";
 import hero from "../../assets/hero-login.png";
-export default function StartWithoutCode({dispatch,state}){
+export default function StartWithoutCode({dispatch,state,init}){
     const [mobileInvalid ,setMobileInvalid] = useState(false)
     const [postSms ,setPostSms] = useState(false)
-    const [postLogin ,setPostLogin] = useState(false)
-    const context = useContext(AuthContext)
     const history = useHistory();
 
     const [registerData, registerStatus] = useApi(
@@ -25,10 +23,6 @@ export default function StartWithoutCode({dispatch,state}){
         postProcessUser, [postSms],
         postSms);
 
-    const [loginData, loginStatus] = useApi(
-        preProcessUser('login',{code:state.data.code}),
-        postProcessUser, [postLogin],
-        postLogin);
 
     useEffect(()=>{
         dispatch.setUpdateFromStorage(state.updateFromStorage +1 )
@@ -41,23 +35,10 @@ export default function StartWithoutCode({dispatch,state}){
     },[registerStatus])
 
     useEffect(()=>{
-        if (loginStatus==='SUCCESS'){
-            setPostLogin(false)
-            Store.store('data-choice',{data: state.data})
-            history.push('/entekhab/first')
-        }
-    },[loginStatus])
-
-    useEffect(()=>{
         if (smsStatus==='SUCCESS'){
             setPostSms(false)
         }
     },[smsStatus])
-    useEffect(()=>{
-        if (loginStatus==='SUCCESS'){
-            setPostLogin(false)
-        }
-    },[loginStatus])
 
     function validation(){
         if (state.data.mobile !== ''){
@@ -68,9 +49,16 @@ export default function StartWithoutCode({dispatch,state}){
             }
         }
         if (state.data.code!==''){
-            setPostLogin(true)
-            Store.store('data-choice',{data:state.data});
-        }else{
+            let temp ={...init,mobile:state.data.mobile,code:state.data.code}
+            dispatch.setData(temp)
+            Store.remove('data-choice').then(d=> {
+                Store.store('data-choice', {data: temp}).then(dd => {
+                    dispatch.setUpdateFromStorage(state.updateFromStorage + 1)
+                    history.push('/entekhab/first')
+                })
+            })
+        }
+        else{
             cogoToast.error('لطفا کد اختصاصی خود را وارد نمایید.')
         }
     }
@@ -79,7 +67,7 @@ export default function StartWithoutCode({dispatch,state}){
         <div className="container p-5 d-flex align-items-center">
             <div className="col-12 col-lg-6 d-flex flex-column justify-content-center h-100 text-center align-items-center"
                  data-aos="fade-left">
-                <h2 className="hero-title my-5">شروع با با دریافت کد اختصاصی</h2>
+                <h2 className="hero-title my-5">شروع با دریافت کد اختصاصی</h2>
 
                 <div className={'d-flex flex-column align-items-center'}>
                     <label className={'text-start w-100 col-6'} htmlFor="">
