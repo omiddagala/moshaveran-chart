@@ -49,13 +49,13 @@ export default function Chance({state,dispatch}){
 
     const [provincesData, provincesStatus] = useApi(
         preProcessUser('provinces', {}),
-        postProcessUser, [provincesPost],
-        provincesPost);
+        postProcessUser, [],
+        true);
 
     const [tendenciesData, tendenciesStatus] = useApi(
         preProcessUser('tendenciesChoice', {field:state.data.fieldOfChoice.id}),
-        postProcessUser, [tendenciesPost],
-        tendenciesPost);
+        postProcessUser, [],
+        state.data && state.data.fieldOfChoice.id !== null );
 
     const [subTendenciesData, subTendenciesStatus] = useApi(
         preProcessUser('subTendenciesChoice', {tendency:selectedTendency?.id??null}),
@@ -64,8 +64,8 @@ export default function Chance({state,dispatch}){
 
     const [periodsData, periodsStatus] = useApi(
         preProcessUser('periods', {}),
-        postProcessUser, [periodsPost],
-        periodsPost);
+        postProcessUser, [],
+        true);
 
     const [saveData, saveStatus] = useApi(
         preProcessUser('save', chances.filter(item=>item.selected).map(item=>{
@@ -93,7 +93,7 @@ export default function Chance({state,dispatch}){
 
     useEffect(()=>{
         if (provincesStatus==='SUCCESS'){
-            setProvinces(provincesData.list)
+            setProvinces([...provincesData.list])
         }
         setProvincesPost(false)
     },[provincesPost])
@@ -138,11 +138,7 @@ export default function Chance({state,dispatch}){
                             استان
                         </label>
 
-                        <select onClick={()=> {
-                            if (provinces.length === 0){
-                                setProvincesPost(true)
-                            }
-                        }} name="" id="" className={'form-control'} onChange={(e)=>{
+                        <select name="" id="" className={'form-control'} onChange={(e)=>{
                             setSelectedProvince( e.target.value  !== '' ?{id:e.target.value}:null)
                         }}>
                                 <option value="">همه استان‌ها</option>
@@ -158,11 +154,7 @@ export default function Chance({state,dispatch}){
                             گرایش
                         </label>
 
-                        <select onClick={()=> {
-                            if (tendencies.length === 0){
-                                setTendenciesPost(true)
-                            }
-                        }} onChange={(e)=>{
+                        <select onChange={(e)=>{
                             setSelectedTendency({id:e.target.value})
                         }} name="" id="" className={'form-control'} >
                             <option value="">همه گرایش‌ها</option>
@@ -192,11 +184,7 @@ export default function Chance({state,dispatch}){
                         <label htmlFor="">
                             دوره
                         </label>
-                        <select onClick={()=>{
-                            if (periods.length === 0){
-                                setPeriodsPost(true)
-                            }
-                        }} name="" id="" className={'form-control'} onChange={(e)=>{
+                        <select name="" id="" className={'form-control'} onChange={(e)=>{
                             setSelectedPeriod({id:e.target.value})
                         }}>
                             <option value="">همه‌ دوره‌ها</option>

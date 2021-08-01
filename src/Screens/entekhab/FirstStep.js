@@ -25,6 +25,7 @@ export default function FirstStep({group,state,dispatch}){
 
     const [firstData, firstStatus] = useApi(
         preProcessUser('first', {
+            id:state.data.id,
             code:state.data.code,
             mobile:state.data.mobile,
             group:state.data.group,

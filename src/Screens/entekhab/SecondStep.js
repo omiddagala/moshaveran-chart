@@ -120,7 +120,7 @@ export default function SecondStep({dispatch,state}){
                         <th>کد ضریب</th>
                         <th>رتبه در سهمیه</th>
                         {
-                            state.data.share === '2' && <th>رتبه بدون سهمیه</th>
+                            state.data.share.id === 1 && <th>رتبه بدون سهمیه</th>
                         }
                         <th>مجاز به انتخاب دوره‌های روزانه و نوبت دوم</th>
                     </tr>
@@ -143,10 +143,10 @@ export default function SecondStep({dispatch,state}){
 
                                 </td>
                                 {
-                                    state.data.share === '2' && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBiSahmie} onChange={(e)=>{
+                                    state.data.share.id === 1 && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBiSahmie} onchange={(v)=>{
                                         setEditKey(editKey+1)
                                         let temp = state.data.ranks;
-                                        temp[index].rotbeBiSahmie = e.target.value;
+                                        temp[index].rotbeBiSahmie = v;
                                         dispatch.setData({...state.data,ranks:temp})
                                     }}/></td>
                                 }

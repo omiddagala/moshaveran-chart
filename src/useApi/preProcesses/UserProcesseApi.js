@@ -102,6 +102,11 @@ const apiAddress = [
         method: 'post',
     },
     {
+        name: 'levelsChoiceGet',
+        url: 'v1/choice/levels',
+        method: 'get',
+    },
+    {
         name: 'provinces',
         url: 'v1/choice/provinces',
         method: 'get',

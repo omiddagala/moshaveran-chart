@@ -56,6 +56,12 @@ export default function Index({group}){
                         history.push('/entekhab/start-with-code')
                     }
                     break;
+                case '/entekhab/chance':
+                case '/entekhab/priority':
+                    if (!(d && d.data.state ==='PAID')){
+                        history.push('/entekhab/start-with-code')
+                    }
+                    break;
             }
         })
         Store.get('chance-selected').then(d=>{
