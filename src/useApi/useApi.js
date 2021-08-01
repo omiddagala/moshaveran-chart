@@ -28,13 +28,12 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
     }else{
         params.params = fetchData.data
     }
-
     useEffect(() => {
         if (condition) {
             setData([{}, apiStates.LOADING]);
             axios(params).then((response) => {
                 if (response.status !== 200) {
-                    setData([{}, apiStates.ERROR]);
+                    setData([{}, apiStates.ERROR,response.status]);
                     return null;
                 }
                 if (fetchData.urlName==='pay'){
@@ -43,14 +42,23 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                 return response.data;
             })
                 .then((response) => {
-                    setData([
-                        postProcess
-                            ? postProcess(fetchData.urlName, response)
-                            : response,
-                        apiStates.SUCCESS,
-                    ]);
+                    console.log(response,'resp');
+                    if (response === ''){
+                        setData([
+                            '',
+                            apiStates.SUCCESS,
+                        ]);
+                    }else{
+                        setData([
+                            postProcess
+                                ? postProcess(fetchData.urlName, response)
+                                : response,
+                            apiStates.SUCCESS,
+                        ]);
+                    }
                 })
                 .catch((e) => {
+                    console.log(e);
                     cogoToast.error('خطا در انجام عملیات');
                     if (e.status === 401) {
                         Store.remove('USER_INFO')

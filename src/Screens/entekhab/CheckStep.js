@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 export default function CheckStep({state,dispatch}){
     const history = useHistory()
     return <div className={'w-100 container'}>
-        <div className={'input-box p-5 mb-3 w-100 d-flex flex-column align-items-center'}>
+        <div className={'input-box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
             <h4 className={'text-center mb-5'}> (مرحله تایید صحت اطلاعات)</h4>
             <div className={'d-flex justify-content-around w-100 card'}>
@@ -63,10 +63,10 @@ export default function CheckStep({state,dispatch}){
                             return <tr>
                                 <td>{item.code}</td>
                                 <td>
-                                    {item.rotbeBiSahmie}
+                                    {item.rotbeBaSahmie}
                                 </td>
                                 {
-                                    state.data.share === '2' && <td>{item.rotbeBaSahmie}</td>
+                                    state.data.share === '2' && <td>{item.rotbeBiSahmie}</td>
                                 }
                                 <td>
                                     <input className={'form-control'} type="checkbox" checked={item.allowed} />

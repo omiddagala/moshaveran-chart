@@ -126,7 +126,7 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
                     <p>قیمت : {sumPrice - offValue} تومان </p>
                 </div>}
                 <button className={'btn btn-success mt-3'} disabled={packageSelected===null}>پرداخت</button>
-                {['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType) && <div className={'d-flex col-6 mt-4'}>
+                {['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType) && <div className={'d-flex col-lg-6 mt-4'}>
                     <InputNumber className={'form-control'} value={offCode} onchange={(v)=>setOffCode(v)} placeHolder={'کد تخفیف'} type="text"/>
                     <button type={'button'} className={'btn btn-primary'} onClick={()=>setOffPost(true)}>اعمال</button>
                 </div>}

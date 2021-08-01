@@ -9,6 +9,7 @@ export default function Level({state,dispatch}){
     const history = useHistory()
     useEffect(()=>{
         setLevels(state.data.ranks.map(item=>{
+            console.log(item);
             return {level:null,choice: {id:state.data.id},code:item.code}
         }))
     },[state.data.ranks])
@@ -26,10 +27,10 @@ export default function Level({state,dispatch}){
     },[levelsStatus])
 
     return <div className={'w-100 container'}>
-        <div className={'input-box p-5 mb-3 w-100 d-flex flex-column align-items-center'}>
+        <div className={'input-box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
             <h4 className={'text-center mb-5'}> (تراز‌ها)</h4>
-            <div className={'d-flex justify-content-around w-100'}>
+            <div className={'table-responsive'}>
                 <table className={'table'}>
                     <thead>
                     <tr>

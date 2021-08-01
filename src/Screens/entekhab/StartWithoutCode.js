@@ -64,23 +64,21 @@ export default function StartWithoutCode({dispatch,state,init}){
     }
 
     return <div className={'d-flex flex-column align-items-center'}>
-        <div className="container p-5 d-flex align-items-center">
-            <div className="col-12 col-lg-6 d-flex flex-column justify-content-center h-100 text-center align-items-center"
-                 data-aos="fade-left">
+        <div className="container p-lg-5 pt-5 d-flex flex-column flex-lg-row align-items-center">
+            <div className="order-1 order-lg-0 col-12 col-lg-6 d-flex flex-column justify-content-center h-100 text-center align-items-center">
                 <h2 className="hero-title my-5">شروع با دریافت کد اختصاصی</h2>
-
                 <div className={'d-flex flex-column align-items-center'}>
-                    <label className={'text-start w-100 col-6'} htmlFor="">
+                    <label className={'text-start w-100 col-lg-6'} htmlFor="">
                         کد اختصاصی:
                     </label>
-                    <div className={'col-6 d-flex w-100'}>
+                    <div className={'col-lg-8 d-flex w-100'}>
                         <input type="text" className={'form-control'} value={state.data.code} onChange={(e)=>{}}/>
                         <button className={'btn btn-primary mx-1'} onClick={()=>{
                             navigator.clipboard.writeText(state.data.code)
                             cogoToast.info('کد اختصاصی در کلیپ‌برد ذخیره شد')
                         }}>کپی</button>
                     </div>
-                    <div className={'col-6 mt-3'}>
+                    <div className={'col-lg-8 mt-3'}>
                         <label htmlFor="">
                             شماره موبایل:
                         </label>
@@ -90,12 +88,11 @@ export default function StartWithoutCode({dispatch,state,init}){
                     <button className={'btn btn-primary'} onClick={()=>validation()}>مرحله بعد</button>
                 </div>
             </div>
-            <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center h-100"
-                 data-aos="fade-right">
+            <div className="order-0 order-lg-1 col-12 col-lg-6 d-flex align-items-center justify-content-center h-100">
                 <img src={hero} className="w-100" alt=""/>
             </div>
         </div>
-        <div className={'col-12 col-lg-6 bg-info text-white rounded p-2 d-flex flex-column justify-content-center'} data-aos="fade-up">
+        <div className={'col-12 col-lg-6 mt-lg-3 bg-info text-white rounded p-2 d-flex flex-column justify-content-center'}>
             <p className={'font-weight-bold'}>داوطلب عزیز</p>
             <p>کد بالا، کد اختصاصی شما در نرم افزار انتخاب رشته است.کد را در جایی یادداشت کنید و یا با وارد کردن شماره موبایل، اجازه دهید تا کد را برای شما پیامک کنیم.</p>
         </div>

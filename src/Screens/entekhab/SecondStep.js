@@ -18,9 +18,7 @@ export default function SecondStep({dispatch,state}){
         state.data.fieldOfChoice?.id);
 
     const [secondData, secondStatus] = useApi(
-        preProcessUser('second', {...state.data,
-            state:'SECOND'
-        }),
+        preProcessUser('second', state.data),
         postProcessUser, [secondPost],
         secondPost);
 
@@ -38,8 +36,10 @@ export default function SecondStep({dispatch,state}){
                         rotbeBaSahmie:null,
                         rotbeBiSahmie:null,
                         allowed:true,
-                        zarib:{id:item.id},
-                        entekhab:{id:state.data.id}
+                        choice:{id:state.data.id},
+                        tendencyOfChoice:{
+                            id: item.id
+                        }
                     }
                 })
                 dispatch.setData({...state.data,ranks:zaribs})
@@ -64,7 +64,7 @@ export default function SecondStep({dispatch,state}){
         temp.family = state.data.family===''
         temp.gender = state.data.gender === ''
         state.data.ranks.forEach((item,index)=>{
-            temp.zaribha[index] = item.rotbeBiSahmie === null || item.rotbeBiSahmie === ""
+            temp.zaribha[index] = item.rotbeBaSahmie === null || item.rotbeBaSahmie === ""
         })
         setInvalid({...temp})
         if (!(temp.name || temp.family || temp.gender || temp.zaribha.includes(true))){
@@ -77,10 +77,10 @@ export default function SecondStep({dispatch,state}){
     }
 
     return <div className={'w-100 container'}>
-        <div className={'input-box p-5 mb-3 w-100 d-flex flex-column align-items-center'}>
+        <div className={'input-box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
             <h4 className={'text-center mb-5'}> (مرحله دوم)</h4>
-            <div className={'d-flex justify-content-around w-100'}>
+            <div className={'d-flex flex-column flex-lg-row justify-content-around w-100'}>
                 <div className={'has-validation'}>
                     <label htmlFor="">
                         نام:
@@ -113,8 +113,9 @@ export default function SecondStep({dispatch,state}){
                 </div>
             </div>
             <p className={'alert alert-info my-3'}>مهمترین فاکتور در انتخاب رشته سهمیه‌های آزاد، رتبه در سهمیه در ضریب‌های مختلف است.</p>
-            <table className={'w-100 table'}>
-                <thead>
+            <div className={'table-responsive'}>
+                <table className={'w-100 table'}>
+                    <thead>
                     <tr>
                         <th>کد ضریب</th>
                         <th>رتبه در سهمیه</th>
@@ -123,45 +124,47 @@ export default function SecondStep({dispatch,state}){
                         }
                         <th>مجاز به انتخاب دوره‌های روزانه و نوبت دوم</th>
                     </tr>
-                </thead>
-                <tbody>
-                {
-                    state.data.ranks.map((item,index)=>{
-                        return <tr>
-                            <td>{item.code}</td>
-                            <td>
-                                <div className={'has-validation'}>
-                                    <InputNumber value={item.rotbeBiSahmie} type={'integer'} onchange={value=> {
+                    </thead>
+                    <tbody>
+                    {
+                        state.data.ranks.map((item,index)=>{
+                            return <tr>
+                                <td>{item.code}</td>
+                                <td>
+                                    <div className={'has-validation'}>
+                                        <InputNumber value={item.rotbeBaSahmie} type={'integer'} onchange={value=> {
+                                            setEditKey(editKey+1)
+                                            let temp = state.data.ranks;
+                                            temp[index].rotbeBaSahmie = value;
+                                            dispatch.setData({...state.data,ranks:temp})
+                                        }} className={`form-control ${invalid.zaribha[index]?'is-invalid':''}`} />
+                                        <p className={'invalid-feedback'}>لطفا مقدار رتبه را صحیح وارد کنید</p>
+                                    </div>
+
+                                </td>
+                                {
+                                    state.data.share === '2' && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBiSahmie} onChange={(e)=>{
                                         setEditKey(editKey+1)
                                         let temp = state.data.ranks;
-                                        temp[index].rotbeBiSahmie = value;
+                                        temp[index].rotbeBiSahmie = e.target.value;
                                         dispatch.setData({...state.data,ranks:temp})
-                                    }} className={`form-control ${invalid.zaribha[index]?'is-invalid':''}`} />
-                                    <p className={'invalid-feedback'}>لطفا مقدار رتبه را صحیح وارد کنید</p>
-                                </div>
+                                    }}/></td>
+                                }
+                                <td>
+                                    <input className={'form-control'} type="checkbox" checked={item.allowed} onChange={(e)=>{
+                                        setEditKey(editKey+1)
+                                        let temp = state.data.ranks;
+                                        temp[index].allowed = e.target.checked;
+                                        dispatch.setData({...state.data,ranks:temp})
+                                    }}/>
+                                </td>
+                            </tr>
+                        })
+                    }
+                    </tbody>
+                </table>
 
-                            </td>
-                            {
-                                state.data.share === '2' && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBaSahmie} onChange={(e)=>{
-                                    setEditKey(editKey+1)
-                                    let temp = state.data.ranks;
-                                    temp[index].rotbeBaSahmie = e.target.value;
-                                    dispatch.setData({...state.data,ranks:temp})
-                                }}/></td>
-                            }
-                            <td>
-                                <input className={'form-control'} type="checkbox" checked={item.allowed} onChange={(e)=>{
-                                    setEditKey(editKey+1)
-                                    let temp = state.data.ranks;
-                                    temp[index].allowed = e.target.checked;
-                                    dispatch.setData({...state.data,ranks:temp})
-                                }}/>
-                            </td>
-                        </tr>
-                    })
-                }
-                </tbody>
-            </table>
+            </div>
             <div>
                 <button className={'btn btn-primary mx-2'} onClick={()=> {
                         validation()

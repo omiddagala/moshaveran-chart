@@ -121,6 +121,27 @@ const apiAddress = [
         url: 'v1/choice/periods',
         method: 'get',
     },
+    {
+        name: 'chance',
+        url: 'v1/choice/chance',
+        method: 'post',
+    },
+    {
+        name: 'save',
+        url: 'v1/choice/save',
+        method: 'post',
+    },
+    {
+        name: 'priority',
+        url: 'v1/choice/priority',
+        method: 'post',
+    },
+    {
+        name: 'uploadResult',
+        url: 'v1/choice/upload/result',
+        method: 'post',
+        media:true
+    },
 ];
 
 function preProcessUser(urlName, params) {

@@ -30,8 +30,7 @@ export default function FirstStep({group,state,dispatch}){
             group:state.data.group,
             fieldOfChoice:state.data.field,
             share:state.data.share,
-            ave:state.data.ave,
-            state:'FIRST'
+            ave:state.data.ave
         }),
         postProcessUser, [firstPost],
         firstPost);
@@ -75,8 +74,8 @@ export default function FirstStep({group,state,dispatch}){
     },[firstStatus])
 
     return <div className={'w-100 container'}>
-        <div className={'input-box p-5 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <form className={'col-12 col-lg-8'} onSubmit={(e)=> {
+        <div className={'input-box p-lg-5 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
+            <form className={'col-12 col-lg-8 py-2'} onSubmit={(e)=> {
                 e.preventDefault()
                 validation()
             }} action="">
@@ -112,7 +111,9 @@ export default function FirstStep({group,state,dispatch}){
                     }} className={`form-control ${invalid.ave?'is-invalid':''}`} />
                     <p className={'invalid-feedback'}>لطفا معدل موثر را وارد نمایید.</p>
                 </div>
-                <button type={'submit'} className={'btn btn-primary mt-3'}>مرحله بعد</button>
+                <div className={'w-100 d-flex justify-content-center'}>
+                    <button type={'submit'} className={'btn btn-primary mt-3'}>مرحله بعد</button>
+                </div>
             </form>
         </div>
     </div>

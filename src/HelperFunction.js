@@ -15,4 +15,34 @@ function mobileValidation(mobile){
     return mobile.match(/09([0-9][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/)
 }
 
-export {fixPersianNumbers,numberWithCommas,mobileValidation}
+function periodsLabel(name){
+    switch (name){
+        case 'Roozaneh':
+            return 'روزانه';
+        case 'Shabaneh':
+            return 'شبانه';
+        case 'PayamNoor':
+            return 'پیام نور';
+        case 'Pardis':
+            return 'پردیس';
+        case 'MajaziDolati':
+            return 'مجازی دولتی';
+        case 'GheireEntefaei':
+            return 'غیر انتفاعی';
+    }
+}
+
+function chanceLabel(name){
+    switch (name){
+        case 'ACCEPTED':
+            return ['قبول','success'];
+        case 'HIGH_CHANCE':
+            return ['پراحتمال','primary'];
+        case 'OPTIMISTIC':
+            return ['خوشبینانه','info'];
+        case 'NOT_ACCEPTED':
+            return ['عدم قبولی','danger'];
+    }
+}
+
+export {fixPersianNumbers,numberWithCommas,mobileValidation,periodsLabel,chanceLabel}
