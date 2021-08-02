@@ -78,11 +78,11 @@ export default function Index({group}){
            show={loading}/>
        <Switch>
            <Route path="/entekhab" exact><Home/></Route>
-           <Route path="/entekhab/start-with-code" exact><StartWithCode dispatch={{setData}} state={{data}}/></Route>
-           <Route path="/entekhab/start-without-code" exact><StartWithoutCode dispatch={{setData,setUpdateFromStorage}} state={{data,updateFromStorage}} init={init}/></Route>
-           <Route path="/entekhab/first" exact><FirstStep dispatch={{setData,setUpdateFromStorage}} state={{data}} group={group}/></Route>
-           <Route path="/entekhab/second" exact><SecondStep dispatch={{setData}} state={{data}} group={group}/></Route>
-           <Route path="/entekhab/check" exact><CheckStep dispatch={{setData}} state={{data}} group={group}/></Route>
+           <Route path="/entekhab/start-with-code" exact><StartWithCode dispatch={{setData,setLoading}} state={{data}}/></Route>
+           <Route path="/entekhab/start-without-code" exact><StartWithoutCode dispatch={{setData,setUpdateFromStorage,setLoading}} state={{data,updateFromStorage}} init={init}/></Route>
+           <Route path="/entekhab/first" exact><FirstStep dispatch={{setData,setUpdateFromStorage,setLoading}} state={{data}} group={group}/></Route>
+           <Route path="/entekhab/second" exact><SecondStep dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>
+           <Route path="/entekhab/check" exact><CheckStep dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>
            <Route path="/entekhab/pay" exact><Pay dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>
            <Route path="/entekhab/chance" exact><Chance dispatch={{setData,setLoading,setSelectedChance}} state={{data,selectedChance}} group={group}/></Route>
            <Route path="/entekhab/level" exact><Level dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>

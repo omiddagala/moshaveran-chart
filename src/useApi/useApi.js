@@ -31,6 +31,7 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
         if (condition) {
             setData([{}, apiStates.LOADING]);
             axios(params).then((response) => {
+                console.log(response.status,'state');
                 if (response.status !== 200) {
                     setData([{}, apiStates.ERROR,response.status]);
                     return null;
@@ -56,15 +57,20 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                     }
                 })
                 .catch((e) => {
-                    cogoToast.error('خطا در انجام عملیات');
-                    if (e.status === 401) {
+                    if (e.response.status === 401) {
                         Store.remove('USER_INFO')
                         authContext.authDispatch({
                             type: 'INIT_DATA',
                         });
                         history.push('/zinc/login')
+                    }else if(e.response.status === 404){
+                        setData([{}, apiStates.ERROR,e.response.status]);
                     }
-                    setData([{}, apiStates.ERROR]);
+                    else{
+                        setData([{}, apiStates.ERROR]);
+                        cogoToast.error('خطا در انجام عملیات');
+                    }
+
                 });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

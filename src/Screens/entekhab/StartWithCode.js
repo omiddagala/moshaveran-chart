@@ -17,6 +17,7 @@ export default function StartWithCode({dispatch}){
         loginPost);
 
     useEffect(()=>{
+        console.log(statusCode);
         if (statusCode === 404){
             cogoToast.error('اطلاعات ثبت شده‌ای با این کد اختصاصی یافت نشد.')
         }else{

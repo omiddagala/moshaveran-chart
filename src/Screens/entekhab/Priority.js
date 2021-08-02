@@ -66,7 +66,6 @@ export default function Priority({state,dispatch}){
     return <div className={'w-100 container'}>
         <Header code={state.data.code}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
             <h4 className={'text-center mb-5'}> (اولویت‌بندی)</h4>
             <div className={'w-100'}>
                 <div className={'table-responsive'} >
