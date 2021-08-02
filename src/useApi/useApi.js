@@ -57,13 +57,13 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                     }
                 })
                 .catch((e) => {
-                    if (e.response.status === 401) {
+                    if (e.response?.status === 401) {
                         Store.remove('USER_INFO')
                         authContext.authDispatch({
                             type: 'INIT_DATA',
                         });
                         history.push('/zinc/login')
-                    }else if(e.response.status === 404){
+                    }else if(e.response?.status === 404){
                         setData([{}, apiStates.ERROR,e.response.status]);
                     }
                     else{

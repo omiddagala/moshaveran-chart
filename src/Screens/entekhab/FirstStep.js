@@ -6,6 +6,9 @@ import InputNumber from "../../Components/InputNumber";
 import Store from "../../Storage/Store";
 import {useHistory} from "react-router-dom";
 import Header from "./Components/Header";
+import {Modal} from "react-bootstrap";
+import heroImage from '../../assets/hero-img.png'
+
 export default function FirstStep({group,state,dispatch}){
     const [fields, setFields] = useState([])
     const [benefits, setBenefits] = useState([])
@@ -13,6 +16,8 @@ export default function FirstStep({group,state,dispatch}){
     const [invalid,setInvalid] = useState({filed:false,ave:false})
     const [changeKey,setChangeKey] = useState(0)
     const [editKey,setEditKey] = useState(0)
+    const [showModal, setShowModal] = useState(false)
+
     const history = useHistory()
     const [fieldsData, fieldsStatus] = useApi(
         preProcessUser('fieldsChoice', {group: group}),
@@ -75,6 +80,10 @@ export default function FirstStep({group,state,dispatch}){
         }
     },[firstStatus])
 
+    useEffect(()=>{
+        dispatch.setLoading([firstStatus,benefitsStatus,firstStatus].includes('LOADING'))
+    },[firstStatus,benefitsStatus,firstStatus])
+
     return <div className={'w-100 container'}>
         <Header code={state.data.code}/>
         <div className={'box p-lg-5 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
@@ -113,10 +122,29 @@ export default function FirstStep({group,state,dispatch}){
                     }} className={`form-control ${invalid.ave?'is-invalid':''}`} />
                     <p className={'invalid-feedback'}>لطفا معدل موثر را وارد نمایید.</p>
                 </div>
+                <div className={'w-100 d-flex justify-content-center my-3'}>
+                    <div className={'box col-lg-5'}>
+                        <img src={heroImage} className={'w-100'} alt=""/>
+                        <button type={'button'} className={'btn btn-info'} onClick={()=>{
+                        setShowModal(true)
+                        }}>مشاهده راهنمای معدل کارنامه</button>
+                    </div>
+                </div>
+
                 <div className={'w-100 d-flex justify-content-center'}>
                     <button type={'submit'} className={'btn btn-primary mt-3'}>مرحله بعد</button>
                 </div>
             </form>
         </div>
+        <Modal  show={showModal} onHide={()=>setShowModal(false)}>
+            <Modal.Header>
+                <Modal.Title>راهنمای معدل در کارنامه</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className={'d-flex align-items-center flex-column'}>
+                <img src={heroImage} className={'w-100'} alt=""/>
+                <button className={'btn btn-info mt-3'} onClick={()=>{
+                setShowModal(false)}}>بستن</button>
+            </Modal.Body>
+        </Modal>
     </div>
 }

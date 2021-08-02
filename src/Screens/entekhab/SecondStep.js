@@ -6,12 +6,16 @@ import {useHistory} from "react-router-dom";
 import InputNumber from "../../Components/InputNumber";
 import Store from "../../Storage/Store";
 import Header from "./Components/Header";
+import heroImage from "../../assets/hero-img.png";
+import {Modal} from "react-bootstrap";
 export default function SecondStep({dispatch,state}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
     const [invalid,setInvalid] = useState({name:false,family:false,gender:false,zaribha:[]})
     const [changeKey,setChangeKey] = useState(0)
     const [editKey,setEditKey] = useState(0)
+    const [showModal, setShowModal] = useState(false)
+
     const history = useHistory()
     const [zaribhaData, zaribhaStatus] = useApi(
         preProcessUser('zaribha', {id:state.data.fieldOfChoice.id}),
@@ -77,6 +81,11 @@ export default function SecondStep({dispatch,state}){
         }
     }
 
+    useEffect(()=>{
+        dispatch.setLoading([zaribhaStatus,secondStatus].includes('LOADING'))
+    },[zaribhaStatus,secondStatus])
+
+
     return <div className={'w-100 container'}>
         <Header code={state.data.code}/>
         <div className={'box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
@@ -114,7 +123,20 @@ export default function SecondStep({dispatch,state}){
                     <p className={'invalid-feedback'}>لطفا جنسیت را انتخاب نمایید.</p>
                 </div>
             </div>
-            <p className={'alert alert-info my-3'}>مهمترین فاکتور در انتخاب رشته سهمیه‌های آزاد، رتبه در سهمیه در ضریب‌های مختلف است.</p>
+            <div className={'d-flex flex-column flex-lg-row align-items-center'}>
+                <div className={'col-6'}>
+                    <p className={' alert alert-info my-3'}>مهمترین فاکتور در انتخاب رشته سهمیه‌های آزاد، رتبه در سهمیه در ضریب‌های مختلف است.</p>
+                </div>
+                <div className={'col-6 w-100 d-flex justify-content-center my-3'}>
+                    <div className={'box col-lg-8'}>
+                        <img src={heroImage} className={'w-100'} alt=""/>
+                        <button type={'button'} className={'btn btn-info'} onClick={()=>{
+                            setShowModal(true)
+                        }}>مشاهده راهنمای معدل کارنامه</button>
+                    </div>
+                </div>
+            </div>
+
             <div className={'table-responsive'}>
                 <table className={'w-100 table'}>
                     <thead>
@@ -174,5 +196,15 @@ export default function SecondStep({dispatch,state}){
                 <button className={'btn btn-info mx-2'} onClick={()=>history.replace('/entekhab/first')}>مرحله قبل</button>
             </div>
         </div>
+        <Modal  show={showModal} onHide={()=>setShowModal(false)}>
+            <Modal.Header>
+                <Modal.Title>راهنمای معدل در کارنامه</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className={'d-flex align-items-center flex-column'}>
+                <img src={heroImage} className={'w-100'} alt=""/>
+                <button className={'btn btn-info mt-3'} onClick={()=>{
+                    setShowModal(false)}}>بستن</button>
+            </Modal.Body>
+        </Modal>
     </div>
 }

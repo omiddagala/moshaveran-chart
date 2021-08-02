@@ -63,6 +63,10 @@ export default function Priority({state,dispatch}){
         }
     }
 
+    useEffect(()=>{
+        dispatch.setLoading([uploadStatus,priorityStatus].includes('LOADING'))
+    },[uploadStatus,priorityStatus])
+
     return <div className={'w-100 container'}>
         <Header code={state.data.code}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>

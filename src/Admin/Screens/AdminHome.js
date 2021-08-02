@@ -4,8 +4,6 @@ import useApi from "../../useApi/useApi";
 import {preProcessAdmin, postProcessAdmin} from "../../useApi/preProcesses/AdminProcessApi";
 import SpinnerLoading from "../../Components/Spinner";
 import cogoToast from 'cogo-toast';
-
-
 export default function AdminHome() {
     const [groups, setGroups] = useState([])
     const [selectedGroup, setSelectedGroup] = useState(null)

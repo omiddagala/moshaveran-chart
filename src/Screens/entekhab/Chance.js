@@ -6,9 +6,11 @@ import {useHistory} from "react-router-dom";
 import Store from "../../Storage/Store";
 import {periodsLabel,chanceLabel} from  '../../HelperFunction'
 import Header from "./Components/Header";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Footer from "./Components/Footer";
 
 export default function Chance({state,dispatch}){
-    const [chances,setChances] = useState([]);
+    const [chances,setChances] = useState({list:[]});
     const [provinces,setProvinces] = useState([]);
     const [provincesPost,setProvincesPost] = useState(false);
     const [chancePost,setChancePost] = useState(false);
@@ -24,13 +26,25 @@ export default function Chance({state,dispatch}){
     const [selectedProvince,setSelectedProvince] = useState(null);
     const [savePost,setSavePost] = useState(false);
     const [view,setView] = useState(0);
+    const [showPriority,setShowPriority] = useState(false);
     const history = useHistory()
 
     useEffect(()=>{
         if(state.data.code !== ''){
             setChancePost(true)
         }
-    },[state.data.code])
+    },[state.data.code,page])
+
+    useEffect(()=>{
+        if (state.data.packages){
+            let temp = state.data.packages.filter(item=>{
+                return item.number === 1;
+            })
+            setShowPriority(temp.length > 0)
+        }
+
+    },[state.data.packages])
+
 
     const [chanceData, chanceStatus] = useApi(
         preProcessUser('chance', {
@@ -46,7 +60,7 @@ export default function Chance({state,dispatch}){
                 "direction": "ASC"
             }
         }),
-        postProcessUser, [chancePost],
+        postProcessUser, [chancePost,page],
         chancePost);
 
     const [provincesData, provincesStatus] = useApi(
@@ -70,7 +84,7 @@ export default function Chance({state,dispatch}){
         true);
 
     const [saveData, saveStatus] = useApi(
-        preProcessUser('save', chances.filter(item=>item.selected).map(item=>{
+        preProcessUser('save', chances.list.filter(item=>item.selected).map(item=>{
             return {
                 label : item.label,
                 choice : {
@@ -122,18 +136,15 @@ export default function Chance({state,dispatch}){
 
     useEffect(()=>{
         if (chanceStatus==='SUCCESS'){
-            console.log(view);
-            if (view === 1){
-                console.log('aaaa');
-                setChances([...chanceData.list.filter(item=>item.selected)])
-            }else{
-                setChances([...chanceData.list])
-            }
+            let temp = [...chances.list, ...chanceData.list]
+            setChances({...chances,list:temp})
             setChancePost(false)
         }
     },[chanceStatus])
 
-
+    useEffect(()=>{
+        dispatch.setLoading([chanceStatus,saveStatus].includes('LOADING'))
+    },[chanceStatus,saveStatus])
 
     return <div className={'w-100 container'}>
         <Header code={state.data.code}/>
@@ -219,64 +230,83 @@ export default function Chance({state,dispatch}){
                 </form>
                 <div className={'d-flex justify-content-center mb-3'}>
                     <button onClick={()=>{
+                        setPage(1)
+                        setChances({list:[]})
                         setChancePost(true)
                     }} className={'btn btn-primary'}>اعمال تغییرات</button>
                 </div>
                 <div className={'table-responsive'} >
-                    <table className={'table'}>
-                        <thead>
-                        <tr>
-                            <th>انتخاب</th>
-                            <th>شانس قبولی</th>
-                            <th>رشته/گرایش</th>
-                            <th>دانشگاه/دوره</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            chances.map((item,index)=>{
-                                return <tr>
-                                    <td>
-                                        <input type="checkbox" checked={chances[index].selected} className={'form-control'} onChange={(e)=>{
-                                            let flag =true
-                                            if (e.target.value){
-                                                if (state.selectedChance.length === 100){
-                                                    flag = false
-                                                    cogoToast.error('انتخاب بیش از ۱۰۰ آیتم مجاز نیست')
+                    <InfiniteScroll
+                        dataLength={chances.list.length}
+                        next={()=> {
+                            console.log(page + 1,'ddd');
+                            setPage(page + 1)
+                        }}
+                        hasMore={true}
+                    >
+                        <table className={'table'}>
+                            <thead>
+                            <tr>
+                                <th>انتخاب</th>
+                                <th>شانس قبولی</th>
+                                <th>رشته/گرایش</th>
+                                <th>دانشگاه/دوره</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                              chances.list.filter(item=>{
+                                    if (view){
+                                        return item.selected
+                                    }else{
+                                        return true
+                                    }
+                                }).map((item,index)=>{
+                                    return <tr key={index}>
+                                        <td>
+                                            <input type="checkbox" checked={chances.list[index].selected} className={'form-control'} onChange={(e)=>{
+                                                let flag =true
+                                                if (e.target.value){
+                                                    if (state.selectedChance.length === 100){
+                                                        flag = false
+                                                        cogoToast.error('انتخاب بیش از ۱۰۰ آیتم مجاز نیست')
+                                                    }
                                                 }
-                                            }
-                                            if (flag){
-                                                let temp = chances
-                                                temp[index].selected = e.target.checked
-                                                let selectedList= temp.filter(item=>item.selected)
-                                                dispatch.setSelectedChance(selectedList)
-                                                Store.store('chance-selected',{data:selectedList})
-                                                setChances([...temp])
-                                            }
-                                        }}/>
-                                    </td>
-                                    <td>
-                                        <p className={'text-'+chanceLabel(item.label)[1]}>{chanceLabel(item.label)[0]}</p>
-                                    </td>
-                                    <td>
-                                        <p>{item.tendencyName}-{item.subtendencyName}</p>
-                                    </td>
-                                    <td>
-                                        <p>{item.universityName}-{periodsLabel(item.uniTypeName)}</p>
-                                    </td>
-                                </tr>
-                            })
-                        }
-                        </tbody>
-                    </table>
+                                                if (flag){
+                                                    let temp = chances.list
+                                                    temp[index].selected = e.target.checked
+                                                    let selectedList= temp.filter(item=>item.selected)
+                                                    dispatch.setSelectedChance(selectedList)
+                                                    Store.store('chance-selected',{data:selectedList})
+                                                    setChances([...temp])
+                                                }
+                                            }}/>
+                                        </td>
+                                        <td>
+                                            <p className={'text-'+chanceLabel(item.label)[1]}>{chanceLabel(item.label)[0]}</p>
+                                        </td>
+                                        <td>
+                                            <p>{item.tendencyName}-{item.subtendencyName}</p>
+                                        </td>
+                                        <td>
+                                            <p>{item.universityName}-{periodsLabel(item.uniTypeName)}</p>
+                                        </td>
+                                    </tr>
+                                })
+                            }
+                            </tbody>
+                        </table>
+                    </InfiniteScroll>
                 </div>
                 <button className={'btn btn-info'} onClick={()=>{
                     setSavePost(true)
                 }}>ذخیره</button>
-                <button className={'btn btn-primary mx-2'} onClick={()=>{
-                    history.push('/entekhab/priority')
-                }}>اولویت بندی</button>
+                { showPriority && <button className={'btn btn-primary mx-2'} onClick={()=>{
+                        history.push('/entekhab/priority')
+                    }}>اولویت بندی</button>
+                }
             </div>
         </div>
+        <Footer/>
     </div>
 }

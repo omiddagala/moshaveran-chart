@@ -4,13 +4,20 @@ import heroStart from '../../assets/hero-start.png'
 import {Link} from "react-router-dom";
 import SamandehiLogo from "../../Components/Samandehi/SamandehiLogo";
 import EnamadLogo from "../../Components/Samandehi/EnamadLogo";
+import analyze from '../../assets/analyze.png'
+import dice from '../../assets/dice.png'
+import dice2 from '../../assets/dice2.png'
+import search from '../../assets/search.png'
+import priority from '../../assets/priority.png'
+import priority2 from '../../assets/priority2.png'
+
 export default function Home({dispatch}){
-    return <div l>
+    return <div>
         <div
             className="hero d-flex align-items-center">
             <div className="container p-lg-5 pt-5 d-flex flex-column flex-lg-row align-items-center">
                 <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-content-center my-3 h-100">
-                    <h2 className="hero-title">مشاوان تحصیلی</h2>
+                    <h2 className="hero-title">مشاوران تحصیلی</h2>
                     <h5 className="mt-3">موجی تازه در نرم‌افزار‌های آموزشی ایران</h5>
                     <h5 className="mt-3 font-weight-bold"> نرم افزار انتخاب رشته ۱۴۰۰</h5>
                     <div className="d-flex align-items-center flex-lg-row flex-column my-4">
@@ -30,14 +37,14 @@ export default function Home({dispatch}){
             <div className={'d-flex flex-column flex-lg-row flex-lg-wrap'}>
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
-                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <img src={analyze} className="img-fluid" alt=""/>
                             <h3>آنالیز دقیق</h3>
                             <p>آنالیز دقیق شانس قبولی با دقتی بیش از 98 درصد براساس سهمیه و رتبه</p>
                     </div>
                 </div>
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
-                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <img src={dice} className="img-fluid" alt=""/>
                         <h3>تعیین شانس قبولی</h3>
                         <p>تعیین شانس قبولی در 4 سطح قطعی، پراحتمال، خوشبینانه و کم احتمال</p>
                     </div>
@@ -45,28 +52,28 @@ export default function Home({dispatch}){
 
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
-                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <img src={dice2} className="img-fluid" alt=""/>
                         <h3>مشخص کردن احتمال قبولی</h3>
                         <p>مشخص کردن احتمال قبولی در تمامی کد رشته های دفترچه انتخاب رشته</p>
                     </div>
                 </div>
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
-                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <img src={search} className="img-fluid" alt=""/>
                         <h3>جستجوی آسان</h3>
                         <p>جستجوی آسان براساس نوع دوره دانشگاهی، استان ها و رشته-گرایش</p>
                     </div>
                 </div>
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
-                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <img src={priority} className="img-fluid" alt=""/>
                         <h3>اولویت بندی صحیح</h3>
                         <p>اولویت بندی صحیح بر مبنای اعتبار، کیفیت و رنگینگ دانشگاه ها</p>
                     </div>
                 </div>
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
-                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <img src={priority2} className="img-fluid" alt=""/>
                         <h3>اولویت بندی دقیق</h3>
                         <p>اولویت بندی دقیق براساس کیفیت گرایش در بازار کار و امکان ادامه تحصیل</p>
                     </div>

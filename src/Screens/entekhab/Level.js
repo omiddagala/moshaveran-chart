@@ -66,6 +66,15 @@ export default function Level({state,dispatch}){
         setLevelsPost(false)
     },[levelsGetStatus])
 
+    function getCode(item){
+        let temp = state.data.ranks.filter(r=>r.tendencyOfChoice.id===item.tendency)
+        return temp[0].tendencyOfChoice.code
+    }
+
+    useEffect(()=>{
+        dispatch.setLoading([levelsStatus,levelsGetStatus,loginStatus].includes('LOADING'))
+    },[levelsStatus,loginStatus,levelsGetStatus])
+
     return <div className={'w-100 container'}>
         <div className={'input-box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
@@ -82,7 +91,7 @@ export default function Level({state,dispatch}){
                     {
                         levels.map((item,index)=>{
                             return <tr>
-                                <td>{item.code}</td>
+                                <td>{item.code??getCode(item)}</td>
                                 <td><InputNumber type="integer" value={levels[index].level} onchange={(v)=>{
                                     let temp = levels;
                                     temp[index].level = parseInt(v)

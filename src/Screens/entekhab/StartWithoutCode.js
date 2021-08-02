@@ -63,6 +63,10 @@ export default function StartWithoutCode({dispatch,state,init}){
         }
     }
 
+    useEffect(()=>{
+        dispatch.setLoading([smsStatus,registerStatus].includes('LOADING'))
+    },[smsStatus,registerStatus])
+
     return <div className={'d-flex flex-column align-items-center'}>
         <div className="container p-lg-5 pt-5 d-flex flex-column flex-lg-row align-items-center">
             <div className="order-1 order-lg-0 col-12 col-lg-6 d-flex flex-column justify-content-center h-100 text-center align-items-center">
