@@ -41,7 +41,6 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                 return response.data;
             })
                 .then((response) => {
-                    console.log(response,'resp');
                     if (response === ''){
                         setData([
                             '',
@@ -57,7 +56,6 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                     }
                 })
                 .catch((e) => {
-                    console.log(e);
                     cogoToast.error('خطا در انجام عملیات');
                     if (e.status === 401) {
                         Store.remove('USER_INFO')

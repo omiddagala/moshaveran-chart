@@ -25,11 +25,15 @@ export default function Chance({state,dispatch}){
     const history = useHistory()
 
     useEffect(()=>{
-        console.log(state.data,'aaaaa');
+        console.log(state.data.code,state.data.code !== '','aaaaa');
         if(state.data.code !== ''){
             setChancePost(true)
         }
     },[state.data.code])
+
+    useEffect(()=>{
+        console.log(chancePost);
+    },[chancePost])
 
     const [chanceData, chanceStatus] = useApi(
         preProcessUser('chance', {
@@ -122,8 +126,8 @@ export default function Chance({state,dispatch}){
     useEffect(()=>{
         if (chanceStatus==='SUCCESS'){
             setChances(chanceData.list)
+            setChancePost(false)
         }
-        setChancePost(false)
     },[chanceStatus])
 
 
