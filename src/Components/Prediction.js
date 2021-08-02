@@ -147,15 +147,11 @@ export default function Prediction({setLoading,group}){
     useEffect(() => {
         if (predictionStatus === 'SUCCESS') {
             let free = predictionData.freeTries
+            setPredictions(predictionData.subtendancies)
             setFreeTries(free)
-            if (free === 0){
+            if (predictionData.subtendancies.length===0){
                 cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');
                 setStep(4)
-            }
-            if (predictionData.subtendancies.length===0){
-                cogoToast.error('نتیجه‌ای یافت نشد.');
-            }else{
-                setPredictions(predictionData.subtendancies)
             }
         }
         setGetPrediction(false)
@@ -445,11 +441,7 @@ export default function Prediction({setLoading,group}){
                                 setGetPrediction(true)
                             }
                         }else{
-                            if (predictions.subtendancies === undefined){
-                                cogoToast.error('نتیجه‌ای یافت نشد.');
-                            }else{
-                                setShowModal(true)
-                            }
+                            setShowModal(true)
                         }
 
                     }} className={'btn btn-primary mt-3'}> رتبه
