@@ -63,7 +63,6 @@ export default function AdminHome() {
     }, [groupsStatus])
 
     useEffect(() => {
-        console.log(uploadStatus);
         if (uploadStatus === 'SUCCESS') {
             cogoToast.success('عملیات آپلود با موفقیت انجام شد');
         } else if (uploadStatus === 'ERROR') {

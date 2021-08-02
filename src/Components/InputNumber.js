@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {fixPersianNumbers} from '../HelperFunction'
 
 export default function InputNumber({value, className, onchange, type = 'integer',placeHolder}) {

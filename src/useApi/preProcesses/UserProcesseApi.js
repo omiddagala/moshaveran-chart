@@ -67,8 +67,8 @@ const apiAddress = [
         method: 'post',
     },
     {
-        name: 'benefits',
-        url: 'v1/choice/benefits',
+        name: 'shares',
+        url: 'v1/choice/shares',
         method: 'get',
     },
     {
@@ -77,9 +77,75 @@ const apiAddress = [
         method: 'post',
     },
     {
+        name: 'second',
+        url: 'v1/choice/second',
+        method: 'post',
+    },
+    {
         name: 'zaribha',
         url: 'v1/choice/codes',
         method: 'post',
+    },
+    {
+        name: 'fieldsChoice',
+        url: 'v1/choice/fields',
+        method: 'get',
+    },
+    {
+        name: 'off',
+        url: 'v1/choice/off',
+        method: 'get',
+    },
+    {
+        name: 'levelsChoice',
+        url: 'v1/choice/levels',
+        method: 'post',
+    },
+    {
+        name: 'levelsChoiceGet',
+        url: 'v1/choice/levels',
+        method: 'get',
+    },
+    {
+        name: 'provinces',
+        url: 'v1/choice/provinces',
+        method: 'get',
+    },
+    {
+        name: 'tendenciesChoice',
+        url: 'v1/choice/tendencies',
+        method: 'get',
+    },
+    {
+        name: 'subTendenciesChoice',
+        url: 'v1/choice/subtendencies',
+        method: 'get',
+    },
+    {
+        name: 'periods',
+        url: 'v1/choice/periods',
+        method: 'get',
+    },
+    {
+        name: 'chance',
+        url: 'v1/choice/chance',
+        method: 'post',
+    },
+    {
+        name: 'save',
+        url: 'v1/choice/save',
+        method: 'post',
+    },
+    {
+        name: 'priority',
+        url: 'v1/choice/priority',
+        method: 'post',
+    },
+    {
+        name: 'uploadResult',
+        url: 'v1/choice/upload/result',
+        method: 'post',
+        media:true
     },
 ];
 
@@ -96,6 +162,8 @@ function postProcessUser(urlName, data) {
         case 'register':
         case 'sms':
             return {}
+        case 'off':
+            return {amount:data.amount}
         case 'confirm':
             return {
                 freeTries:data.freeTries,
