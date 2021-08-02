@@ -67,7 +67,7 @@ export default function FirstStep({group,state,dispatch}){
     useEffect(()=>{
         if (firstStatus === 'SUCCESS'){
             Store.store('data-choice',{data: {...state.data,id:firstData.list.id}}).then(d=> {
-                    dispatch.setData({...state.data, id: firstData.list.id})
+                    dispatch.setData({...state.data, id: firstData.list.id,state:'FIRST'})
                     history.push('/entekhab/second')
                 }
             )

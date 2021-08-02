@@ -50,7 +50,7 @@ export default function SecondStep({dispatch,state}){
 
     useEffect(()=>{
         if (secondStatus==='SUCCESS'){
-            Store.store('data-choice',{data: state.data}).then(d=> {
+            Store.store('data-choice',{data: {...state.data,state:'SECOND'}}).then(d=> {
                     history.push('/entekhab/check')
                 }
             )

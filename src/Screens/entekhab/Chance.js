@@ -25,7 +25,8 @@ export default function Chance({state,dispatch}){
     const history = useHistory()
 
     useEffect(()=>{
-        if(state.data.code!==null){
+        console.log(state.data,'aaaaa');
+        if(state.data.code !== ''){
             setChancePost(true)
         }
     },[state.data.code])
@@ -96,7 +97,7 @@ export default function Chance({state,dispatch}){
             setProvinces([...provincesData.list])
         }
         setProvincesPost(false)
-    },[provincesPost])
+    },[provincesStatus])
 
     useEffect(()=>{
         if (periodsStatus==='SUCCESS'){
