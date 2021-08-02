@@ -10,6 +10,7 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
     const [postPay ,setPostPay] = useState(false)
     const [sumPrice,setSumPrice] = useState(0)
     const [offCode,setOffCode] = useState('')
+    const [offCodeFinal,setOffCodeFinal] = useState('')
     const [offPost,setOffPost] = useState(false)
     const [offValue,setOffValue] = useState(0)
     const location = useLocation();
@@ -37,7 +38,7 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
             packages: packageSelected,
             callback:['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType) ?location.pathname.replace('/','').replace('pay','level') : location.pathname.replace('/',''),
             paymentType: paymentType(),
-            offCode
+            offCode: offCodeFinal
         }),
         postProcessUser, [postPay],
         postPay && packageSelected!==null);
@@ -66,6 +67,7 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
         if (offStatus==='SUCCESS'){
             if (offData.amount){
                 setOffValue(offData.amount)
+                setOffCodeFinal(offCode)
                 cogoToast.success('کد تخفیف با موفقیت اعمال گردید.')
             }else {
                 cogoToast.error('کد تخفیف وارد شده اشتباه است')

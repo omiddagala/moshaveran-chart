@@ -1,10 +1,11 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
+import Header from "./Components/Header";
 export default function CheckStep({state,dispatch}){
     const history = useHistory()
     return <div className={'w-100 container'}>
-        <div className={'input-box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
+        <Header code={state.data.code}/>
+        <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (مرحله تایید صحت اطلاعات)</h4>
             <div className={'d-flex justify-content-around w-100 card'}>
                 <p className={'alert alert-info text-center'}>اطلاعاتی که تاکنون وارد کرده‌اید در زیر آمده است.در صورت صحت اطلاعات، ب روی دکمه تایید کلیک کنید</p>

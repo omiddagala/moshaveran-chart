@@ -5,6 +5,7 @@ import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserPro
 import {useHistory} from "react-router-dom";
 import InputNumber from "../../Components/InputNumber";
 import Store from "../../Storage/Store";
+import Header from "./Components/Header";
 export default function SecondStep({dispatch,state}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
@@ -77,7 +78,8 @@ export default function SecondStep({dispatch,state}){
     }
 
     return <div className={'w-100 container'}>
-        <div className={'input-box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
+        <Header code={state.data.code}/>
+        <div className={'box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
             <h4 className={'text-center mb-5'}> (مرحله دوم)</h4>
             <div className={'d-flex flex-column flex-lg-row justify-content-around w-100'}>

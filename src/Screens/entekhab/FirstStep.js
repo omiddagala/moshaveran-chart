@@ -5,6 +5,7 @@ import Select from "../../Components/Select";
 import InputNumber from "../../Components/InputNumber";
 import Store from "../../Storage/Store";
 import {useHistory} from "react-router-dom";
+import Header from "./Components/Header";
 export default function FirstStep({group,state,dispatch}){
     const [fields, setFields] = useState([])
     const [benefits, setBenefits] = useState([])
@@ -75,17 +76,17 @@ export default function FirstStep({group,state,dispatch}){
     },[firstStatus])
 
     return <div className={'w-100 container'}>
-        <div className={'input-box p-lg-5 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
+        <Header code={state.data.code}/>
+        <div className={'box p-lg-5 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
             <form className={'col-12 col-lg-8 py-2'} onSubmit={(e)=> {
                 e.preventDefault()
                 validation()
             }} action="">
-                <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
                 <h4 className={'text-center mb-4'}> (مرحله اول)</h4>
                 <div className={'has-validation'}>
                     {fields.length > 0 && <div className={'mb-5'}>
                         <label htmlFor="">رشته امتحانی</label>
-                        <Select placeHolder={'انتخاب رشته'} options={fields} className={invalid.fieldOfChoice?'is-invalid':''} value={state.data.fieldOfChoice.id}
+                        <Select placeHolder={'انتخاب رشته'} options={fields} className={invalid.fieldOfChoice?'is-invalid':''} value={state.data.fieldOfChoice?.id}
                                 onChange={value => {
                                     setEditKey(editKey+1)
                                     dispatch.setData({...state.data,fieldOfChoice: {id:parseInt(value)}})
@@ -106,7 +107,7 @@ export default function FirstStep({group,state,dispatch}){
                 <p className={'alert alert-info'}>معدل موثر تا ۲۰ درصد در وضعیت کارنامه شما تاثیر گذار است.</p>
                 <div className={'has-validation'}>
                     <label htmlFor="">معدل موثر</label>
-                    <InputNumber value={state.data.ave.toString()} type={'float'} onchange={value=> {
+                    <InputNumber value={state.data.ave} type={'float'} onchange={value=> {
                         setEditKey(editKey+1)
                         dispatch.setData({...state.data, ave: parseInt(value)})
                     }} className={`form-control ${invalid.ave?'is-invalid':''}`} />

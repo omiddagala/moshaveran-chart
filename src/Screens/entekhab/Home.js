@@ -23,31 +23,6 @@ export default function Home({dispatch}){
                     <img src={heroEntekhab} className="w-100" alt=""/>
                 </div>
             </div>
-            {/*<div className="counts" data-aos="fade-up">*/}
-            {/*    <div className="container aos-init aos-animate  w-100">*/}
-            {/*        <div className="row gy-4 w-100 d-flex justify-content-center">*/}
-            {/*            <div className="col-lg-3 col-md-6">*/}
-            {/*                <div className="count-box">*/}
-            {/*                    <div>*/}
-            {/*                        <span data-purecounter-start="0" data-purecounter-end="232"*/}
-            {/*                              data-purecounter-duration="0" className="purecounter">232</span>*/}
-            {/*                        <p>کاربرانی که تاکنون از نرم‌افزار استفاده کرده‌اند</p>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-
-            {/*            <div className="col-lg-3 col-md-6">*/}
-            {/*                <div className="count-box">*/}
-            {/*                    <div>*/}
-            {/*                        <span data-purecounter-start="0" data-purecounter-end="521"*/}
-            {/*                              data-purecounter-duration="0" className="purecounter">521</span>*/}
-            {/*                        <p>کاربرانی که در حال حاضر در حال انتخاب رشته هستند</p>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </div>
         <div className="container p-lg-5">
             <h1 className="hero-title my-۳ text-center w-100">عنوان بخش</h1>
@@ -56,32 +31,54 @@ export default function Home({dispatch}){
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
                         <img src={heroEntekhab} className="img-fluid" alt=""/>
-                            <h3>ویژگی شماره ۱</h3>
-                            <p>لورم متنننننننننننننن</p>
+                            <h3>آنالیز دقیق</h3>
+                            <p>آنالیز دقیق شانس قبولی با دقتی بیش از 98 درصد براساس سهمیه و رتبه</p>
                     </div>
                 </div>
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
                         <img src={heroEntekhab} className="img-fluid" alt=""/>
-                        <h3>ویژگی شماره ۱</h3>
-                        <p>لورم متنننننننننننننن</p>
+                        <h3>تعیین شانس قبولی</h3>
+                        <p>تعیین شانس قبولی در 4 سطح قطعی، پراحتمال، خوشبینانه و کم احتمال</p>
                     </div>
                 </div>
 
                 <div className="col-lg-4 col-12 mt-3">
                     <div className="box">
                         <img src={heroEntekhab} className="img-fluid" alt=""/>
-                        <h3>ویژگی شماره ۱</h3>
-                        <p>لورم متنننننننننننننن</p>
+                        <h3>مشخص کردن احتمال قبولی</h3>
+                        <p>مشخص کردن احتمال قبولی در تمامی کد رشته های دفترچه انتخاب رشته</p>
+                    </div>
+                </div>
+                <div className="col-lg-4 col-12 mt-3">
+                    <div className="box">
+                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <h3>جستجوی آسان</h3>
+                        <p>جستجوی آسان براساس نوع دوره دانشگاهی، استان ها و رشته-گرایش</p>
+                    </div>
+                </div>
+                <div className="col-lg-4 col-12 mt-3">
+                    <div className="box">
+                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <h3>اولویت بندی صحیح</h3>
+                        <p>اولویت بندی صحیح بر مبنای اعتبار، کیفیت و رنگینگ دانشگاه ها</p>
+                    </div>
+                </div>
+                <div className="col-lg-4 col-12 mt-3">
+                    <div className="box">
+                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <h3>اولویت بندی دقیق</h3>
+                        <p>اولویت بندی دقیق براساس کیفیت گرایش در بازار کار و امکان ادامه تحصیل</p>
                     </div>
                 </div>
             </div>
             <div className={'d-flex justify-content-center mt-5'}>
                 <div className="col-lg-6 col-12">
                     <div className="box">
-                        <img src={heroEntekhab} className="img-fluid" alt=""/>
+                        <video width="400" controls>
+                            <source src="mov_bbb.mp4" type="video/mp4"/>
+                        </video>
                         <h3>ویدیوی استفاده از نرم‌افزار</h3>
-                        <p>لورم متنننننننننننننن</p>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import cogoToast from "cogo-toast";
 import {useHistory} from "react-router-dom";
 import Store from "../../Storage/Store";
 import {periodsLabel,chanceLabel} from  '../../HelperFunction'
+import Header from "./Components/Header";
 
 export default function Chance({state,dispatch}){
     const [chances,setChances] = useState([]);
@@ -22,18 +23,14 @@ export default function Chance({state,dispatch}){
     const [selectedPeriod,setSelectedPeriod] = useState(null);
     const [selectedProvince,setSelectedProvince] = useState(null);
     const [savePost,setSavePost] = useState(false);
+    const [view,setView] = useState(0);
     const history = useHistory()
 
     useEffect(()=>{
-        console.log(state.data.code,state.data.code !== '','aaaaa');
         if(state.data.code !== ''){
             setChancePost(true)
         }
     },[state.data.code])
-
-    useEffect(()=>{
-        console.log(chancePost);
-    },[chancePost])
 
     const [chanceData, chanceStatus] = useApi(
         preProcessUser('chance', {
@@ -125,7 +122,13 @@ export default function Chance({state,dispatch}){
 
     useEffect(()=>{
         if (chanceStatus==='SUCCESS'){
-            setChances(chanceData.list)
+            console.log(view);
+            if (view === 1){
+                console.log('aaaa');
+                setChances([...chanceData.list.filter(item=>item.selected)])
+            }else{
+                setChances([...chanceData.list])
+            }
             setChancePost(false)
         }
     },[chanceStatus])
@@ -133,8 +136,8 @@ export default function Chance({state,dispatch}){
 
 
     return <div className={'w-100 container'}>
-        <div className={'input-box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
+        <Header code={state.data.code}/>
+        <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (تعیین شانس‌ها و احتمال قبولی)</h4>
             <div className={'w-100'}>
                 <form action="" className={'d-flex flex-column flex-lg-row  w-100 justify-content-around my-4'}>
@@ -170,21 +173,23 @@ export default function Chance({state,dispatch}){
                             }
                         </select>
                     </div>
-                    <div>
-                        <label htmlFor="">
-                            زیر گرایش
-                        </label>
-                        <select name="" id="" className={'form-control'} onChange={(e)=>{
-                            setSelectedSubTendency(e.target.value  !== '' ?{id:e.target.value}:null)
-                        }}>
-                            <option value="">همه زیر گرایش‌ها</option>
-                            {
-                                subTendencies.map((item,index)=>{
-                                    return <option value={item.id}>{item.name}</option>
-                                })
-                            }
-                        </select>
-                    </div>
+                    {
+                        selectedTendency !== null && <div>
+                            <label htmlFor="">
+                                زیر گرایش
+                            </label>
+                            <select name="" id="" className={'form-control'} onChange={(e)=>{
+                                setSelectedSubTendency(e.target.value  !== '' ?{id:e.target.value}:null)
+                            }}>
+                                <option value="">همه زیر گرایش‌ها</option>
+                                {
+                                    subTendencies.map((item,index)=>{
+                                        return <option value={item.id}>{item.name}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
+                    }
                     <div>
                         <label htmlFor="">
                             دوره
@@ -198,6 +203,17 @@ export default function Chance({state,dispatch}){
                                     return <option value={item.id}>{periodsLabel(item.name)}</option>
                                 })
                             }
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="">
+                            نمایش
+                        </label>
+                        <select name="" id="" value={view} className={'form-control'} onChange={(e)=>{
+                            setView(parseInt(e.target.value))
+                        }}>
+                            <option value={0}>همه</option>
+                            <option value={1}>فقط انتخاب شده‌ها</option>
                         </select>
                     </div>
                 </form>
