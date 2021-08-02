@@ -108,7 +108,7 @@ export default function Home({dispatch}){
             </div>
             <div className={'d-flex flex-lg-row flex-column'}>
                 <div className={'col-12 col-lg-8'}>
-                    <ul className={'d-flex flex-wrap list-unstyled'}>
+                    <ul className={'d-flex flex-wrap list-unstyled text-center'}>
                         <li className={'col-6 col-lg-4 mt-5'}>
                             <a href="">دانلود دفترچه انتخاب رشته</a>
                         </li>
