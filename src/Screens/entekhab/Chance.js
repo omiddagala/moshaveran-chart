@@ -59,7 +59,7 @@ export default function Chance({state,dispatch}){
 
     const [tendenciesData, tendenciesStatus] = useApi(
         preProcessUser('tendenciesChoice', {field:state.data.fieldOfChoice.id}),
-        postProcessUser, [],
+        postProcessUser, [state.data.fieldOfChoice],
         state.data && state.data.fieldOfChoice.id !== null );
 
     const [subTendenciesData, subTendenciesStatus] = useApi(
@@ -160,7 +160,7 @@ export default function Chance({state,dispatch}){
                         </label>
 
                         <select onChange={(e)=>{
-                            setSelectedTendency({id:e.target.value})
+                            setSelectedTendency(e.target.value  !== '' ?{id:e.target.value}:null)
                         }} name="" id="" className={'form-control'} >
                             <option value="">همه گرایش‌ها</option>
                             {
@@ -175,7 +175,7 @@ export default function Chance({state,dispatch}){
                             زیر گرایش
                         </label>
                         <select name="" id="" className={'form-control'} onChange={(e)=>{
-                            setSelectedSubTendency({id:e.target.value})
+                            setSelectedSubTendency(e.target.value  !== '' ?{id:e.target.value}:null)
                         }}>
                             <option value="">همه زیر گرایش‌ها</option>
                             {
@@ -190,7 +190,7 @@ export default function Chance({state,dispatch}){
                             دوره
                         </label>
                         <select name="" id="" className={'form-control'} onChange={(e)=>{
-                            setSelectedPeriod({id:e.target.value})
+                            setSelectedPeriod(e.target.value  !== '' ?{id:e.target.value}:null)
                         }}>
                             <option value="">همه‌ دوره‌ها</option>
                             {
