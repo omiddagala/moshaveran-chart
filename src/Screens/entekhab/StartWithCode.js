@@ -18,7 +18,7 @@ export default function StartWithCode({dispatch}){
 
     useEffect(()=>{
         if (statusCode === 404){
-            cogoToast.error('کد اختصاصی مورد نظر یافت نشد')
+            cogoToast.error('اطلاعات ثبت شده‌ای با این کد اختصاصی یافت نشد.')
         }else{
             if (loginStatus==='SUCCESS'){
                 dispatch.setData(loginData.list)

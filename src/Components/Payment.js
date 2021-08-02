@@ -13,7 +13,6 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
     const [offPost,setOffPost] = useState(false)
     const [offValue,setOffValue] = useState(0)
     const location = useLocation();
-
     const [packages,setPackages]=useState([])
 
     function paymentType(){
