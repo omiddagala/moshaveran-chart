@@ -37,6 +37,24 @@ const apiAddress = [
         method: 'post',
         auth: true
     },
+    {
+        name: 'choices',
+        url: 'v1/admin/choices',
+        method: 'post',
+        auth: true
+    },
+    {
+        name: 'choiceSingle',
+        url: 'v1/admin/choice',
+        method: 'post',
+        auth: true
+    },
+    {
+        name: 'second',
+        url: 'v1/admin/second',
+        method: 'post',
+        auth: true
+    },
 ];
 
 function preProcessAdmin(urlName, params) {

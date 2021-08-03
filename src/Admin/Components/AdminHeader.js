@@ -17,6 +17,9 @@ export default function AdminHeader() {
                     <Link to={'/zinc/chart'} className={'nav-item  nav-link'}>نمودار</Link>
                 </li>
                 <li className="nav-item">
+                    <Link to={'/zinc/choice'} className={'nav-item  nav-link'}>لیست انتخاب رشته</Link>
+                </li>
+                <li className="nav-item">
                     <Link to={'/zinc/logout'} className={'nav-item  nav-link'}>خروج</Link>
                 </li>
             </ul>

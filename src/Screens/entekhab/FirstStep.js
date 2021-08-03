@@ -1,16 +1,11 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import useApi from "../../useApi/useApi";
 import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 import Select from "../../Components/Select";
-import InputNumber from "../../Components/InputNumber";
 import Store from "../../Storage/Store";
 import {useHistory} from "react-router-dom";
 import Header from "./Components/Header";
-import {Modal} from "react-bootstrap";
-import heroImage from '../../assets/hero-img.png'
 import routes from "./routes";
-import aveOloom from '../../assets/aveOloom.jpeg'
-import aveBehdasht from '../../assets/aveBehdasht.jpeg'
 export default function FirstStep({group,state,dispatch,getUrl}){
     const [fields, setFields] = useState([])
     const [benefits, setBenefits] = useState([])

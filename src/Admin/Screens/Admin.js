@@ -6,6 +6,7 @@ import AdminHeader from "../Components/AdminHeader";
 import Logout from "./Auth/logout";
 import AdminChart from "./AdminChart";
 import NotFound from "../../Screens/NotFound";
+import AdminChoice from "./AdminChoice";
 
 export default function Admin() {
     return <Router>
@@ -13,6 +14,7 @@ export default function Admin() {
         <Switch>
             <Route path="/zinc" exact><AdminHome/></Route>
             <Route path="/zinc/chart" exact><AdminChart/></Route>
+            <Route path="/zinc/choice" exact><AdminChoice/></Route>
             <Route path="/zinc/login" exact><Login/></Route>
             <Route path="/zinc/logout" exact><Logout/></Route>
             <Route path=""><NotFound/></Route>

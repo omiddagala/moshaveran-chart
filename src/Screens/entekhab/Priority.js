@@ -129,7 +129,6 @@ export default function Priority({state,dispatch,getUrl}){
                             }}>ارسال</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
