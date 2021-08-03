@@ -94,7 +94,7 @@ export default function AdminChoice(){
 
     useEffect(()=>{
         if (choiceStatus==='SUCCESS'){
-            setShowMore(choiceData.list.length !== 0)
+            setShowMore(choiceData.list.length === 20)
             let temp = [...choices.list, ...choiceData.list]
             setChoices({...choices,list:temp})
             setChoicePost(false)

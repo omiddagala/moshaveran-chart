@@ -118,7 +118,11 @@ export default function Priority({state,dispatch,getUrl}){
                                 sheet="tablexls"
                                 buttonText="دانلود excel"/>
                         </div>
-                        <div className={'d-flex border rounded align-items-center my-5 my-lg-0'}>
+
+                        <div className={'d-flex flex-lg-row flex-column border rounded align-items-center my-5 my-lg-0 '}>
+                            <label className={'mx-3 mb-0 mb-lg-2'} htmlFor="">
+                                آپلود فایل کارنامه:
+                            </label>
                             <input type="file" accept="image/jpeg"  onChange={(event) => {
                                 setFile(event.target.files[0])
                             }}/>

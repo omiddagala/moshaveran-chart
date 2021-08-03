@@ -141,7 +141,7 @@ export default function Chance({state,dispatch,getUrl}){
 
     useEffect(()=>{
         if (chanceStatus==='SUCCESS'){
-            setShowMore(chanceData.list.length !== 0)
+            setShowMore(chanceData.list.length === 20)
             let temp = [...chances.list, ...chanceData.list]
             setChances({...chances,list:temp})
             setChancePost(false)

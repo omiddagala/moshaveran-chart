@@ -21,10 +21,10 @@ export default function Home({dispatch,getUrl}){
                     <h2 className="hero-title">مشاوران تحصیلی</h2>
                     <h5 className="mt-3">موجی تازه در نرم‌افزار‌های آموزشی ایران</h5>
                     <h5 className="mt-3 font-weight-bold"> نرم افزار انتخاب رشته ۱۴۰۰</h5>
-                    <div className="d-flex align-items-center flex-lg-row flex-column my-4">
-                        <Link to={getUrl(routes.startWithoutCode)} className="btn btn-primary">شروع</Link>
-                        <p className={'m-0 mx-3'}>یا</p>
-                        <Link to={getUrl(routes.startWithCode)}  className="btn btn-secondary">قبلا کد اختصاصی دریافت کرده ام</Link>
+                    <div className=" my-4">
+                        <Link to={getUrl(routes.startWithoutCode)} className="btn btn-primary">شروع کنید</Link>
+                        <p className={'m-0 my-3'}>یا</p>
+                        <Link to={getUrl(routes.startWithCode)}  className="btn btn-secondary">با کد اختصاصی که قبلا از نرم افزار دریافت کرده اید وارد شوید</Link>
                     </div>
                 </div>
                 <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center h-100">
