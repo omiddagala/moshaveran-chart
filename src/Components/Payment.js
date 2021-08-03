@@ -92,7 +92,7 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
                     if (packageSelected.includes(require.id)){
                         setPostPay(true)
                     }else{
-                        cogoToast.error(`انتخاب پکیج \'${require.name}\' ضروری است `)
+                        cogoToast.error(`انتخاب پکیج \'${require.name}\' اجباری است `)
                     }
                 }
             }else{
