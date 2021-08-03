@@ -7,6 +7,7 @@ import {Modal} from "react-bootstrap";
 import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 import Select from "../../Components/Select";
 import cogoToast from "cogo-toast";
+import SpinnerLoading from "../../Components/Spinner";
 export default function AdminChoice(){
     const [code,setCode] = useState(null)
     const [name,setName] = useState(null)
@@ -152,6 +153,8 @@ export default function AdminChoice(){
     },[choice])
 
     return <div className={'container'}>
+        <SpinnerLoading
+            show={[choiceStatus, choiceSingleStatus, zaribhaStatus, fieldsStatus, benefitsStatus, updateStatus].includes('LOADING')}/>
         <form onSubmit={(e)=>{
             e.preventDefault()
             setChoices({list:[]})
