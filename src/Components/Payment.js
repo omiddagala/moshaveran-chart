@@ -88,11 +88,11 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
                 if(['TAKHMIN_BEHDASHT','TAKHMIN_OLOOM'].includes(pageType)){
                     setPostPay(true)
                 }else{
-                    let requireId = packages.filter(item=>item.number===0)[0]?.id
-                    if (packageSelected.includes(requireId)){
+                    let require = packages.filter(item=>item.number===0)[0]
+                    if (packageSelected.includes(require.id)){
                         setPostPay(true)
                     }else{
-                        cogoToast.error('انتخاب پکیج \'شانس‌های قبولی\' اجباری است.')
+                        cogoToast.error(`انتخاب پکیج \'${require.name}\' ضروری است `)
                     }
                 }
             }else{
