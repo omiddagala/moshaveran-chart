@@ -23,6 +23,7 @@ const setEmail = (prevState, action) => {
 };
 
 const login = (prevState, action) => {
+    console.log(action.data,'asdf');
     Store.store('USER_INFO', action.data).then();
     return {
         ...prevState,

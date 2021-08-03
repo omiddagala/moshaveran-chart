@@ -10,7 +10,7 @@ export default function Logout() {
         authContext.authDispatch({
             'type': 'LOGOUT',
         })
-        history.push('/')
+        history.push('/login')
     }, [])
     return <div></div>
 }

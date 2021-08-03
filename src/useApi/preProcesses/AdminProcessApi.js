@@ -65,7 +65,7 @@ function postProcessAdmin(urlName, data) {
     switch (urlName) {
         case 'login':
             return {
-                access_token: data.access_token,
+                access_token: data.access_token
             };
         default:
             return {list: data}

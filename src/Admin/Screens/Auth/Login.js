@@ -32,10 +32,11 @@ export default function Login() {
 
     useEffect(() => {
         if (loginStatus === 'SUCCESS') {
+            console.log(loginData);
             authContext.authDispatch({
                 'type': 'LOGIN',
                 'data': {
-                    'user': loginData.user,
+                    'role': loginData.role,
                     'apiToken': loginData.access_token
                 }
             })

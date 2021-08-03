@@ -18,6 +18,7 @@ function postProcessAuth(urlName, data) {
         case 'login':
             return {
                 access_token: data.access_token,
+                role:data.user.role
             };
     }
 }
