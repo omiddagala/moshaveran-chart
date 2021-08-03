@@ -15,6 +15,7 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
     const [offValue,setOffValue] = useState(0)
     const location = useLocation();
     const [packages,setPackages]=useState([])
+    const [tempPackages,setTempPackages]=useState([])
 
     function paymentType(){
         if(['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType)){
@@ -70,6 +71,7 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
                 setOffCodeFinal(offCode)
                 cogoToast.success('کد تخفیف با موفقیت اعمال گردید.')
             }else {
+                setOffValue(0)
                 cogoToast.error('کد تخفیف وارد شده اشتباه است')
             }
         }
@@ -83,12 +85,17 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
         <form onSubmit={(e)=>{
             e.preventDefault()
             if (packageSelected.length >0){
-                setPostPay(true)
+                let requireId = packages.filter(item=>item.number===0)[0].id
+                if (packageSelected.includes(requireId)){
+                    setPostPay(true)
+                }else{
+                    cogoToast.error('انتخاب پکیج \'شانس‌های قبولی\' اجباری است.')
+                }
             }else{
                 cogoToast.error('لطفا پکیج مورد نظر را انتخاب نمایید.')
             }
         }}>
-            <div className={'box bg-white p-5'} onChange={(e)=>{
+            <div className={'box bg-white p-lg-5 p-0 d-flex flex-column'} onChange={(e)=>{
                 let temp =packageSelected;
                 let value = parseInt(e.target.value)
                 if (e.target.type ==='radio'){
@@ -118,15 +125,17 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
                     </label>
                 })}
                 {['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType) && packages.map((item,index)=>{
-                    return  <label key={index} htmlFor={`package-${item.id}`}>
-                    <input type={type} name={'package'} value={item.id} id={item.id} className={'mx-2'} />
-                        {item.name} : {item.price} تومان
-                    </label>
+                    return <div className={'d-flex align-items-center text-left mt-4'}>
+                        <input type={type} name={'package'} checked={item.selected} value={item.id} id={item.id} className={'form-control col-2'} />
+                        <label className={'w-100 h5'} key={index} htmlFor={`${item.id}`}>
+                            {item.name} : {item.price} تومان
+                        </label>
+                    </div>
                 })}
-                {['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType) && <div className={'d-flex justify-content-center'}>
-                    <p>قیمت : {sumPrice - offValue} تومان </p>
+                {['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType) && <div className={'d-flex badge badge-primary justify-content-center mt-4'}>
+                    <p className={' h6 m-0'}>قیمت : {sumPrice === 0 ? sumPrice : sumPrice - offValue} تومان </p>
                 </div>}
-                <button className={'btn btn-success mt-3'} disabled={packageSelected===null}>پرداخت</button>
+                <button className={'btn btn-success mt-3'}>پرداخت</button>
                 {['ENTEKHAB_BEHDASHT','ENTEKHAB_OLOOM'].includes(pageType) && <div className={'d-flex mt-4'}>
                     <InputNumber className={'form-control'} value={offCode} onchange={(v)=>setOffCode(v)} placeHolder={'کد تخفیف'} type="text"/>
                     <button type={'button'} className={'btn btn-primary'} onClick={()=>setOffPost(true)}>اعمال</button>

@@ -1,6 +1,7 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
-export default function Header({code}){
+import routes from "../routes";
+export default function Header({code,getUrl}){
     const history = useHistory()
     return   <div>
         <h2 className={'hero-title my-4 text-center'}>مشاوران تحصیلی</h2>
@@ -8,7 +9,7 @@ export default function Header({code}){
         <div className={'d-flex justify-content-between my-2'}>
             <h5 className={'badge badge-secondary badge-code'}> کد اختصاصی:{code}</h5>
             <button className={'btn btn-danger'} onClick={()=>{
-                history.push('/entekhab/')
+                history.push(getUrl(routes.home))
             }}>خروج</button>
         </div>
     </div>

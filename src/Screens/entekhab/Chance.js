@@ -8,8 +8,9 @@ import {periodsLabel,chanceLabel} from  '../../HelperFunction'
 import Header from "./Components/Header";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Footer from "./Components/Footer";
+import routes from "./routes";
 
-export default function Chance({state,dispatch}){
+export default function Chance({state,dispatch,getUrl}){
     const [chances,setChances] = useState({list:[]});
     const [provinces,setProvinces] = useState([]);
     const [provincesPost,setProvincesPost] = useState(false);
@@ -278,7 +279,7 @@ export default function Chance({state,dispatch}){
                                                     let selectedList= temp.filter(item=>item.selected)
                                                     dispatch.setSelectedChance(selectedList)
                                                     Store.store('chance-selected',{data:selectedList})
-                                                    setChances([...temp])
+                                                    setChances({...chances,list:temp})
                                                 }
                                             }}/>
                                         </td>
@@ -302,7 +303,7 @@ export default function Chance({state,dispatch}){
                     setSavePost(true)
                 }}>ذخیره</button>
                 { showPriority && <button className={'btn btn-primary mx-2'} onClick={()=>{
-                        history.push('/entekhab/priority')
+                        history.push(getUrl(routes.priority))
                     }}>اولویت بندی</button>
                 }
             </div>

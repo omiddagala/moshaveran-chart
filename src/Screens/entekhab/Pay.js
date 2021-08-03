@@ -15,21 +15,20 @@ export default function Pay({group,state,dispatch}){
     return <div className={'container'}>
         <Header code={state.data.code}/>
         <div
-            className="d-flex align-items-center">
+            className="box d-flex align-items-center p-0">
             <div className="container p-lg-5 pt-5 d-flex flex-column flex-lg-row align-items-center">
                 <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-content-center my-3 h-100">
                     <Payment type={'checkbox'} group={group} pageType={'ENTEKHAB_BEHDASHT'} setLoading={dispatch.setLoading} userId={state.data.code}/>
                     <div className={'d-flex justify-content-center mt-3'}>
                         <EnamadLogo/>
                     </div>
-
                 </div>
                 <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center h-100">
-                    <img src={heroPay} alt=""/>
+                    <img src={heroPay} className={'w-100'} alt=""/>
                 </div>
             </div>
         </div>
-            <h1 className="hero-title my-۳ text-center w-100">عنوان بخش</h1>
+            <h1 className="hero-title my-3 text-center w-100">عنوان بخش</h1>
             <h3 className="my-5 text-center w-100">ویژگی‌ها</h3>
             <div className={'d-flex flex-column flex-lg-row flex-lg-wrap'}>
                 <div className="col-lg-4 col-12 mt-3">
@@ -79,7 +78,7 @@ export default function Pay({group,state,dispatch}){
             <div className={'d-flex justify-content-center mt-5'}>
                 <div className="col-lg-6 col-12">
                     <div className="box">
-                        <video width="400" controls>
+                        <video width="400" className={'w-100'} controls>
                             <source src="mov_bbb.mp4" type="video/mp4"/>
                         </video>
                         <h3>ویدیوی استفاده از نرم‌افزار</h3>

@@ -10,8 +10,9 @@ import dice2 from '../../assets/dice2.png'
 import search from '../../assets/search.png'
 import priority from '../../assets/priority.png'
 import priority2 from '../../assets/priority2.png'
+import routes from "./routes";
 
-export default function Home({dispatch}){
+export default function Home({dispatch,getUrl}){
     return <div>
         <div
             className="hero d-flex align-items-center">
@@ -21,9 +22,9 @@ export default function Home({dispatch}){
                     <h5 className="mt-3">موجی تازه در نرم‌افزار‌های آموزشی ایران</h5>
                     <h5 className="mt-3 font-weight-bold"> نرم افزار انتخاب رشته ۱۴۰۰</h5>
                     <div className="d-flex align-items-center flex-lg-row flex-column my-4">
-                        <Link to={'/entekhab/start-without-code'} className="btn btn-primary">شروع</Link>
+                        <Link to={getUrl(routes.startWithoutCode)} className="btn btn-primary">شروع</Link>
                         <p className={'m-0 mx-3'}>یا</p>
-                        <Link to={'/entekhab/start-with-code'}  className="btn btn-secondary">قبلا کد اختصاصی دریافت کرده ام</Link>
+                        <Link to={getUrl(routes.startWithCode)}  className="btn btn-secondary">قبلا کد اختصاصی دریافت کرده ام</Link>
                     </div>
                 </div>
                 <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center h-100">
@@ -82,7 +83,7 @@ export default function Home({dispatch}){
             <div className={'d-flex justify-content-center mt-5'}>
                 <div className="col-lg-6 col-12">
                     <div className="box">
-                        <video width="400" controls>
+                        <video className={'w-100'} width="400" controls>
                             <source src="mov_bbb.mp4" type="video/mp4"/>
                         </video>
                         <h3>ویدیوی استفاده از نرم‌افزار</h3>

@@ -4,7 +4,9 @@ import useApi from "../../useApi/useApi";
 import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 import {useHistory} from "react-router-dom";
 import Store from "../../Storage/Store";
-export default function Level({state,dispatch}){
+import Header from "./Components/Header";
+import routes from "./routes";
+export default function Level({state,dispatch,getUrl}){
     const [levels,setLevels]= useState([])
     const [levelsPost,setLevelsPost]= useState(false)
     const [loginPost,setLoginPost]= useState(false)
@@ -16,12 +18,13 @@ export default function Level({state,dispatch}){
         loginPost);
 
     useEffect(()=>{
+        console.log(state.data.state);
         if (state.data.state === 'FIRST'){
-            history.push('/entekhab/start-with-code')
+            history.push(getUrl(routes.home))
         }else if(state.data.state === 'SECOND'){
             setLoginPost(true)
         }
-    },[])
+    },[state.data])
 
 
     useEffect(()=>{
@@ -49,7 +52,7 @@ export default function Level({state,dispatch}){
 
     useEffect(()=>{
         if(levelsStatus==='SUCCESS'){
-            history.push('/entekhab/chance')
+            history.push(getUrl(routes.chance))
         }
         setLevelsPost(false)
     },[levelsStatus])
@@ -76,8 +79,8 @@ export default function Level({state,dispatch}){
     },[levelsStatus,loginStatus,levelsGetStatus])
 
     return <div className={'w-100 container'}>
-        <div className={'input-box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
+        <Header code={state.data.code}/>
+        <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (تراز‌ها)</h4>
             <div className={'table-responsive'}>
                 <table className={'table'}>

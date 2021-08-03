@@ -33,17 +33,24 @@ export default function App() {
     useEffect(() => {
         let temp1 =[]
         let temp2 =[]
+        let temp3 =[]
+        let temp4 =[]
         years.forEach(item=>{
             let url1 ='/نرم-افزار-تخمین-رتبه-بهداشت-'+item;
             let url2 ='/نرم-افزار-تخمین-رتبه-علوم-'+item;
+            let url3 ='/نرم-افزار-انتخاب-رشته-بهداشت-'+item;
+            let url4 ='/نرم-افزار-انتخاب-رشته-علوم-'+item;
 
             if ([url1,url2].includes(decodeURI(window.location.pathname))){
                 setYear(item)
             }
             temp1.push(url1);
             temp2.push(url2);
-        })
-        setPath([temp1,temp2])
+            temp3.push(url3);
+            temp4.push(url4);
+        });
+        console.log([temp1,temp2,temp3,temp4])
+        setPath([temp1,temp2,temp3,temp4])
 
         retrieveAuthData().then((data) => {
             authDispatch({
@@ -58,7 +65,8 @@ export default function App() {
             <Switch>
                 <Route path={path[0]}><Home group={1} year={year}/></Route>
                 <Route path={path[1]}><Home group={2} year={year}/></Route>
-                <Route path='/entekhab'><Entekhab group={1}/></Route>
+                <Route path={path[2]}><Entekhab group={1} year={year} url={path[2].filter(item=>item.search(year))[0]}/></Route>
+                <Route path={path[3]}><Entekhab group={2} year={year} url={path[3].filter(item=>item.search(year))[0]}/></Route>
                 <Route path="/zinc"><Admin/></Route>
                 <Route path=""><NotFound/></Route>
             </Switch>

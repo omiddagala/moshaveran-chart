@@ -8,7 +8,11 @@ import Store from "../../Storage/Store";
 import Header from "./Components/Header";
 import heroImage from "../../assets/hero-img.png";
 import {Modal} from "react-bootstrap";
-export default function SecondStep({dispatch,state}){
+import cogoToast from "cogo-toast";
+import routes from "./routes";
+import rotbehOloom from '../../assets/rotbehOloom.jpeg'
+import rotbehBehdasht from '../../assets/rotbehBehdasht.jpeg'
+export default function SecondStep({dispatch,state,getUrl,group}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
     const [invalid,setInvalid] = useState({name:false,family:false,gender:false,zaribha:[]})
@@ -56,7 +60,7 @@ export default function SecondStep({dispatch,state}){
     useEffect(()=>{
         if (secondStatus==='SUCCESS'){
             Store.store('data-choice',{data: {...state.data,state:'SECOND'}}).then(d=> {
-                    history.push('/entekhab/check')
+                    history.push(getUrl(routes.check))
                 }
             )
         }
@@ -68,16 +72,33 @@ export default function SecondStep({dispatch,state}){
         temp.name = state.data.name===''
         temp.family = state.data.family===''
         temp.gender = state.data.gender === ''
-        state.data.ranks.forEach((item,index)=>{
-            temp.zaribha[index] = item.rotbeBaSahmie === null || item.rotbeBaSahmie === ""
-        })
         setInvalid({...temp})
-        if (!(temp.name || temp.family || temp.gender || temp.zaribha.includes(true))){
-            if (editKey > changeKey){
-                setSecondPost(true)
+        let flag = true;
+        if (!(temp.name || temp.family || temp.gender)){
+            console.log(state.data.share);
+            if (state.data.share.id === 1){
+                let t = state.data.ranks.filter(item=>item.rotbeBiSahmie)
+                if (t.length === 0){
+                    cogoToast.error('حداقل یک رتبه بدون سهمیه را وارد نمایید')
+                    flag =false
+                }
             }else{
-                history.push('/entekhab/check')
+                let t = state.data.ranks.filter(item=>item.rotbeBaSahmie)
+                if (t.length === 0){
+                    cogoToast.error('حداقل یک رتبه در سهمیه را وارد نمایید')
+                    flag=false
+                }
             }
+
+            if (flag){
+                if (editKey > changeKey){
+                    setSecondPost(true)
+                }else{
+                    history.push(getUrl(routes.check))
+                }
+            }
+        }else{
+            cogoToast.error('لطفا موارد اجباری را تکمیل فرمایید')
         }
     }
 
@@ -129,7 +150,7 @@ export default function SecondStep({dispatch,state}){
                 </div>
                 <div className={'col-6 w-100 d-flex justify-content-center my-3'}>
                     <div className={'box col-lg-8'}>
-                        <img src={heroImage} className={'w-100'} alt=""/>
+                        <img src={group ===1?rotbehBehdasht: rotbehOloom} className={'w-100'} alt=""/>
                         <button type={'button'} className={'btn btn-info'} onClick={()=>{
                             setShowModal(true)
                         }}>مشاهده راهنمای معدل کارنامه</button>
@@ -193,15 +214,15 @@ export default function SecondStep({dispatch,state}){
                 <button className={'btn btn-primary mx-2'} onClick={()=> {
                         validation()
                 }}>مرحله بعد</button>
-                <button className={'btn btn-info mx-2'} onClick={()=>history.replace('/entekhab/first')}>مرحله قبل</button>
+                <button className={'btn btn-info mx-2'} onClick={()=>history.replace(getUrl(routes.first))}>مرحله قبل</button>
             </div>
         </div>
         <Modal  show={showModal} onHide={()=>setShowModal(false)}>
             <Modal.Header>
-                <Modal.Title>راهنمای معدل در کارنامه</Modal.Title>
+                <Modal.Title>راهنمای رتبه در کارنامه</Modal.Title>
             </Modal.Header>
             <Modal.Body className={'d-flex align-items-center flex-column'}>
-                <img src={heroImage} className={'w-100'} alt=""/>
+                <img src={group ===1?rotbehBehdasht: rotbehOloom} className={'w-100'} alt=""/>
                 <button className={'btn btn-info mt-3'} onClick={()=>{
                     setShowModal(false)}}>بستن</button>
             </Modal.Body>

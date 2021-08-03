@@ -8,7 +8,8 @@ import {mobileValidation} from "../../HelperFunction";
 import AuthContext from "../../Storage/Contexts/AuthContext";
 import Store from "../../Storage/Store";
 import hero from "../../assets/hero-login.png";
-export default function StartWithoutCode({dispatch,state,init}){
+import routes from "./routes";
+export default function StartWithoutCode({dispatch,state,init,getUrl}){
     const [mobileInvalid ,setMobileInvalid] = useState(false)
     const [postSms ,setPostSms] = useState(false)
     const history = useHistory();
@@ -54,7 +55,7 @@ export default function StartWithoutCode({dispatch,state,init}){
             Store.remove('data-choice').then(d=> {
                 Store.store('data-choice', {data: temp}).then(dd => {
                     dispatch.setUpdateFromStorage(state.updateFromStorage + 1)
-                    history.push('/entekhab/first')
+                    history.push(getUrl(routes.first))
                 })
             })
         }

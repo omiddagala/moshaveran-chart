@@ -5,8 +5,9 @@ import useApi from "../../useApi/useApi";
 import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 import cogoToast from "cogo-toast";
 import Store from "../../Storage/Store";
+import routes from "./routes";
 
-export default function StartWithCode({dispatch}){
+export default function StartWithCode({dispatch,getUrl}){
     const [code,setCode] = useState('')
     const [loginPost,setLoginPost] = useState(false)
     const history = useHistory()
@@ -25,9 +26,9 @@ export default function StartWithCode({dispatch}){
                 dispatch.setData(loginData.list)
                 Store.store('data-choice',{data:loginData.list}).then(()=>{
                    if (loginData.list.state==='PAID'){
-                       history.push('/entekhab/level')
+                       history.push(getUrl(routes.level))
                    }else{
-                       history.push('/entekhab/first')
+                       history.push(getUrl(routes.first))
                    }
                 })
             }
@@ -55,7 +56,7 @@ export default function StartWithCode({dispatch}){
             </form>
             <div className={'alert alert-secondary mt-3 d-flex flex-column col-12 col-lg-8'}>
                 <p>اگر کد اختصاصی نرم افزار انتخاب رشته را دریافت نکرده‌اید از دکمه زیر شروع کنید.</p>
-                <Link to={'/entekhab/start-without-code'} className={'btn btn-secondary'}>دریافت کد اختصاصی نرم افزار</Link>
+                <Link to={getUrl(routes.startWithoutCode)} className={'btn btn-secondary'}>دریافت کد اختصاصی نرم افزار</Link>
             </div>
         </div>
         <div className="order-0 order-lg-1 col-12 col-lg-6 d-flex align-items-center justify-content-center h-100">

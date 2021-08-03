@@ -16,20 +16,11 @@ const EnamadLogo = ({
         React.ImgHTMLAttributes<HTMLImageElement>,
         HTMLImageElement
         >) => {
-    const handleClick = (e: React.MouseEvent<HTMLImageElement>) => {
-        if (onClick) {
-            onClick(e);
-        } else
-            window.open(
-                `https://trustseal.enamad.ir/?id=221605&Code=cGhpi3pgrmOWGbTUyG2l`,
-                "_blank"
-            );
-    };
 
     return (
         <div id="enamad-logo">
             <a referrerPolicy="origin" target="_blank"
-               href="https://trustseal.enamad.ir/?id=221605&amp;Code=cGhpi3pgrmOWGbTUyG2l" dideo-checked="true">
+               href="https://trustseal.enamad.ir/?id=226320&amp;Code=7JkMVI8d9y40hFaRoblH" dideo-checked="true">
             <img
                 src={enamdLogo}
                 alt={alt}
@@ -45,7 +36,7 @@ EnamadLogo.defaultProps = {
     verified: true,
     width: 150,
     height: 150,
-    style: { cursor: "pointer" },
+    style: { cursor: "pointer" , padding : 0 },
 };
 
 export default EnamadLogo;

@@ -1,7 +1,8 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
 import Header from "./Components/Header";
-export default function CheckStep({state,dispatch}){
+import routes from "./routes";
+export default function CheckStep({state,dispatch,getUrl}){
     const history = useHistory()
     return <div className={'w-100 container'}>
         <Header code={state.data.code}/>
@@ -80,10 +81,10 @@ export default function CheckStep({state,dispatch}){
             </div>
             <div className={'mt-3'}>
                 <button className={'btn btn-info mx-2'} onClick={()=>{
-                    history.replace('/entekhab/first')
+                    history.replace(getUrl(routes.first))
                 }}>ویرایش اطلاعات</button>
                 <button className={'btn btn-primary'} onClick={()=>{
-                    history.replace('/entekhab/pay')
+                    history.replace(getUrl(routes.pay))
                 }}>تایید اطلاعات</button>
             </div>
         </div>

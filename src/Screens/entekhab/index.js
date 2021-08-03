@@ -13,15 +13,17 @@ import SpinnerLoading from "../../Components/Spinner";
 import Chance from "./Chance";
 import Level from "./Level";
 import Priority from "./Priority";
+import routes from "./routes";
 
-export default function Index({group}){
+export default function Index({group,url}){
+    console.log(url,'ddd');
     const init = {
         code:'',
         mobile:'',
         fieldOfChoice: {id:null},
         group: {id:group},
         share: {id:null},
-        ave:'',
+        ave:null,
         name:'',
         family:'',
         gender:'',
@@ -35,31 +37,35 @@ export default function Index({group}){
     const location = useLocation();
     const history = useHistory();
 
+    function getUrl(route){
+        return url+route
+    }
+
     useEffect(()=>{
         Store.get('data-choice').then(d=>{
             if (d){
                 setData(d.data)
             }
             switch (location.pathname){
-                case '/entekhab/first':
+                case getUrl(routes.first):
                     if (!(d && d.data.code!=='')){
-                        history.push('/entekhab/start-with-code')
+                        history.push(getUrl(routes.home))
                     }
                     break;
-                case '/entekhab/second':
+                case getUrl(routes.second):
                     if (!(d && d.data.fieldOfChoice.id)){
-                        history.push('/entekhab/start-with-code')
+                        history.push(getUrl(routes.home))
                     }
                     break;
-                case '/entekhab/check':
+                case getUrl(routes.check):
                     if (!(d && d.data.name)){
-                        history.push('/entekhab/start-with-code')
+                        history.push(getUrl(routes.home))
                     }
                     break;
-                case '/entekhab/chance':
-                case '/entekhab/priority':
+                case getUrl(routes.chance):
+                case getUrl(routes.priority):
                     if (!(d && d.data.state ==='PAID')){
-                        history.push('/entekhab/start-with-code')
+                        history.push(getUrl(routes.home))
                     }
                     break;
             }
@@ -77,16 +83,16 @@ export default function Index({group}){
        <SpinnerLoading
            show={loading}/>
        <Switch>
-           <Route path="/entekhab" exact><Home/></Route>
-           <Route path="/entekhab/start-with-code" exact><StartWithCode dispatch={{setData,setLoading}} state={{data}}/></Route>
-           <Route path="/entekhab/start-without-code" exact><StartWithoutCode dispatch={{setData,setUpdateFromStorage,setLoading}} state={{data,updateFromStorage}} init={init}/></Route>
-           <Route path="/entekhab/first" exact><FirstStep dispatch={{setData,setUpdateFromStorage,setLoading}} state={{data}} group={group}/></Route>
-           <Route path="/entekhab/second" exact><SecondStep dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>
-           <Route path="/entekhab/check" exact><CheckStep dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>
-           <Route path="/entekhab/pay" exact><Pay dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>
-           <Route path="/entekhab/chance" exact><Chance dispatch={{setData,setLoading,setSelectedChance}} state={{data,selectedChance}} group={group}/></Route>
-           <Route path="/entekhab/level" exact><Level dispatch={{setData,setLoading}} state={{data}} group={group}/></Route>
-           <Route path="/entekhab/priority" exact><Priority dispatch={{setData,setLoading}} state={{data,selectedChance}} group={group}/></Route>
+           <Route path={getUrl(routes.home)} exact><Home getUrl={getUrl}/></Route>
+           <Route path={getUrl(routes.startWithCode)} exact><StartWithCode dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl}/></Route>
+           <Route path={getUrl(routes.startWithoutCode)} exact><StartWithoutCode dispatch={{setData,setUpdateFromStorage,setLoading}} getUrl={getUrl} state={{data,updateFromStorage}} init={init}/></Route>
+           <Route path={getUrl(routes.first)} exact><FirstStep dispatch={{setData,setUpdateFromStorage,setLoading}} state={{data}} getUrl={getUrl} group={group}/></Route>
+           <Route path={getUrl(routes.second)} exact><SecondStep dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl} group={group}/></Route>
+           <Route path={getUrl(routes.check)} exact><CheckStep dispatch={{setData,setLoading}} state={{data}}  getUrl={getUrl} group={group}/></Route>
+           <Route path={getUrl(routes.pay)} exact><Pay dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl} group={group}/></Route>
+           <Route path={getUrl(routes.chance)} exact><Chance dispatch={{setData,setLoading,setSelectedChance}} getUrl={getUrl} state={{data,selectedChance}} group={group}/></Route>
+           <Route path={getUrl(routes.level)} exact><Level dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl} group={group}/></Route>
+           <Route path={getUrl(routes.priority)} exact><Priority dispatch={{setData,setLoading}} getUrl={getUrl} state={{data,selectedChance}} group={group}/></Route>
            <Route path=""><NotFound/></Route>
        </Switch>
    </div>

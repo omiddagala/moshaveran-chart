@@ -8,12 +8,17 @@ import {useHistory} from "react-router-dom";
 import Header from "./Components/Header";
 import {Modal} from "react-bootstrap";
 import heroImage from '../../assets/hero-img.png'
-
-export default function FirstStep({group,state,dispatch}){
+import routes from "./routes";
+import aveOloom from '../../assets/aveOloom.jpeg'
+import aveBehdasht from '../../assets/aveBehdasht.jpeg'
+export default function FirstStep({group,state,dispatch,getUrl}){
     const [fields, setFields] = useState([])
     const [benefits, setBenefits] = useState([])
     const [firstPost,setFirstPost] = useState(false)
-    const [invalid,setInvalid] = useState({filed:false,ave:false})
+    const [invalid,setInvalid] = useState({
+        filed:false,
+        // ave:false
+    })
     const [changeKey,setChangeKey] = useState(0)
     const [editKey,setEditKey] = useState(0)
     const [showModal, setShowModal] = useState(false)
@@ -57,7 +62,7 @@ export default function FirstStep({group,state,dispatch}){
     function validation(){
         let invalidArr ={
             fieldOfChoice: state.data.fieldOfChoice.id === null,
-            ave : state.data.ave === ''
+            // ave : state.data.ave === ''
         }
         setInvalid(invalidArr)
         if (!Object.values(invalidArr).includes(true)){
@@ -65,7 +70,7 @@ export default function FirstStep({group,state,dispatch}){
                 setChangeKey(editKey)
                 setFirstPost(true)
             }else{
-                history.push('/entekhab/second')
+                history.push(getUrl(routes.second))
             }
         }
     }
@@ -74,7 +79,7 @@ export default function FirstStep({group,state,dispatch}){
         if (firstStatus === 'SUCCESS'){
             Store.store('data-choice',{data: {...state.data,id:firstData.list.id}}).then(d=> {
                     dispatch.setData({...state.data, id: firstData.list.id,state:'FIRST'})
-                    history.push('/entekhab/second')
+                    history.push(getUrl(routes.second))
                 }
             )
         }
@@ -113,18 +118,18 @@ export default function FirstStep({group,state,dispatch}){
                                 dispatch.setData({...state.data,share: {id:parseInt(value)}})
                             }}/>
                 </div>}
-                <p className={'alert alert-info'}>معدل موثر تا ۲۰ درصد در وضعیت کارنامه شما تاثیر گذار است.</p>
-                <div className={'has-validation'}>
-                    <label htmlFor="">معدل موثر</label>
-                    <InputNumber value={state.data.ave} type={'float'} onchange={value=> {
-                        setEditKey(editKey+1)
-                        dispatch.setData({...state.data, ave: parseInt(value)})
-                    }} className={`form-control ${invalid.ave?'is-invalid':''}`} />
-                    <p className={'invalid-feedback'}>لطفا معدل موثر را وارد نمایید.</p>
-                </div>
+                {/*<p className={'alert alert-info'}>معدل موثر تا ۲۰ درصد در وضعیت کارنامه شما تاثیر گذار است.</p>*/}
+                {/*<div className={'has-validation'}>*/}
+                {/*    <label htmlFor="">معدل موثر</label>*/}
+                {/*    <InputNumber value={state.data.ave} type={'float'} onchange={value=> {*/}
+                {/*        setEditKey(editKey+1)*/}
+                {/*        dispatch.setData({...state.data, ave: parseInt(value)})*/}
+                {/*    }} className={`form-control ${invalid.ave?'is-invalid':''}`} />*/}
+                {/*    <p className={'invalid-feedback'}>لطفا معدل موثر را وارد نمایید.</p>*/}
+                {/*</div>*/}
                 <div className={'w-100 d-flex justify-content-center my-3'}>
                     <div className={'box col-lg-5'}>
-                        <img src={heroImage} className={'w-100'} alt=""/>
+                        <img src={group ===1 ? aveBehdasht:aveOloom} className={'w-100'} alt=""/>
                         <button type={'button'} className={'btn btn-info'} onClick={()=>{
                         setShowModal(true)
                         }}>مشاهده راهنمای معدل کارنامه</button>
@@ -141,7 +146,7 @@ export default function FirstStep({group,state,dispatch}){
                 <Modal.Title>راهنمای معدل در کارنامه</Modal.Title>
             </Modal.Header>
             <Modal.Body className={'d-flex align-items-center flex-column'}>
-                <img src={heroImage} className={'w-100'} alt=""/>
+                <img src={group ===1 ? aveBehdasht:aveOloom} className={'w-100'} alt=""/>
                 <button className={'btn btn-info mt-3'} onClick={()=>{
                 setShowModal(false)}}>بستن</button>
             </Modal.Body>
