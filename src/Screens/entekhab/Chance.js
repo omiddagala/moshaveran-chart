@@ -28,6 +28,8 @@ export default function Chance({state,dispatch,getUrl}){
     const [savePost,setSavePost] = useState(false);
     const [view,setView] = useState(0);
     const [showPriority,setShowPriority] = useState(false);
+    const [showMore,setShowMore] =useState(false)
+
     const history = useHistory()
 
     useEffect(()=>{
@@ -101,7 +103,9 @@ export default function Chance({state,dispatch,getUrl}){
 
     useEffect(()=>{
         if (saveStatus==='SUCCESS'){
-            cogoToast.success('ذخیره با موفقیت انجام شد.')
+            cogoToast.success('ذخیره با موفقیت انجام شد.',{
+                hideAfter:10
+            })
         }
         setSavePost(false)
     },[saveStatus])
@@ -137,6 +141,7 @@ export default function Chance({state,dispatch,getUrl}){
 
     useEffect(()=>{
         if (chanceStatus==='SUCCESS'){
+            setShowMore(chanceData.list.length !== 0)
             let temp = [...chances.list, ...chanceData.list]
             setChances({...chances,list:temp})
             setChancePost(false)
@@ -237,15 +242,6 @@ export default function Chance({state,dispatch,getUrl}){
                     }} className={'btn btn-primary'}>اعمال تغییرات</button>
                 </div>
                 <div className={'table-responsive'} >
-                    <InfiniteScroll
-                        dataLength={chances.list.length}
-                        next={()=> {
-                            console.log(page + 1,'ddd');
-                            setPage(page + 1)
-                        }}
-                        hasMore={true}
-                        scrollThreshold={0.8}
-                    >
                         <table className={'table'}>
                             <thead>
                             <tr>
@@ -271,7 +267,9 @@ export default function Chance({state,dispatch,getUrl}){
                                                 if (e.target.value){
                                                     if (state.selectedChance.length === 100){
                                                         flag = false
-                                                        cogoToast.error('انتخاب بیش از ۱۰۰ آیتم مجاز نیست')
+                                                        cogoToast.error('انتخاب بیش از ۱۰۰ آیتم مجاز نیست',{
+                                                            hideAfter:10
+                                                        })
                                                     }
                                                 }
                                                 if (flag){
@@ -298,7 +296,9 @@ export default function Chance({state,dispatch,getUrl}){
                             }
                             </tbody>
                         </table>
-                    </InfiniteScroll>
+                    {
+                        showMore &&  <button className={'btn btn-dark mb-5'} onClick={()=>setPage(page+1)}>بیشتر >></button>
+                    }
                 </div>
                 <button className={'btn btn-info'} onClick={()=>{
                     setSavePost(true)

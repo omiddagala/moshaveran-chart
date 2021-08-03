@@ -49,17 +49,17 @@ export default function Index({group,url}){
             }
             switch (location.pathname){
                 case getUrl(routes.first):
-                    if (!(d && d.data.code!=='')){
+                    if (!(d && d.data.code!=='' && d.data.state !=='PAID')){
                         history.push(getUrl(routes.home))
                     }
                     break;
                 case getUrl(routes.second):
-                    if (!(d && d.data.fieldOfChoice.id)){
+                    if (!(d && d.data.fieldOfChoice.id && d.data.state !=='PAID')){
                         history.push(getUrl(routes.home))
                     }
                     break;
                 case getUrl(routes.check):
-                    if (!(d && d.data.name)){
+                    if (!(d && d.data.name && d.data.state !=='PAID')){
                         history.push(getUrl(routes.home))
                     }
                     break;

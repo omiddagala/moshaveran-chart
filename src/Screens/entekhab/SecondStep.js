@@ -15,7 +15,7 @@ import rotbehBehdasht from '../../assets/rotbehBehdasht.jpeg'
 export default function SecondStep({dispatch,state,getUrl,group}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
-    const [invalid,setInvalid] = useState({name:false,family:false,gender:false,zaribha:[]})
+    const [invalid,setInvalid] = useState({name:false,family:false,gender:false,zaribha1:[],zaribha2:[]})
     const [changeKey,setChangeKey] = useState(0)
     const [editKey,setEditKey] = useState(0)
     const [showModal, setShowModal] = useState(false)
@@ -26,7 +26,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
         postProcessUser, [state.data.fieldOfChoice],
         state.data.fieldOfChoice?.id);
 
-    const [secondData, secondStatus] = useApi(
+    const [secondData, secondStatus,statusCode] = useApi(
         preProcessUser('second', state.data),
         postProcessUser, [secondPost],
         secondPost);
@@ -58,11 +58,18 @@ export default function SecondStep({dispatch,state,getUrl,group}){
     },[zaribhaStatus])
 
     useEffect(()=>{
+        console.log(statusCode,secondStatus);
         if (secondStatus==='SUCCESS'){
             Store.store('data-choice',{data: {...state.data,state:'SECOND'}}).then(d=> {
                     history.push(getUrl(routes.check))
                 }
             )
+        }else{
+            if (statusCode === 501){
+                cogoToast.error('پس از پرداخت امکان ویرایش اطلاعات وجود ندارد.با کد اختصاصی جدید وارد شوید',{
+                    hideAfter:10
+                })
+            }
         }
         setSecondPost(false)
     },[secondStatus])
@@ -72,24 +79,17 @@ export default function SecondStep({dispatch,state,getUrl,group}){
         temp.name = state.data.name===''
         temp.family = state.data.family===''
         temp.gender = state.data.gender === ''
+        if (state.data.share.id ===1){
+           temp.zaribha1 = state.data.ranks.map(item=>[null,''].includes(item.rotbeBaSahmie))
+           temp.zaribha2 = state.data.ranks.map(()=>false)
+        }else{
+            temp.zaribha1 = state.data.ranks.map(item=>[null,''].includes(item.rotbeBaSahmie))
+            temp.zaribha2 = state.data.ranks.map(item=>[null,''].includes(item.rotbeBiSahmie))
+        }
+
         setInvalid({...temp})
         let flag = true;
-        if (!(temp.name || temp.family || temp.gender)){
-            console.log(state.data.share);
-            if (state.data.share.id === 2){
-                let t = state.data.ranks.filter(item=>item.rotbeBiSahmie)
-                if (t.length === 0){
-                    cogoToast.error('حداقل یک رتبه بدون سهمیه را وارد نمایید')
-                    flag =false
-                }
-            }else{
-                let t = state.data.ranks.filter(item=>item.rotbeBaSahmie)
-                if (t.length === 0){
-                    cogoToast.error('حداقل یک رتبه در سهمیه را وارد نمایید')
-                    flag=false
-                }
-            }
-
+        if (!(temp.name || temp.family || temp.gender || temp.zaribha1.includes(true) || temp.zaribha2.includes(true))){
             if (flag){
                 if (editKey > changeKey){
                     setSecondPost(true)
@@ -98,7 +98,9 @@ export default function SecondStep({dispatch,state,getUrl,group}){
                 }
             }
         }else{
-            cogoToast.error('لطفا موارد اجباری را تکمیل فرمایید')
+            cogoToast.error('لطفا موارد اجباری را تکمیل فرمایید',{
+                hideAfter:10
+            })
         }
     }
 
@@ -182,18 +184,25 @@ export default function SecondStep({dispatch,state,getUrl,group}){
                                             let temp = state.data.ranks;
                                             temp[index].rotbeBaSahmie = value;
                                             dispatch.setData({...state.data,ranks:temp})
-                                        }} className={`form-control ${invalid.zaribha[index]?'is-invalid':''}`} />
+                                        }} className={`form-control ${invalid.zaribha1[index]?'is-invalid':''}`} />
                                         <p className={'invalid-feedback'}>لطفا مقدار رتبه را صحیح وارد کنید</p>
                                     </div>
 
                                 </td>
+
                                 {
-                                    state.data.share.id === 2 && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBiSahmie} onchange={(v)=>{
+                                    state.data.share.id === 2 && <td>
+                                        <div className={'has-validation'}>
+                                        <InputNumber className={`form-control ${invalid.zaribha2[index]?'is-invalid':''}`} type="integer" value={item.rotbeBiSahmie} onchange={(v)=>{
                                         setEditKey(editKey+1)
                                         let temp = state.data.ranks;
                                         temp[index].rotbeBiSahmie = v;
                                         dispatch.setData({...state.data,ranks:temp})
-                                    }}/></td>
+                                    }}
+                                        />
+                                            <p className={'invalid-feedback'}>لطفا مقدار رتبه را صحیح وارد کنید</p>
+                                        </div>
+                                        </td>
                                 }
                                 <td>
                                     <input className={'form-control'} type="checkbox" checked={item.allowed} onChange={(e)=>{

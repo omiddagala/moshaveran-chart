@@ -46,7 +46,9 @@ export default function StartWithoutCode({dispatch,state,init,getUrl}){
             if (mobileValidation(state.data.mobile)){
                 setPostSms(true)
             }else{
-                cogoToast.error('لطفا شماره موبایل خود را به صورت صحیح وارد نمایید')
+                cogoToast.error('لطفا شماره موبایل خود را به صورت صحیح وارد نمایید',{
+                    hideAfter:10
+                })
             }
         }
         if (state.data.code!==''){
@@ -60,7 +62,9 @@ export default function StartWithoutCode({dispatch,state,init,getUrl}){
             })
         }
         else{
-            cogoToast.error('لطفا کد اختصاصی خود را وارد نمایید.')
+            cogoToast.error('لطفا کد اختصاصی خود را وارد نمایید.',{
+                hideAfter:10
+            })
         }
     }
 
@@ -80,7 +84,9 @@ export default function StartWithoutCode({dispatch,state,init,getUrl}){
                         <input type="text" className={'form-control'} value={state.data.code} onChange={(e)=>{}}/>
                         <button className={'btn btn-primary mx-1'} onClick={()=>{
                             navigator.clipboard.writeText(state.data.code)
-                            cogoToast.info('کد اختصاصی در کلیپ‌برد ذخیره شد')
+                            cogoToast.info('کد اختصاصی در کلیپ‌برد ذخیره شد',{
+                                hideAfter:10
+                            })
                         }}>کپی</button>
                     </div>
                     <div className={'col-lg-8 mt-3'}>

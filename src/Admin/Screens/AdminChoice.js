@@ -24,6 +24,7 @@ export default function AdminChoice(){
     const [benefits, setBenefits] = useState([])
     const [zaribha,setZaribha] = useState([])
     const [updatePost,setUpdatePost] = useState(false)
+    const [showMore,setShowMore] =useState(false)
 
     useEffect(()=>{
         setChoicePost(true)
@@ -93,6 +94,7 @@ export default function AdminChoice(){
 
     useEffect(()=>{
         if (choiceStatus==='SUCCESS'){
+            setShowMore(choiceData.list.length !== 0)
             let temp = [...choices.list, ...choiceData.list]
             setChoices({...choices,list:temp})
             setChoicePost(false)
@@ -174,14 +176,6 @@ export default function AdminChoice(){
             <button className={'btn btn-primary mt-4'}>جستجو</button>
         </form>
         <div className={'table-responsive mt-5'} >
-            <InfiniteScroll
-                dataLength={choices.list.length}
-                next={()=> {
-                    setPage(page + 1)
-                }}
-                hasMore={true}
-                scrollThreshold={0.8}
-            >
                 <table className={'table'}>
                     <thead>
                     <tr>
@@ -222,8 +216,10 @@ export default function AdminChoice(){
                     }
                     </tbody>
                 </table>
-            </InfiniteScroll>
-        </div>
+                {
+                    showMore &&  <button className={'btn btn-dark mb-5'} onClick={()=>setPage(page+1)}>بیشتر >></button>
+                }
+            </div>
         {
             choice !== null && <Modal size="lg" show={showModal} onHide={()=>setShowModal(false)}>
                 <Modal.Header>

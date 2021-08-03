@@ -63,7 +63,7 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                             type: 'INIT_DATA',
                         });
                         history.push('/zinc/login')
-                    }else if(e.response?.status === 404){
+                    }else if(e.response?.status === 404 || e.response?.status === 501){
                         setData([{}, apiStates.ERROR,e.response.status]);
                     }
                     else{

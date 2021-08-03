@@ -40,7 +40,9 @@ export default function Priority({state,dispatch,getUrl}){
 
     useEffect(()=>{
         if (uploadStatus==='SUCCESS'){
-            cogoToast.success('آپلود با موفقیت انجام شد')
+            cogoToast.success('آپلود با موفقیت انجام شد',{
+                hideAfter:10
+            })
         }
         setUploadPost(false)
     },[uploadStatus])
@@ -124,7 +126,9 @@ export default function Priority({state,dispatch,getUrl}){
                                 if (file){
                                     setUploadPost(true)
                                 }else{
-                                    cogoToast.error('لطفا فایل تصویر کارنامه را انتخاب نمایید')
+                                    cogoToast.error('لطفا فایل تصویر کارنامه را انتخاب نمایید',{
+                                        hideAfter:10
+                                    })
                                 }
                             }}>ارسال</button>
                         </div>
