@@ -25,6 +25,10 @@ export default function AdminChoice(){
     const [zaribha,setZaribha] = useState([])
     const [updatePost,setUpdatePost] = useState(false)
 
+    useEffect(()=>{
+        setChoicePost(true)
+    },[page])
+
     const [choiceData, choiceStatus] = useApi(
         preProcessAdmin('choices', {
             "code": code,
@@ -147,10 +151,6 @@ export default function AdminChoice(){
             setZaribha(zaribhaData.list)
         }
     },[zaribhaStatus])
-
-    useEffect(()=>{
-        console.log(choice);
-    },[choice])
 
     return <div className={'container'}>
         <SpinnerLoading
