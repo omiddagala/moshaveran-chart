@@ -63,6 +63,11 @@ export default function Index({group,url}){
                         history.push(getUrl(routes.home))
                     }
                     break;
+                case getUrl(routes.pay):
+                    if (!(d && d.data.name && d.data.state !=='PAID' && d.data.state !=='FIRST')){
+                        history.push(getUrl(routes.home))
+                    }
+                    break;
                 case getUrl(routes.chance):
                 case getUrl(routes.priority):
                     if (!(d && d.data.state ==='PAID')){

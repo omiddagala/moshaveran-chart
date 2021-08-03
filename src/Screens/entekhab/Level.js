@@ -22,7 +22,6 @@ export default function Level({state,dispatch,getUrl,group}){
         loginPost);
 
     useEffect(()=>{
-        console.log(state.data.state);
         if (state.data.state === 'FIRST'){
             history.push(getUrl(routes.home))
         }else if(state.data.state === 'SECOND'){
@@ -33,8 +32,12 @@ export default function Level({state,dispatch,getUrl,group}){
 
     useEffect(()=>{
         if (loginStatus === 'SUCCESS'){
-            dispatch.setData(loginData.list)
-            Store.store('data-choice',{data:loginData.list}).then()
+            if (loginData.list.state!=='PAID'){
+                history.push(getUrl(routes.pay))
+            }else{
+                dispatch.setData(loginData.list)
+                Store.store('data-choice',{data:loginData.list}).then()
+            }
         }
     },[loginStatus])
 
