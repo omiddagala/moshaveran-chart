@@ -85,11 +85,15 @@ export default function Payment({userId,setLoading,group,type='radio',pageType='
         <form onSubmit={(e)=>{
             e.preventDefault()
             if (packageSelected.length >0){
-                let requireId = packages.filter(item=>item.number===0)[0]?.id
-                if (packageSelected.includes(requireId)){
+                if(['TAKHMIN_BEHDASHT','TAKHMIN_OLOOM'].includes(pageType)){
                     setPostPay(true)
                 }else{
-                    cogoToast.error('انتخاب پکیج \'شانس‌های قبولی\' اجباری است.')
+                    let requireId = packages.filter(item=>item.number===0)[0]?.id
+                    if (packageSelected.includes(requireId)){
+                        setPostPay(true)
+                    }else{
+                        cogoToast.error('انتخاب پکیج \'شانس‌های قبولی\' اجباری است.')
+                    }
                 }
             }else{
                 cogoToast.error('لطفا پکیج مورد نظر را انتخاب نمایید.')

@@ -16,7 +16,7 @@ export default function AdminChoice(){
     const [page,setPage] = useState(0)
     const [choicePost,setChoicePost] = useState(true)
     const [choiceSinglePost,setChoiceSinglePost] = useState(false)
-    const [selectedChoiceCode,setSelectedChoiceCode] = useState(null)
+    const [selectedChoiceCode,setSelectedChoiceCode] = useState({code:null})
     const [choice,setChoice] = useState(null)
     const [choices,setChoices] = useState({list:[]})
     const [showModal,setShowModal] = useState(false)
@@ -31,10 +31,10 @@ export default function AdminChoice(){
 
     const [choiceData, choiceStatus] = useApi(
         preProcessAdmin('choices', {
-            "code": code,
-            "name": name,
-            "family": family,
-            "mobile": mobile,
+            "code": code === ''?null:code,
+            "name": name === ''?null:name,
+            "family": family === ''?null:family,
+            "mobile": mobile === ''?null:mobile,
             "pageableDTO": {
                 "page": page,
                 "size": 20,
@@ -61,7 +61,7 @@ export default function AdminChoice(){
         choice !== null && choice.fieldOfChoice?.id);
 
     const [choiceSingleData, choiceSingleStatus] = useApi(
-        preProcessAdmin('choiceSingle', {code:selectedChoiceCode}),
+        preProcessAdmin('choiceSingle', {code:selectedChoiceCode.code}),
         postProcessAdmin, [choiceSinglePost],
         choiceSinglePost);
 
@@ -101,14 +101,14 @@ export default function AdminChoice(){
 
     useEffect(()=>{
         if (choiceSingleStatus === 'SUCCESS'){
-            setChoice(choiceSingleData.list)
-            console.log(choiceSingleData);
+            setChoice({...choiceSingleData.list})
             setShowModal(true)
         }
+        setChoiceSinglePost(false)
     },[choiceSingleStatus])
 
     useEffect(()=>{
-        if (selectedChoiceCode !== null){
+        if (selectedChoiceCode.code !== null){
             setChoiceSinglePost(true)
         }
     },[selectedChoiceCode])
@@ -117,19 +117,13 @@ export default function AdminChoice(){
         switch (state){
             case 'FIRST':
                 return 'مرحله اول';
-            case 'FIRST':
+            case 'SECOND':
                 return 'مرحله دوم';
-            case 'FIRST':
+            case 'PAID':
                 return 'پرداخت شده';
 
         }
     }
-
-    useEffect(()=>{
-        if (choice!== null){
-            setShowModal(true)
-        }
-    },[choice])
 
     useEffect(()=>{
         if (zaribhaStatus==='SUCCESS'){
@@ -220,8 +214,7 @@ export default function AdminChoice(){
                                 </td>
                                 <td>
                                     <button className={'btn btn-primary'} onClick={()=>{
-                                        setShowModal(false)
-                                        setSelectedChoiceCode(item.code)
+                                        setSelectedChoiceCode({...selectedChoiceCode,code:item.code})
                                     }}>ویرایش</button>
                                 </td>
                             </tr>
