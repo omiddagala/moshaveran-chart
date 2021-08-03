@@ -6,10 +6,14 @@ import {useHistory} from "react-router-dom";
 import Store from "../../Storage/Store";
 import Header from "./Components/Header";
 import routes from "./routes";
-export default function Level({state,dispatch,getUrl}){
+import aveBehdasht from "../../assets/aveBehdasht.jpeg";
+import aveOloom from "../../assets/aveOloom.jpeg";
+import {Modal} from "react-bootstrap";
+export default function Level({state,dispatch,getUrl,group}){
     const [levels,setLevels]= useState([])
     const [levelsPost,setLevelsPost]= useState(false)
     const [loginPost,setLoginPost]= useState(false)
+    const [showModal, setShowModal] = useState(false)
 
     const history = useHistory()
     const [loginData, loginStatus,statusCode] = useApi(
@@ -105,6 +109,14 @@ export default function Level({state,dispatch,getUrl}){
                     }
                     </tbody>
                 </table>
+                <div className={'w-100 d-flex justify-content-center my-3'}>
+                    <div className={'box col-lg-5'}>
+                        <img src={group ===1 ? aveBehdasht:aveOloom} className={'w-100'} alt=""/>
+                        <button type={'button'} className={'btn btn-info'} onClick={()=>{
+                            setShowModal(true)
+                        }}>مشاهده راهنمای تراز کارنامه</button>
+                    </div>
+                </div>
             </div>
             <div>
                 <button onClick={()=>{
@@ -112,5 +124,15 @@ export default function Level({state,dispatch,getUrl}){
                 }} className={'btn btn-primary'}>مشاهده شانس قبولی</button>
             </div>
         </div>
+        <Modal  show={showModal} onHide={()=>setShowModal(false)}>
+            <Modal.Header>
+                <Modal.Title>راهنمای تراز در کارنامه</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className={'d-flex align-items-center flex-column'}>
+                <img src={group ===1 ? aveBehdasht:aveOloom} className={'w-100'} alt=""/>
+                <button className={'btn btn-info mt-3'} onClick={()=>{
+                    setShowModal(false)}}>بستن</button>
+            </Modal.Body>
+        </Modal>
     </div>
 }

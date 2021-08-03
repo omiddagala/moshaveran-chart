@@ -244,6 +244,7 @@ export default function Chance({state,dispatch,getUrl}){
                             setPage(page + 1)
                         }}
                         hasMore={true}
+                        scrollThreshold={0.8}
                     >
                         <table className={'table'}>
                             <thead>

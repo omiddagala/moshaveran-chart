@@ -75,16 +75,16 @@ export default function Pay({group,state,dispatch}){
                     </div>
                 </div>
             </div>
-            <div className={'d-flex justify-content-center mt-5'}>
-                <div className="col-lg-6 col-12">
-                    <div className="box">
-                        <video width="400" className={'w-100'} controls>
-                            <source src="mov_bbb.mp4" type="video/mp4"/>
-                        </video>
-                        <h3>ویدیوی استفاده از نرم‌افزار</h3>
-                    </div>
-                </div>
-            </div>
+            {/*<div className={'d-flex justify-content-center mt-5'}>*/}
+            {/*    <div className="col-lg-6 col-12">*/}
+            {/*        <div className="box">*/}
+            {/*            <video width="400" className={'w-100'} controls>*/}
+            {/*                <source src="mov_bbb.mp4" type="video/mp4"/>*/}
+            {/*            </video>*/}
+            {/*            <h3>ویدیوی استفاده از نرم‌افزار</h3>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className="col-12 mt-5">
                 <div className="box p-0 p-lg-5">
                     <ul className={'d-flex flex-wrap'}>
