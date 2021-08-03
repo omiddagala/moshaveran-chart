@@ -6,6 +6,7 @@ import Store from "../../Storage/Store";
 import {useHistory} from "react-router-dom";
 import Header from "./Components/Header";
 import routes from "./routes";
+import cogoToast from "cogo-toast";
 export default function FirstStep({group,state,dispatch,getUrl}){
     const [fields, setFields] = useState([])
     const [benefits, setBenefits] = useState([])
@@ -28,7 +29,7 @@ export default function FirstStep({group,state,dispatch,getUrl}){
         postProcessUser, [],
         true);
 
-    const [firstData, firstStatus] = useApi(
+    const [firstData, firstStatus,statusCode] = useApi(
         preProcessUser('first', {
             id:state.data.id,
             code:state.data.code,
@@ -76,6 +77,13 @@ export default function FirstStep({group,state,dispatch,getUrl}){
                     history.push(getUrl(routes.second))
                 }
             )
+        }else{
+            if (statusCode === 501){
+                cogoToast.error('پس از پرداخت امکان ویرایش اطلاعات وجود ندارد.با کد اختصاصی جدید وارد شوید',{
+                    hideAfter:10
+                })
+                history.push(getUrl(routes.home))
+            }
         }
     },[firstStatus])
 

@@ -69,6 +69,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
                 cogoToast.error('پس از پرداخت امکان ویرایش اطلاعات وجود ندارد.با کد اختصاصی جدید وارد شوید',{
                     hideAfter:10
                 })
+                history.push(getUrl(routes.home))
             }
         }
         setSecondPost(false)
