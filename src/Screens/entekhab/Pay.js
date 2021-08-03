@@ -11,9 +11,9 @@ import search from "../../assets/search.png";
 import priority from "../../assets/priority.png";
 import priority2 from "../../assets/priority2.png";
 import SamandehiLogo from "../../Components/Samandehi/SamandehiLogo";
-export default function Pay({group,state,dispatch}){
+export default function Pay({group,state,dispatch,getUrl}){
     return <div className={'container'}>
-        <Header code={state.data.code}/>
+        <Header code={state.data.code} getUrl={getUrl}/>
         <div
             className="box d-flex align-items-center p-0">
             <div className="container p-lg-5 pt-5 d-flex flex-column flex-lg-row align-items-center">

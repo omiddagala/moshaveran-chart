@@ -8,7 +8,7 @@ import {postProcessAdmin, preProcessAdmin} from "../../useApi/preProcesses/Admin
 import cogoToast from "cogo-toast";
 import Header from "./Components/Header";
 
-export default function Priority({state,dispatch}){
+export default function Priority({state,dispatch,getUrl}){
     const [sorted,setSorted] = useState([])
     const [file,setFile] = useState(null)
     const [uploadPost,setUploadPost] = useState(false)
@@ -68,7 +68,7 @@ export default function Priority({state,dispatch}){
     },[uploadStatus,priorityStatus])
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code}/>
+        <Header code={state.data.code} getUrl={getUrl}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (اولویت‌بندی)</h4>
             <div className={'w-100'}>

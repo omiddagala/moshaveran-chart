@@ -83,7 +83,7 @@ export default function Level({state,dispatch,getUrl,group}){
     },[levelsStatus,loginStatus,levelsGetStatus])
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code}/>
+        <Header code={state.data.code} getUrl={getUrl}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (تراز‌ها)</h4>
             <div className={'table-responsive'}>
