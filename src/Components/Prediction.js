@@ -438,7 +438,7 @@ export default function Prediction({setLoading,group}){
                         if(keyEdit > changeKey){
                             setChangeKey(keyEdit)
                             if (validationCourses()) {
-                                if(freeTries >1) {
+                                if(freeTries >= 1) {
                                     setGetPrediction(true)
                                 }else{
                                     cogoToast.error('لطفا برای درخواست بیشتر، پکیج های پیشنهادی را خریداری نمایید');

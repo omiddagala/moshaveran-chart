@@ -14,6 +14,7 @@ import Chance from "./Chance";
 import Level from "./Level";
 import Priority from "./Priority";
 import routes from "./routes";
+import ScrollToTop from "../../Components/ScrollToTop";
 
 export default function Index({group,url}){
     console.log(url,'ddd');
@@ -82,6 +83,7 @@ export default function Index({group,url}){
    return <div>
        <SpinnerLoading
            show={loading}/>
+       <ScrollToTop />
        <Switch>
            <Route path={getUrl(routes.home)} exact><Home getUrl={getUrl}/></Route>
            <Route path={getUrl(routes.startWithCode)} exact><StartWithCode dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl}/></Route>

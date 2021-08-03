@@ -76,7 +76,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
         let flag = true;
         if (!(temp.name || temp.family || temp.gender)){
             console.log(state.data.share);
-            if (state.data.share.id === 1){
+            if (state.data.share.id === 2){
                 let t = state.data.ranks.filter(item=>item.rotbeBiSahmie)
                 if (t.length === 0){
                     cogoToast.error('حداقل یک رتبه بدون سهمیه را وارد نمایید')
@@ -165,7 +165,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
                         <th>کد ضریب</th>
                         <th>رتبه در سهمیه</th>
                         {
-                            state.data.share.id === 1 && <th>رتبه بدون سهمیه</th>
+                            state.data.share.id === 2 && <th>رتبه بدون سهمیه</th>
                         }
                         <th>مجاز به انتخاب دوره‌های روزانه و نوبت دوم</th>
                     </tr>
@@ -188,7 +188,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
 
                                 </td>
                                 {
-                                    state.data.share.id === 1 && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBiSahmie} onchange={(v)=>{
+                                    state.data.share.id === 2 && <td><InputNumber className={'form-control'} type="integer" value={item.rotbeBiSahmie} onchange={(v)=>{
                                         setEditKey(editKey+1)
                                         let temp = state.data.ranks;
                                         temp[index].rotbeBiSahmie = v;
