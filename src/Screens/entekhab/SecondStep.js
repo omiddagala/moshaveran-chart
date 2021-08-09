@@ -111,7 +111,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
 
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code} getUrl={getUrl}/>
+        <Header code={state.data.code} getUrl={getUrl}  group={group}/>
         <div className={'box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
             <h4 className={'text-center mb-5'}> (مرحله دوم)</h4>
@@ -156,7 +156,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
                         <img src={group ===1?rotbehBehdasht: rotbehOloom} className={'w-100'} alt=""/>
                         <button type={'button'} className={'btn btn-info'} onClick={()=>{
                             setShowModal(true)
-                        }}>مشاهده راهنمای معدل کارنامه</button>
+                        }}>مشاهده راهنمای محل رتبه ها در کارنامه</button>
                     </div>
                 </div>
             </div>

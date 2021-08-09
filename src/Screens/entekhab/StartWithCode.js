@@ -7,7 +7,7 @@ import cogoToast from "cogo-toast";
 import Store from "../../Storage/Store";
 import routes from "./routes";
 
-export default function StartWithCode({dispatch,getUrl}){
+export default function StartWithCode({dispatch,getUrl,group}){
     const [code,setCode] = useState('')
     const [loginPost,setLoginPost] = useState(false)
     const history = useHistory()
@@ -26,6 +26,7 @@ export default function StartWithCode({dispatch,getUrl}){
         }else{
             if (loginStatus==='SUCCESS'){
                 dispatch.setData(loginData.list)
+                Store.remove('chance-selected')
                 Store.store('data-choice',{data:loginData.list}).then(()=>{
                    if (loginData.list.state==='PAID'){
                        history.push(getUrl(routes.level))

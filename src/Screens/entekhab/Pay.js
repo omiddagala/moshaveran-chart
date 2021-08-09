@@ -13,7 +13,7 @@ import priority2 from "../../assets/priority2.png";
 import SamandehiLogo from "../../Components/Samandehi/SamandehiLogo";
 export default function Pay({group,state,dispatch,getUrl}){
     return <div className={'container'}>
-        <Header code={state.data.code} getUrl={getUrl}/>
+        <Header code={state.data.code} getUrl={getUrl} group={group}/>
         <div
             className="box d-flex align-items-center p-0">
             <div className="container p-lg-5 pt-5 d-flex flex-column flex-lg-row align-items-center">

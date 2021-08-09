@@ -92,7 +92,7 @@ export default function FirstStep({group,state,dispatch,getUrl}){
     },[firstStatus,benefitsStatus,firstStatus])
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code} getUrl={getUrl}/>
+        <Header code={state.data.code} getUrl={getUrl} group={group}/>
         <div className={'box p-lg-5 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
             <form className={'col-12 col-lg-8 py-2'} onSubmit={(e)=> {
                 e.preventDefault()

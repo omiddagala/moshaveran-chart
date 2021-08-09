@@ -12,7 +12,8 @@ import priority from '../../assets/priority.png'
 import priority2 from '../../assets/priority2.png'
 import routes from "./routes";
 
-export default function Home({dispatch,getUrl}){
+export default function Home({dispatch,getUrl,group}){
+    console.log(group);
     return <div>
         <div
             className="hero d-flex align-items-center">
@@ -20,7 +21,9 @@ export default function Home({dispatch,getUrl}){
                 <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-content-center my-3 h-100">
                     <h2 className="hero-title">مشاوران تحصیلی</h2>
                     <h5 className="mt-3">موجی تازه در نرم‌افزار‌های آموزشی ایران</h5>
-                    <h5 className="mt-3 font-weight-bold"> نرم افزار انتخاب رشته ۱۴۰۰</h5>
+                    <h5 className="mt-3 font-weight-bold"> نرم افزار انتخاب رشته وزارت
+                        {group===1 ?' بهداشت ':' علوم '}
+                        ۱۴۰۰</h5>
                     <div className=" my-4">
                         <Link to={getUrl(routes.startWithoutCode)} className="btn btn-primary">شروع کنید</Link>
                         <p className={'m-0 my-3'}>یا</p>

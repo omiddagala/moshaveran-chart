@@ -90,9 +90,9 @@ export default function Index({group,url}){
            show={loading}/>
        <ScrollToTop />
        <Switch>
-           <Route path={getUrl(routes.home)} exact><Home getUrl={getUrl}/></Route>
-           <Route path={getUrl(routes.startWithCode)} exact><StartWithCode dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl}/></Route>
-           <Route path={getUrl(routes.startWithoutCode)} exact><StartWithoutCode dispatch={{setData,setUpdateFromStorage,setLoading}} getUrl={getUrl} state={{data,updateFromStorage}} init={init}/></Route>
+           <Route path={getUrl(routes.home)} exact><Home getUrl={getUrl} group={group}/></Route>
+           <Route path={getUrl(routes.startWithCode)} exact><StartWithCode dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl} group={group}/></Route>
+           <Route path={getUrl(routes.startWithoutCode)} exact><StartWithoutCode dispatch={{setData,setUpdateFromStorage,setLoading}} getUrl={getUrl} state={{data,updateFromStorage}} init={init} groupt={group}/></Route>
            <Route path={getUrl(routes.first)} exact><FirstStep dispatch={{setData,setUpdateFromStorage,setLoading}} state={{data}} getUrl={getUrl} group={group}/></Route>
            <Route path={getUrl(routes.second)} exact><SecondStep dispatch={{setData,setLoading}} state={{data}} getUrl={getUrl} group={group}/></Route>
            <Route path={getUrl(routes.check)} exact><CheckStep dispatch={{setData,setLoading}} state={{data}}  getUrl={getUrl} group={group}/></Route>

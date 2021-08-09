@@ -54,6 +54,7 @@ export default function StartWithoutCode({dispatch,state,init,getUrl}){
         if (state.data.code!==''){
             let temp ={...init,mobile:state.data.mobile,code:state.data.code}
             dispatch.setData(temp)
+            Store.remove('chance-selected')
             Store.remove('data-choice').then(d=> {
                 Store.store('data-choice', {data: temp}).then(dd => {
                     dispatch.setUpdateFromStorage(state.updateFromStorage + 1)
