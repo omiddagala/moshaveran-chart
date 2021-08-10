@@ -322,7 +322,11 @@ export default function Chance({state, dispatch, getUrl,group}) {
                 }}>ذخیره
                 </button>
                 {showPriority && <button className={'btn btn-primary mx-2'} onClick={() => {
-                    history.push(getUrl(routes.priority))
+                    if(chances.list.filter(item => item.selected).length > 0){
+                        history.push(getUrl(routes.priority))
+                    }else{
+                        cogoToast.error('لطفا حداقل یک شانس قبولی را انتخاب نمایید.')
+                    }
                 }}>اولویت بندی</button>
                 }
             </div>
