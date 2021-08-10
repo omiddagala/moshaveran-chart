@@ -77,7 +77,7 @@ export default function CheckStep({state,dispatch,getUrl,group}){
                         {
                             state.data.share.id === 2 && <th>رتبه بدون سهمیه</th>
                         }
-                        <th>مجاز به انتخاب دوره‌های روزانه و نوبت دوم</th>
+                        <th>مجاز به انتخاب دوره‌های روزانه {group ===1?'':'و نوبت دوم'}</th>
                     </tr>
                     </thead>
                     <tbody>

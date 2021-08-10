@@ -86,7 +86,7 @@ export default function Priority({state,dispatch,getUrl,group}){
                     <table className={'table'} id={'pdf'}>
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ردیف</th>
                             <th>شانس قبولی</th>
                             <th>رشته/گرایش</th>
                             <th>دانشگاه/دوره</th>

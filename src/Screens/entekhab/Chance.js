@@ -248,6 +248,9 @@ export default function Chance({state, dispatch, getUrl,group}) {
                         setSelectedProvince(null)
                         setSelectedTendency(null)
                         setFilterKey(filterKey + 1)
+                        setPage(1)
+                        setChances({list: []})
+                        setChancePost(true)
                     }} className={'btn btn-danger mx-2'}>پاک کردن فیلتر‌ها
                     </button>
                 </div>
@@ -256,6 +259,7 @@ export default function Chance({state, dispatch, getUrl,group}) {
                         <thead>
                         <tr>
                             <th>انتخاب</th>
+                            <th>ردیف</th>
                             <th>شانس قبولی</th>
                             <th>رشته/گرایش</th>
                             <th>دانشگاه/دوره</th>
@@ -293,6 +297,7 @@ export default function Chance({state, dispatch, getUrl,group}) {
                                             }
                                         }}/>
                                     </td>
+                                    <td>{index+1}</td>
                                     <td>
                                         <p className={'text-' + chanceLabel(item.label)[1]}>{chanceLabel(item.label)[0]}</p>
                                     </td>

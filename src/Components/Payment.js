@@ -51,7 +51,7 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
         true);
 
     const [offData, offStatus] = useApi(
-        preProcessUser('off', {code: offCode}),
+        preProcessUser('off', {code: offCode.toString()}),
         postProcessUser, [offPost],
         offPost);
 
