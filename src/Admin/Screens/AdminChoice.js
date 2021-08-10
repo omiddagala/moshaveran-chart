@@ -75,6 +75,7 @@ export default function AdminChoice(){
         if (updateStatus === 'SUCCESS') {
             cogoToast.success('ویرایش با موفقیت انجام شد')
             setShowModal(false)
+            setPage(0)
             setChoicePost(true)
         }
         setUpdatePost(false)
@@ -95,7 +96,12 @@ export default function AdminChoice(){
     useEffect(()=>{
         if (choiceStatus==='SUCCESS'){
             setShowMore(choiceData.list.length === 20)
-            let temp = [...choices.list, ...choiceData.list]
+            let temp=[]
+            if (page===0){
+                temp = choiceData.list
+            }else{
+                temp = [...choices.list, ...choiceData.list]
+            }
             setChoices({...choices,list:temp})
             setChoicePost(false)
         }
