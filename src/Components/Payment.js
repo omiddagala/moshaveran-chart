@@ -133,7 +133,7 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                         </label>
                     })}
                     {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) && packages.map((item, index) => {
-                        return <div className={'col p-2'}>
+                        return <div className={'col-12 col-lg-6 p-2'}>
                             <div className={'card p-0'}>
                                 <div className="card-header package-header text-white">
                                     <h4>{item.name}</h4>

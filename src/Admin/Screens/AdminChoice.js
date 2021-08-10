@@ -167,7 +167,7 @@ export default function AdminChoice(){
             </div>
             <div className={'col-12 col-lg-3'}>
                 <label htmlFor="">نام خانوادگی</label>
-                <input value={name} onChange={(e)=>{setFamily(e.target.value)}} type="text" className={'form-control'}/>
+                <input value={family} onChange={(e)=>{setFamily(e.target.value)}} type="text" className={'form-control'}/>
             </div>
             <div className={'col-12 col-lg-3'}>
                 <label htmlFor="">شماره موبایل</label>
