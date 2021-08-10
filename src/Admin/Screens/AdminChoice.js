@@ -223,7 +223,7 @@ export default function AdminChoice(){
                     </tbody>
                 </table>
                 {
-                    showMore &&  <button className={'btn btn-dark mb-5'} onClick={()=>setPage(page+1)}>بیشتر >></button>
+                    showMore &&  <button className={'btn btn-dark mb-5'} onClick={()=>setPage(page+1)}>بیشتر {">"}{">"}</button>
                 }
             </div>
         {

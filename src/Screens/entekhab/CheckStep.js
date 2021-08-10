@@ -1,9 +1,36 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import Header from "./Components/Header";
 import routes from "./routes";
+import useApi from "../../useApi/useApi";
+import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 export default function CheckStep({state,dispatch,getUrl,group}){
     const history = useHistory()
+    const [fields, setFields] = useState([])
+    const [benefits, setBenefits] = useState([])
+
+    const [fieldsData, fieldsStatus] = useApi(
+        preProcessUser('fieldsChoice', {group: group}),
+        postProcessUser, [],
+        true);
+
+    const [benefitsData, benefitsStatus] = useApi(
+        preProcessUser('shares', {}),
+        postProcessUser, [],
+        true);
+
+    useEffect(() => {
+        if (fieldsStatus === 'SUCCESS') {
+            setFields(fieldsData.list)
+        }
+    }, [fieldsStatus])
+
+    useEffect(() => {
+        if (benefitsStatus === 'SUCCESS') {
+            setBenefits(benefitsData.list)
+        }
+    }, [benefitsStatus])
+
     return <div className={'w-100 container'}>
         <Header code={state.data.code} getUrl={getUrl}  group={group}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
@@ -33,19 +60,13 @@ export default function CheckStep({state,dispatch,getUrl,group}){
                         <label htmlFor="">
                             رشته امتحانی:
                         </label>
-                        <p className={'font-weight-bold'}>{state.data.fieldOfChoice.id}</p>
+                        {fields &&  <p className={'font-weight-bold'}>{ fields.filter(item=>item.id===state.data.fieldOfChoice.id)[0]?.name}</p>}
                     </div>
                     <div className={'p-4 col-4'}>
                         <label htmlFor="">
                             سهمیه:
                         </label>
-                        <p className={'font-weight-bold'}>{state.data.share.id}</p>
-                    </div>
-                    <div className={'p-4 col-4'}>
-                        <label htmlFor="">
-                            معدل موثر:
-                        </label>
-                        <p className={'font-weight-bold'}>{state.data.ave}</p>
+                        {fields &&  <p className={'font-weight-bold'}>{ benefits.filter(item=>item.id===parseInt(state.data.share.id))[0]?.name}</p>}
                     </div>
                 </div>
                 <table className={'w-100 table text-center'}>
@@ -54,7 +75,7 @@ export default function CheckStep({state,dispatch,getUrl,group}){
                         <th>کد ضریب</th>
                         <th>رتبه در سهمیه</th>
                         {
-                            state.data.benefit === '2' && <th>رتبه بدون سهمیه</th>
+                            state.data.share.id === 2 && <th>رتبه بدون سهمیه</th>
                         }
                         <th>مجاز به انتخاب دوره‌های روزانه و نوبت دوم</th>
                     </tr>
@@ -68,7 +89,7 @@ export default function CheckStep({state,dispatch,getUrl,group}){
                                     {item.rotbeBaSahmie}
                                 </td>
                                 {
-                                    state.data.share === '2' && <td>{item.rotbeBiSahmie}</td>
+                                    state.data.share.id === 2 && <td>{item.rotbeBiSahmie}</td>
                                 }
                                 <td>
                                     <input className={'form-control'} type="checkbox" checked={item.allowed} />

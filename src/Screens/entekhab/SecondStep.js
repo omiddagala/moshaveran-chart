@@ -113,7 +113,6 @@ export default function SecondStep({dispatch,state,getUrl,group}){
     return <div className={'w-100 container'}>
         <Header code={state.data.code} getUrl={getUrl}  group={group}/>
         <div className={'box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <h2 className={'text-center mb-5'}>نرم افزار انتخاب رشته ۱۴۰۰</h2>
             <h4 className={'text-center mb-5'}> (مرحله دوم)</h4>
             <div className={'d-flex flex-column flex-lg-row justify-content-around w-100'}>
                 <div className={'has-validation'}>
@@ -170,7 +169,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
                         {
                             state.data.share.id === 2 && <th>رتبه بدون سهمیه</th>
                         }
-                        <th>مجاز به انتخاب دوره‌های روزانه و نوبت دوم</th>
+                        <th>مجاز به انتخاب دوره‌های روزانه {group ===1?'':'و نوبت دوم'}</th>
                     </tr>
                     </thead>
                     <tbody>
