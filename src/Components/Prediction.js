@@ -464,8 +464,8 @@ export default function Prediction({setLoading,group}){
                                  {
                                      predictions.map((item,index)=>{
                                          return <li key={index} className={'mt-2'}>تخمین رتبه شما در گرایش <span className={'font-weight-bold'}> {item.name} </span>
-                                             از <span className={'badge badge-success'}>{numberWithCommas(item.predictionDTOS[0].rank)}</span> تا
-                                             <span className={'badge badge-warning mx-1'}>{numberWithCommas(item.predictionDTOS[2].rank)}</span>خواهد بود.</li>
+                                             از <span className={'badge badge-success'}>{numberWithCommas(item.predictionDTOS[2].rank)}</span> تا
+                                             <span className={'badge badge-warning mx-1'}>{numberWithCommas(item.predictionDTOS[0].rank)}</span>خواهد بود.</li>
                                      })
                                  }
 

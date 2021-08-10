@@ -106,3 +106,16 @@
 .btn-get-started:hover i {
   transform: translateX(5px);
 }
+
+.package-header{
+  background: #0984e3; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #0984e3, #74b9ff); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #0984e3, #74b9ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.price-badge{
+  font-size: 1rem !important;
+}
+.img-feature{
+  width: 1.5rem;
+}

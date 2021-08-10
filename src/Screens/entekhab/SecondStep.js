@@ -148,10 +148,10 @@ export default function SecondStep({dispatch,state,getUrl,group}){
                 </div>
             </div>
             <div className={'d-flex flex-column flex-lg-row align-items-center'}>
-                <div className={'col-6'}>
+                <div className={'col-lg-6'}>
                     <p className={' alert alert-info my-3'}>مهمترین فاکتور در انتخاب رشته سهمیه‌های آزاد، رتبه در سهمیه در ضریب‌های مختلف است.</p>
                 </div>
-                <div className={'col-6 w-100 d-flex justify-content-center my-3'}>
+                <div className={'col-lg-6 w-100 d-flex justify-content-center my-3'}>
                     <div className={'box col-lg-8'}>
                         <img src={group ===1?rotbehBehdasht: rotbehOloom} className={'w-100'} alt=""/>
                         <button type={'button'} className={'btn btn-info'} onClick={()=>{
