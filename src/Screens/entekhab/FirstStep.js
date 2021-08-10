@@ -7,6 +7,7 @@ import {useHistory} from "react-router-dom";
 import Header from "./Components/Header";
 import routes from "./routes";
 import cogoToast from "cogo-toast";
+import Info from "./Components/Info";
 
 export default function FirstStep({group, state, dispatch, getUrl}) {
     const [fields, setFields] = useState([])
@@ -101,6 +102,7 @@ export default function FirstStep({group, state, dispatch, getUrl}) {
                 validation()
             }} action="">
                 <h4 className={'text-center mb-4'}> (مرحله اول)</h4>
+                <Info text={'راهنمای تستی'}/>
                 <div className={'has-validation'}>
                     {fields.length > 0 && <div className={'mb-5'}>
                         <label htmlFor="">رشته امتحانی</label>

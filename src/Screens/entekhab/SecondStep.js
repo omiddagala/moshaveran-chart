@@ -12,6 +12,7 @@ import cogoToast from "cogo-toast";
 import routes from "./routes";
 import rotbehOloom from '../../assets/rotbehOloom.jpeg'
 import rotbehBehdasht from '../../assets/rotbehBehdasht.jpeg'
+import Info from "./Components/Info";
 export default function SecondStep({dispatch,state,getUrl,group}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
@@ -114,6 +115,7 @@ export default function SecondStep({dispatch,state,getUrl,group}){
         <Header code={state.data.code} getUrl={getUrl}  group={group}/>
         <div className={'box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (مرحله دوم)</h4>
+            <Info text={'راهنمای تستی'}/>
             <div className={'d-flex flex-column flex-lg-row justify-content-around w-100'}>
                 <div className={'has-validation'}>
                     <label htmlFor="">

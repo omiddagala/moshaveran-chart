@@ -116,6 +116,11 @@
 .price-badge{
   font-size: 1rem !important;
 }
+
 .img-feature{
   width: 1.5rem;
+}
+
+.logo-info{
+  width: 2rem;
 }

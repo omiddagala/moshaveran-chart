@@ -76,11 +76,6 @@ export default function Index({group,url}){
                     break;
             }
         })
-        Store.get('chance-selected').then(d=>{
-            if (d){
-                setSelectedChance(d.data)
-            }
-        })
     },[updateFromStorage])
 
 

@@ -9,6 +9,7 @@ import routes from "./routes";
 import aveBehdasht from "../../assets/aveBehdasht.jpeg";
 import aveOloom from "../../assets/aveOloom.jpeg";
 import {Modal} from "react-bootstrap";
+import Info from "./Components/Info";
 export default function Level({state,dispatch,getUrl,group}){
     const [levels,setLevels]= useState([])
     const [levelsPost,setLevelsPost]= useState(false)
@@ -89,6 +90,7 @@ export default function Level({state,dispatch,getUrl,group}){
         <Header code={state.data.code} getUrl={getUrl} group={group}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}>ترازها (اختیاری)</h4>
+            <Info text={'راهنمای تستی'}/>
             <div className={'table-responsive'}>
                 <table className={'table'}>
                     <thead>

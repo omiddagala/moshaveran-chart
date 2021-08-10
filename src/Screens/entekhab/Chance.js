@@ -9,8 +9,9 @@ import Header from "./Components/Header";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Footer from "./Components/Footer";
 import routes from "./routes";
+import Info from "./Components/Info";
 
-export default function Chance({state, dispatch, getUrl,group}) {
+export default function Chance({state, dispatch, getUrl, group}) {
     const [chances, setChances] = useState({list: []});
     const [provinces, setProvinces] = useState([]);
     const [provincesPost, setProvincesPost] = useState(false);
@@ -156,6 +157,7 @@ export default function Chance({state, dispatch, getUrl,group}) {
         <Header code={state.data.code} getUrl={getUrl} group={group}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (تعیین شانس‌ها و احتمال قبولی)</h4>
+            <Info text={'راهنمای تستی'}/>
             <div className={'w-100'}>
                 <form key={filterKey} action=""
                       className={'d-flex flex-column flex-lg-row  w-100 justify-content-around my-4'}>
@@ -259,7 +261,6 @@ export default function Chance({state, dispatch, getUrl,group}) {
                         <thead>
                         <tr>
                             <th>انتخاب</th>
-                            <th>ردیف</th>
                             <th>شانس قبولی</th>
                             <th>رشته/گرایش</th>
                             <th>دانشگاه/دوره</th>
@@ -297,7 +298,6 @@ export default function Chance({state, dispatch, getUrl,group}) {
                                             }
                                         }}/>
                                     </td>
-                                    <td>{index+1}</td>
                                     <td>
                                         <p className={'text-' + chanceLabel(item.label)[1]}>{chanceLabel(item.label)[0]}</p>
                                     </td>
@@ -314,7 +314,8 @@ export default function Chance({state, dispatch, getUrl,group}) {
                     </table>
                     {
                         showMore &&
-                        <button className={'btn btn-dark mb-5'} onClick={() => setPage(page + 1)}>بیشتر {">"}{">"}</button>
+                        <button className={'btn btn-dark mb-5'}
+                                onClick={() => setPage(page + 1)}>بیشتر {">"}{">"}</button>
                     }
                 </div>
                 <button className={'btn btn-info'} onClick={() => {
@@ -322,9 +323,9 @@ export default function Chance({state, dispatch, getUrl,group}) {
                 }}>ذخیره
                 </button>
                 {showPriority && <button className={'btn btn-primary mx-2'} onClick={() => {
-                    if(chances.list.filter(item => item.selected).length > 0){
+                    if (chances.list.filter(item => item.selected).length > 0) {
                         history.push(getUrl(routes.priority))
-                    }else{
+                    } else {
                         cogoToast.error('لطفا حداقل یک شانس قبولی را انتخاب نمایید.')
                     }
                 }}>اولویت بندی</button>
