@@ -5,6 +5,6 @@ export default function Info({text}){
         <div className={'logo-info mx-4'}>
             <img className={'w-100 p-0'} src={Logo} alt=""/>
         </div>
-        <p className={'m-0 text-left'}>{text}</p>
+        <p className={'m-0 text-left '} style={{whiteSpace:'pre-line'}}>{text}</p>
     </div>
 }

@@ -9,11 +9,10 @@ import Header from "./Components/Header";
 import routes from "./routes";
 import {useHistory} from "react-router-dom";
 import Info from "./Components/Info";
+import Upload from "./Components/Upload";
 
 export default function Priority({state,dispatch,getUrl,group,year}){
     const [sorted,setSorted] = useState([])
-    const [file,setFile] = useState(null)
-    const [uploadPost,setUploadPost] = useState(false)
     const [priorityPost,setPriorityPost] = useState(false)
     const history = useHistory()
     useEffect(()=>{
@@ -33,30 +32,6 @@ export default function Priority({state,dispatch,getUrl,group,year}){
             setSorted(priorityData.list)
         }
     },[priorityStatus])
-
-    function dataForUpload(condition) {
-        if (condition){
-            let formData = new FormData();
-            formData.append('file', file)
-            formData.append('cId', state.data.id);
-            return formData;
-        }
-    }
-
-
-    const [uploadData, uploadStatus] = useApi(
-        preProcessUser('uploadResult', dataForUpload(uploadPost)),
-        preProcessUser, [uploadPost],
-        uploadPost);
-
-    useEffect(()=>{
-        if (uploadStatus==='SUCCESS'){
-            cogoToast.success('آپلود با موفقیت انجام شد',{
-                hideAfter:10
-            })
-        }
-        setUploadPost(false)
-    },[uploadStatus])
 
     function trTable(item,index){
         let chance = state.selectedChance.filter(a=>a.nId === item)
@@ -78,8 +53,8 @@ export default function Priority({state,dispatch,getUrl,group,year}){
     }
 
     useEffect(()=>{
-        dispatch.setLoading([uploadStatus,priorityStatus].includes('LOADING'))
-    },[uploadStatus,priorityStatus])
+        dispatch.setLoading([priorityStatus].includes('LOADING'))
+    },[priorityStatus])
 
     function print(){
         let mywindow = window.open('', 'new div');
@@ -143,25 +118,10 @@ export default function Priority({state,dispatch,getUrl,group,year}){
                                 sheet="tablexls"
                                 buttonText="دانلود excel"/>
                         </div>
-
-                        <div className={'d-flex flex-lg-row flex-column border rounded align-items-center my-5 my-lg-0 '}>
-                            <label className={'mx-3 mb-0 mb-lg-2'} htmlFor="">
-                                آپلود فایل کارنامه:
-                            </label>
-                            <input type="file" accept="image/jpeg"  onChange={(event) => {
-                                setFile(event.target.files[0])
-                            }}/>
-                            <button className={'btn btn-success'} onClick={()=>{
-                                if (file){
-                                    setUploadPost(true)
-                                }else{
-                                    cogoToast.error('لطفا فایل تصویر کارنامه را انتخاب نمایید',{
-                                        hideAfter:10
-                                    })
-                                }
-                            }}>ارسال</button>
-                        </div>
                     </div>
+                </div>
+                <div className={'mt-5'}>
+                    <Upload dispatch={dispatch} choiceId={state.data.id} />
                 </div>
             </div>
         </div>

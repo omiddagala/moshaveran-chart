@@ -13,6 +13,7 @@ import routes from "./routes";
 import rotbehOloom from '../../assets/rotbehOloom.jpeg'
 import rotbehBehdasht from '../../assets/rotbehBehdasht.jpeg'
 import Info from "./Components/Info";
+import Upload from "./Components/Upload";
 export default function SecondStep({dispatch,state,getUrl,group,year}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
@@ -221,6 +222,9 @@ export default function SecondStep({dispatch,state,getUrl,group,year}){
                     </tbody>
                 </table>
 
+            </div>
+            <div className={'my-5'}>
+                <Upload choiceId={state.data.id} dispatch={dispatch} />
             </div>
             <div>
                 <button className={'btn btn-primary mx-2'} onClick={()=> {
