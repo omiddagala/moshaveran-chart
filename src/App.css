@@ -1,126 +1,132 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-.hero{
-  width: 100%;
-  height: 100vh;
-  background: url("assets/hero-bg.png") top center no-repeat;
-  background-size: cover;
+.hero {
+    width: 100%;
+    height: 100vh;
+    background: url("assets/hero-bg.png") top center no-repeat;
+    background-size: cover;
 }
-.hero-img{
-  width: 23rem;
-  height: 23rem;
+
+.hero-img {
+    width: 23rem;
+    height: 23rem;
 }
-.hero-title{
-  color: #012970;
+
+.hero-title {
+    color: #012970;
 }
 
 .counts .count-box {
-  display: flex;
-  align-items: center;
-  padding: 30px;
-  background: #fff;
-  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.08);
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.08);
 }
 
 .counts .count-box i {
-  font-size: 42px;
-  line-height: 0;
-  margin-right: 20px;
-  color: #4154f1;
+    font-size: 42px;
+    line-height: 0;
+    margin-right: 20px;
+    color: #4154f1;
 }
 
 .counts .count-box span {
-  font-size: 36px;
-  display: block;
-  font-weight: 600;
-  color: #0b198f;
+    font-size: 36px;
+    display: block;
+    font-weight: 600;
+    color: #0b198f;
 }
 
 .counts .count-box p {
-  padding: 0;
-  margin: 0;
-  font-size: 14px;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
 }
 
 .btn-get-started {
-  margin-top: 30px;
-  line-height: 0;
-  padding: 15px 40px;
-  border-radius: 4px;
-  transition: 0.5s;
-  color: #fff;
-  background: #4154f1;
-  box-shadow: 0px 5px 30px rgba(65, 84, 241, 0.4);
+    margin-top: 30px;
+    line-height: 0;
+    padding: 15px 40px;
+    border-radius: 4px;
+    transition: 0.5s;
+    color: #fff;
+    background: #4154f1;
+    box-shadow: 0px 5px 30px rgba(65, 84, 241, 0.4);
 }
 
 .btn-get-started span {
-  font-family: "Nunito", sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 1px;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 1px;
 }
 
 .btn-get-started i {
-  margin-left: 5px;
-  font-size: 18px;
-  transition: 0.3s;
+    margin-left: 5px;
+    font-size: 18px;
+    transition: 0.3s;
 }
 
 .btn-get-started:hover i {
-  transform: translateX(5px);
+    transform: translateX(5px);
 }
 
-.package-header{
-  background: #0984e3; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #0984e3, #74b9ff); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #0984e3, #74b9ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+.package-header {
+    background: #0984e3; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0984e3, #74b9ff); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0984e3, #74b9ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.price-badge{
-  font-size: 1rem !important;
+.price-badge {
+    font-size: 1rem !important;
 }
 
-.img-feature{
-  width: 1.5rem;
+.img-feature {
+    width: 1.5rem;
 }
 
-.logo-info{
-  width: 2rem;
+.logo-info {
+    width: 2rem;
+}
+
+.spinner-loading-z-index {
+    z-index: 2000 !important;
 }

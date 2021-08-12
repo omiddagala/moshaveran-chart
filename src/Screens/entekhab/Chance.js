@@ -4,12 +4,14 @@ import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserPro
 import cogoToast from "cogo-toast";
 import {useHistory} from "react-router-dom";
 import Store from "../../Storage/Store";
-import {periodsLabel, chanceLabel} from '../../HelperFunction'
+import {periodsLabel, chanceLabel, numberWithCommas} from '../../HelperFunction'
 import Header from "./Components/Header";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Footer from "./Components/Footer";
 import routes from "./routes";
 import Info from "./Components/Info";
+import {Modal} from "react-bootstrap";
+import Payment from "../../Components/Payment";
 
 export default function Chance({state, dispatch, getUrl, group , year}) {
     const [chances, setChances] = useState({list: []});
@@ -33,6 +35,7 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
     const [filterKey, setFilterKey] = useState(0)
     const [savedPost, setSavedPost] = useState(false)
     const [savedList, setSavedList] = useState([])
+    const [showUpgradeModal, setShowUpgradeModal] = useState(false)
 
     const history = useHistory()
 
@@ -104,11 +107,12 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
     const [saveData, saveStatus] = useApi(
         preProcessUser('save', savedList.map(item => {
             return {
+                label:item.label,
                 choice: {
                     id: state.data.id
                 },
                 notebook: {
-                    id: item
+                    id: item.nId
                 }
             }
         })),
@@ -128,6 +132,7 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
     useEffect(() => {
         if (savedStatus === 'SUCCESS') {
             setSavedList(savedData.list)
+            dispatch.setSelectedChance(savedData.list)
             setChancePost(true)
         }
         setSavePost(false)
@@ -309,16 +314,15 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
                                             }
                                             if (flag) {
                                                 let temp = chances.list
-                                                temp[index].selected = e.target.checked
-                                                let selectedList = temp.filter(item => item.selected)
-                                                dispatch.setSelectedChance(selectedList)
                                                 let savedTemp = savedList;
                                                 if (!e.target.checked){
                                                     let f =savedTemp.indexOf(item.nId)
                                                     savedTemp.splice(f,1)
                                                 }else{
-                                                    savedTemp.push(item.nId)
+                                                    savedTemp.push(item)
                                                 }
+                                                temp[index].selected = e.target.checked
+                                                dispatch.setSelectedChance(savedTemp)
                                                 setSavedList(savedTemp)
                                                 setChances({...chances, list: temp})
                                             }
@@ -348,16 +352,32 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
                     setSavePost(true)
                 }}>ذخیره
                 </button>
-                {showPriority && <button className={'btn btn-primary mx-2'} onClick={() => {
-                    if (chances.list.filter(item => item.selected).length > 0) {
-                        history.push(getUrl(routes.priority))
-                    } else {
-                        cogoToast.error('لطفا حداقل یک شانس قبولی را انتخاب نمایید.')
+                <button className={'btn btn-primary mx-2'} onClick={() => {
+                    if(showPriority){
+                        if (chances.list.filter(item => item.selected).length > 0) {
+                            history.push(getUrl(routes.priority))
+                        } else {
+                            cogoToast.error('لطفا حداقل یک شانس قبولی را انتخاب نمایید.')
+                        }
+                    }else{
+                        setShowUpgradeModal(true)
                     }
                 }}>اولویت بندی</button>
-                }
             </div>
         </div>
+        <Modal show={showUpgradeModal} onHide={()=>setShowUpgradeModal(false)}>
+            <Modal.Header>
+                <Modal.Title>ارتقا به طرح طلایی</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className={'mt-3'}>
+                    <Payment type={'checkbox'} group={group} pageType={'UPGRADE'} setLoading={dispatch.setLoading} userId={state.data.code}/>
+                </div>
+                <button className={'btn btn-secondary mt-3 mx-2'} type={'button'}
+                        onClick={()=>setShowUpgradeModal(false)}>بستن
+                </button>
+            </Modal.Body>
+        </Modal>
         <Footer/>
     </div>
 }

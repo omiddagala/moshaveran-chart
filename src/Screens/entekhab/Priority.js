@@ -14,11 +14,19 @@ export default function Priority({state,dispatch,getUrl,group,year}){
     const [sorted,setSorted] = useState([])
     const [file,setFile] = useState(null)
     const [uploadPost,setUploadPost] = useState(false)
+    const [priorityPost,setPriorityPost] = useState(false)
     const history = useHistory()
+    useEffect(()=>{
+        if (state.selectedChance.length >0){
+            setPriorityPost(true)
+        }else{
+            history.replace(getUrl(routes.chance))
+        }
+    },[state])
     const [priorityData, priorityStatus] = useApi(
         preProcessUser('priority', state.selectedChance.map(item=>item.nId)),
-        postProcessUser, [],
-        true);
+        postProcessUser, [priorityPost],
+        priorityPost);
 
     useEffect(()=>{
         if(priorityStatus === 'SUCCESS'){

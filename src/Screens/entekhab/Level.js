@@ -25,7 +25,7 @@ export default function Level({state,dispatch,getUrl,group,year}){
     useEffect(()=>{
         if (state.data.state === 'FIRST'){
             history.push(getUrl(routes.home))
-        }else if(state.data.state === 'SECOND'){
+        }else if(['SECOND','PAID'].includes(state.data.state)){
             setLoginPost(true)
         }
     },[state.data])

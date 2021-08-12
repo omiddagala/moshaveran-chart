@@ -24,12 +24,29 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
             } else {
                 return 'TAKHMIN_OLOOM'
             }
-        } else {
+        } else if (['TAKHMIN_BEHDASHT', 'TAKHMIN_OLOOM'].includes(pageType)) {
             if (group === 1) {
                 return 'TAKHMIN_BEHDASHT'
             } else {
                 return 'TAKHMIN_OLOOM'
             }
+        } else {
+            if (group === 1) {
+                return 'UPGRADE'
+            } else {
+                return 'UPGRADE'
+            }
+
+        }
+    }
+
+    function callBack() {
+        if (['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType)) {
+            return location.pathname.replace('/', '').replace('pay', 'level')
+        } else if (pageType === 'UPGRADE') {
+            return location.pathname.replace('/', '').replace('chance', 'level')
+        } else {
+            return location.pathname.replace('/', '')
         }
     }
 
@@ -37,7 +54,7 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
         preProcessUser('pay', {
             userId,
             packages: packageSelected,
-            callback: ['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) ? location.pathname.replace('/', '').replace('pay', 'level') : location.pathname.replace('/', ''),
+            callback: callBack(),
             paymentType: paymentType(),
             offCode: offCodeFinal
         }),
@@ -55,12 +72,15 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
         offPost);
 
     useEffect(() => {
-        setLoading([payStatus, offStatus].includes('LOADING'))
+        setLoading([payStatus, offStatus,packagesStatus].includes('LOADING'))
     }, [payStatus, offStatus])
 
     useEffect(() => {
         if (packagesStatus === 'SUCCESS') {
             setPackages(packagesData.list)
+            if (pageType === 'UPGRADE' && packagesData.list.length > 0) {
+                setPackageSelected([packagesData.list[0].id])
+            }
         }
     }, [packagesStatus])
 
@@ -77,6 +97,17 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
         }
         setOffPost(false)
     }, [offStatus])
+
+    useEffect(() => {
+        let temp = packageSelected;
+        let s = 0
+        packages.forEach(item => {
+            if (temp.includes(item.id)) {
+                s += item.price
+            }
+        })
+        setSumPrice(s)
+    }, [packageSelected])
 
     return <div>
         {
@@ -108,14 +139,6 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                             temp.push(value)
                         }
                     }
-
-                    let s = 0
-                    packages.forEach(item => {
-                        if (temp.includes(item.id)) {
-                            s += item.price
-                        }
-                    })
-                    setSumPrice(s)
                     setPackageSelected(temp)
                 }
                 }>
@@ -125,8 +148,8 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                             تعداد {item.number} درخواست به مبلغ {item.price} تومان
                         </label>
                     })}
-                    {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) && packages.map((item, index) => {
-                        return <div className={'col-12 col-lg-6 p-2'}>
+                    {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM', 'UPGRADE'].includes(pageType) && packages.map((item, index) => {
+                        return <div className={'col p-2'}>
                             <div className={'card p-0 h-100'}>
                                 <div className="card-header package-header text-white mb-4">
                                     <h4>{item.name}</h4>
@@ -152,22 +175,8 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                                     <button type={'button'}
                                             className={`btn btn-${packageSelected.includes(item.id) ? 'primary' : 'outline-primary'}`}
                                             onClick={() => {
-                                                let temp = packageSelected;
                                                 let value = parseInt(item.id)
-
-                                                if (temp.includes(value)) {
-                                                    temp = temp.filter(item => item !== value);
-                                                } else {
-                                                    temp.push(value)
-                                                }
-                                                let s = 0
-                                                packages.forEach(item => {
-                                                    if (temp.includes(item.id)) {
-                                                        s += item.price
-                                                    }
-                                                })
-                                                setSumPrice(s)
-                                                setPackageSelected(temp)
+                                                setPackageSelected([value])
                                             }}>{packageSelected.includes(item.id) ? 'انتخاب شده' : 'انتخاب'}
                                     </button>
                                 </div>
@@ -176,13 +185,13 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                     })}
                 </div>
 
-                {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) &&
+                {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM', 'UPGRADE'].includes(pageType) &&
                 <div className={'d-flex justify-content-center mt-4'}>
                     <p className={' h5 m-0'}>قیمت : {sumPrice === 0 ? sumPrice : sumPrice - offValue} تومان </p>
                 </div>}
                 <div className={'d-flex flex-column align-items-center justify-content-center'}>
-                    {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) &&
-                    <div className={'d-flex mt-4 col-lg-6'}>
+                    {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM', 'UPGRADE'].includes(pageType) &&
+                    <div className={'d-flex mt-4'}>
                         <InputNumber className={'form-control'} value={offCode} onchange={(v) => setOffCode(v)}
                                      placeHolder={'کد تخفیف'} type="text"/>
                         <button type={'button'} className={'btn btn-primary'} onClick={() => setOffPost(true)}>اعمال

@@ -18,7 +18,6 @@ export default function Pay({group,state,dispatch,getUrl,year}){
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}>پرداخت</h4>
             <Info text={'لطفاً طرح مورد نظر خود را برای انتخاب رشته ارشد انتخاب کنید.'}/>
-
             <div className="container d-flex flex-column flex-lg-row align-items-center">
                 <div className="col-12 d-flex flex-column justify-content-center align-content-center my-3 h-100">
                     <Payment type={'checkbox'} group={group} pageType={'ENTEKHAB_BEHDASHT'} setLoading={dispatch.setLoading} userId={state.data.code}/>
