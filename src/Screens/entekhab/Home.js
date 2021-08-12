@@ -12,7 +12,7 @@ import priority from '../../assets/priority.png'
 import priority2 from '../../assets/priority2.png'
 import routes from "./routes";
 
-export default function Home({dispatch,getUrl,group}){
+export default function Home({dispatch,getUrl,group,year}){
     console.log(group);
     return <div>
         <div
@@ -23,7 +23,7 @@ export default function Home({dispatch,getUrl,group}){
                     <h5 className="mt-3">موجی تازه در نرم‌افزار‌های آموزشی ایران</h5>
                     <h5 className="mt-3 font-weight-bold"> نرم افزار انتخاب رشته وزارت
                         {group===1 ?' بهداشت ':' علوم '}
-                        ۱۴۰۰</h5>
+                        {year}</h5>
                     <div className=" my-4">
                         <Link to={getUrl(routes.startWithoutCode)} className="btn btn-primary">شروع کنید</Link>
                         <p className={'m-0 my-3'}>یا</p>

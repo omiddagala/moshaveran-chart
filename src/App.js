@@ -40,8 +40,10 @@ export default function App() {
             let url2 ='/نرم-افزار-تخمین-رتبه-علوم-'+item;
             let url3 ='/نرم-افزار-انتخاب-رشته-بهداشت-'+item;
             let url4 ='/نرم-افزار-انتخاب-رشته-علوم-'+item;
-
             if ([url1,url2].includes(decodeURI(window.location.pathname))){
+                setYear(item)
+            }
+            if (decodeURI(window.location.pathname).search(url3) !== -1 || decodeURI(window.location.pathname).search(url4) !== -1){
                 setYear(item)
             }
             temp1.push(url1);
@@ -49,7 +51,6 @@ export default function App() {
             temp3.push(url3);
             temp4.push(url4);
         });
-        console.log([temp1,temp2,temp3,temp4])
         setPath([temp1,temp2,temp3,temp4])
 
         retrieveAuthData().then((data) => {
@@ -59,14 +60,13 @@ export default function App() {
             });
         });
     }, [])
-
     return auth.apiToken !== undefined ? <AuthContext.Provider value={{auth, authDispatch}}>
         <Router>
             <Switch>
                 <Route path={path[0]}><Home group={1} year={year}/></Route>
                 <Route path={path[1]}><Home group={2} year={year}/></Route>
-                <Route path={path[2]}><Entekhab group={1} year={year} url={path[2].filter(item=>item.search(year))[0]}/></Route>
-                <Route path={path[3]}><Entekhab group={2} year={year} url={path[3].filter(item=>item.search(year))[0]}/></Route>
+                <Route path={path[2]}><Entekhab group={1} year={year} url={path[2].filter(item=>item.search(year) !== -1)[0]}/></Route>
+                <Route path={path[3]}><Entekhab group={2} year={year} url={path[3].filter(item=>item.search(year) !== -1)[0]}/></Route>
                 <Route path="/zinc"><Admin/></Route>
                 <Route path=""><NotFound/></Route>
             </Switch>

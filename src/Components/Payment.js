@@ -16,7 +16,6 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
     const [offValue, setOffValue] = useState(0)
     const location = useLocation();
     const [packages, setPackages] = useState([])
-    const [tempPackages, setTempPackages] = useState([])
 
     function paymentType() {
         if (['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType)) {
@@ -61,7 +60,6 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
 
     useEffect(() => {
         if (packagesStatus === 'SUCCESS') {
-            console.log(packagesData.list);
             setPackages(packagesData.list)
         }
     }, [packagesStatus])
@@ -91,12 +89,7 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                 if (['TAKHMIN_BEHDASHT', 'TAKHMIN_OLOOM'].includes(pageType)) {
                     setPostPay(true)
                 } else {
-                    let require = packages.filter(item => item.number === 0)[0]
-                    if (packageSelected.includes(require.id)) {
-                        setPostPay(true)
-                    } else {
-                        cogoToast.error(`انتخاب پکیج \'${require.name}\' اجباری است `)
-                    }
+                    setPostPay(true)
                 }
             } else {
                 cogoToast.error('لطفا پکیج مورد نظر را انتخاب نمایید.')
@@ -134,22 +127,26 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                     })}
                     {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) && packages.map((item, index) => {
                         return <div className={'col-12 col-lg-6 p-2'}>
-                            <div className={'card p-0'}>
-                                <div className="card-header package-header text-white">
+                            <div className={'card p-0 h-100'}>
+                                <div className="card-header package-header text-white mb-4">
                                     <h4>{item.name}</h4>
                                 </div>
-                                {
-                                    item.features.map(f => {
-                                        return <div className={'mx-5 border-bottom py-4 d-flex align-items-center justify-content-center'}>
-                                            <div className={'img-feature mx-2'}>
-                                                <img src={checkboxLogo} alt="" className={'w-100 p-0'}/>
+                                <div className={'h-100 d-flex justify-content-center flex-column'}>
+                                    {
+                                        item.features.map(f => {
+                                            return <div className={'mx-5 border-bottom py-4 d-flex align-items-center'}>
+                                                <div className={'img-feature mx-3'}>
+                                                    <img src={checkboxLogo} alt="" className={'w-100 p-0'}/>
+                                                </div>
+                                                <p className={'m-0 h5'}>{f.title}</p>
                                             </div>
-                                            <p className={'m-0 h5'}>{f.title}</p>
-                                        </div>
-                                    })
-                                }
+                                        })
+                                    }
+                                </div>
+
                                 <div className={'py-3'}>
-                                    <p className={'m-0 badge badge-info price-badge'}>قیمت: <b>{item.price} تومان</b></p>
+                                    <p className={'m-0 badge badge-info price-badge'}>قیمت: <b>{item.price} تومان</b>
+                                    </p>
                                 </div>
                                 <div className={'d-flex justify-content-center pb-2'}>
                                     <button type={'button'}
@@ -171,7 +168,7 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                                                 })
                                                 setSumPrice(s)
                                                 setPackageSelected(temp)
-                                            }}>{packageSelected.includes(item.id)?'انتخاب شده':'انتخاب'}
+                                            }}>{packageSelected.includes(item.id) ? 'انتخاب شده' : 'انتخاب'}
                                     </button>
                                 </div>
                             </div>
@@ -184,7 +181,8 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
                     <p className={' h5 m-0'}>قیمت : {sumPrice === 0 ? sumPrice : sumPrice - offValue} تومان </p>
                 </div>}
                 <div className={'d-flex flex-column align-items-center justify-content-center'}>
-                    {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) && <div className={'d-flex mt-4 col-lg-6'}>
+                    {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM'].includes(pageType) &&
+                    <div className={'d-flex mt-4 col-lg-6'}>
                         <InputNumber className={'form-control'} value={offCode} onchange={(v) => setOffCode(v)}
                                      placeHolder={'کد تخفیف'} type="text"/>
                         <button type={'button'} className={'btn btn-primary'} onClick={() => setOffPost(true)}>اعمال

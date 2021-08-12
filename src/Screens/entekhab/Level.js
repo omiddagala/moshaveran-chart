@@ -10,7 +10,7 @@ import aveBehdasht from "../../assets/aveBehdasht.jpeg";
 import aveOloom from "../../assets/aveOloom.jpeg";
 import {Modal} from "react-bootstrap";
 import Info from "./Components/Info";
-export default function Level({state,dispatch,getUrl,group}){
+export default function Level({state,dispatch,getUrl,group,year}){
     const [levels,setLevels]= useState([])
     const [levelsPost,setLevelsPost]= useState(false)
     const [loginPost,setLoginPost]= useState(false)
@@ -87,10 +87,10 @@ export default function Level({state,dispatch,getUrl,group}){
     },[levelsStatus,loginStatus,levelsGetStatus])
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code} getUrl={getUrl} group={group}/>
+        <Header code={state.data.code} getUrl={getUrl} group={group} year={year}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}>ترازها (اختیاری)</h4>
-            <Info text={'راهنمای تستی'}/>
+            {/*<Info text={'راهنمای تستی'}/>*/}
             <div className={'table-responsive'}>
                 <table className={'table'}>
                     <thead>

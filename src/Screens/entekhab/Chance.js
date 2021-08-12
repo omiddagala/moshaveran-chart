@@ -11,7 +11,7 @@ import Footer from "./Components/Footer";
 import routes from "./routes";
 import Info from "./Components/Info";
 
-export default function Chance({state, dispatch, getUrl, group}) {
+export default function Chance({state, dispatch, getUrl, group , year}) {
     const [chances, setChances] = useState({list: []});
     const [provinces, setProvinces] = useState([]);
     const [provincesPost, setProvincesPost] = useState(false);
@@ -31,14 +31,22 @@ export default function Chance({state, dispatch, getUrl, group}) {
     const [showPriority, setShowPriority] = useState(false);
     const [showMore, setShowMore] = useState(false)
     const [filterKey, setFilterKey] = useState(0)
+    const [savedPost, setSavedPost] = useState(false)
+    const [savedList, setSavedList] = useState([])
 
     const history = useHistory()
 
     useEffect(() => {
         if (state.data.code !== '') {
+            setSavedPost(true)
+        }
+    }, [state.data.code])
+
+    useEffect(() => {
+        if (page > 1) {
             setChancePost(true)
         }
-    }, [state.data.code, page])
+    }, [page])
 
     useEffect(() => {
         if (state.data.packages) {
@@ -68,6 +76,11 @@ export default function Chance({state, dispatch, getUrl, group}) {
         postProcessUser, [chancePost, page],
         chancePost);
 
+    const [savedData, savedStatus] = useApi(
+        preProcessUser('saved', {code: state.data.code}),
+        postProcessUser, [savedPost],
+        savedPost);
+
     const [provincesData, provincesStatus] = useApi(
         preProcessUser('provinces', {}),
         postProcessUser, [],
@@ -89,19 +102,19 @@ export default function Chance({state, dispatch, getUrl, group}) {
         true);
 
     const [saveData, saveStatus] = useApi(
-        preProcessUser('save', chances.list.filter(item => item.selected).map(item => {
+        preProcessUser('save', savedList.map(item => {
             return {
-                label: item.label,
                 choice: {
                     id: state.data.id
                 },
                 notebook: {
-                    id: item.nId
+                    id: item
                 }
             }
         })),
         postProcessUser, [savePost],
         savePost);
+
 
     useEffect(() => {
         if (saveStatus === 'SUCCESS') {
@@ -112,8 +125,15 @@ export default function Chance({state, dispatch, getUrl, group}) {
         setSavePost(false)
     }, [saveStatus])
 
-
     useEffect(() => {
+        if (savedStatus === 'SUCCESS') {
+            setSavedList(savedData.list)
+            setChancePost(true)
+        }
+        setSavePost(false)
+    }, [savedStatus])
+
+     useEffect(() => {
         if (provincesStatus === 'SUCCESS') {
             setProvinces([...provincesData.list])
         }
@@ -150,14 +170,13 @@ export default function Chance({state, dispatch, getUrl, group}) {
     }, [chanceStatus])
 
     useEffect(() => {
-        dispatch.setLoading([chanceStatus, saveStatus].includes('LOADING'))
+        dispatch.setLoading([chanceStatus, saveStatus,savedStatus].includes('LOADING'))
     }, [chanceStatus, saveStatus])
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code} getUrl={getUrl} group={group}/>
+        <Header code={state.data.code} getUrl={getUrl} group={group} year={year}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (تعیین شانس‌ها و احتمال قبولی)</h4>
-            <Info text={'راهنمای تستی'}/>
             <div className={'w-100'}>
                 <form key={filterKey} action=""
                       className={'d-flex flex-column flex-lg-row  w-100 justify-content-around my-4'}>
@@ -281,7 +300,7 @@ export default function Chance({state, dispatch, getUrl, group}) {
                                                className={'form-control'} onChange={(e) => {
                                             let flag = true
                                             if (e.target.value) {
-                                                if (state.selectedChance.length === 100) {
+                                                if (savedList.length === 100) {
                                                     flag = false
                                                     cogoToast.error('انتخاب بیش از ۱۰۰ آیتم مجاز نیست', {
                                                         hideAfter: 10
@@ -293,7 +312,14 @@ export default function Chance({state, dispatch, getUrl, group}) {
                                                 temp[index].selected = e.target.checked
                                                 let selectedList = temp.filter(item => item.selected)
                                                 dispatch.setSelectedChance(selectedList)
-                                                Store.store('chance-selected', {data: selectedList})
+                                                let savedTemp = savedList;
+                                                if (!e.target.checked){
+                                                    let f =savedTemp.indexOf(item.nId)
+                                                    savedTemp.splice(f,1)
+                                                }else{
+                                                    savedTemp.push(item.nId)
+                                                }
+                                                setSavedList(savedTemp)
                                                 setChances({...chances, list: temp})
                                             }
                                         }}/>

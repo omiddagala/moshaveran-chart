@@ -13,7 +13,7 @@ import routes from "./routes";
 import rotbehOloom from '../../assets/rotbehOloom.jpeg'
 import rotbehBehdasht from '../../assets/rotbehBehdasht.jpeg'
 import Info from "./Components/Info";
-export default function SecondStep({dispatch,state,getUrl,group}){
+export default function SecondStep({dispatch,state,getUrl,group,year}){
     const [zaribha,setZaribha] = useState([])
     const [secondPost,setSecondPost] = useState(false)
     const [invalid,setInvalid] = useState({name:false,family:false,gender:false,zaribha1:[],zaribha2:[]})
@@ -112,10 +112,11 @@ export default function SecondStep({dispatch,state,getUrl,group}){
 
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code} getUrl={getUrl}  group={group}/>
+        <Header code={state.data.code} getUrl={getUrl}  group={group} year={year}/>
         <div className={'box p-lg-5 p-2 pt-5 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (مرحله دوم)</h4>
-            <Info text={'راهنمای تستی'}/>
+            <Info text={'لطفاً مشخصات خود را وارد کنید.'}/>
+            <Info text={'اگر مجاز به انتخاب دوره های روزانه نشده اید، لطفاً تیک مربوط به مجاز بودن در این دوره ها را در قسمت مربوط به درج اطلاعات رتبه هایتان، بردارید.'}/>
             <div className={'d-flex flex-column flex-lg-row justify-content-around w-100'}>
                 <div className={'has-validation'}>
                     <label htmlFor="">

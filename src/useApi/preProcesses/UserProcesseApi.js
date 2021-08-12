@@ -147,6 +147,11 @@ const apiAddress = [
         method: 'post',
         media:true
     },
+    {
+        name: 'saved',
+        url: 'v1/choice/saved',
+        method: 'get',
+    },
 ];
 
 function preProcessUser(urlName, params) {

@@ -5,7 +5,7 @@ import routes from "./routes";
 import useApi from "../../useApi/useApi";
 import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
 import Info from "./Components/Info";
-export default function CheckStep({state,dispatch,getUrl,group}){
+export default function CheckStep({state,dispatch,getUrl,group, year}){
     const history = useHistory()
     const [fields, setFields] = useState([])
     const [benefits, setBenefits] = useState([])
@@ -33,7 +33,7 @@ export default function CheckStep({state,dispatch,getUrl,group}){
     }, [benefitsStatus])
 
     return <div className={'w-100 container'}>
-        <Header code={state.data.code} getUrl={getUrl}  group={group}/>
+        <Header code={state.data.code} getUrl={getUrl}  group={group} year={year}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (مرحله تایید صحت اطلاعات)</h4>
             <Info text={'اطلاعاتی که تاکنون وارد کرده‌اید در زیر آمده است.در صورت صحت اطلاعات، بر روی دکمه تایید کلیک کنید'}/>

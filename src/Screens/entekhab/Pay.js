@@ -11,18 +11,21 @@ import search from "../../assets/search.png";
 import priority from "../../assets/priority.png";
 import priority2 from "../../assets/priority2.png";
 import SamandehiLogo from "../../Components/Samandehi/SamandehiLogo";
-export default function Pay({group,state,dispatch,getUrl}){
+import Info from "./Components/Info";
+export default function Pay({group,state,dispatch,getUrl,year}){
     return <div className={'container'}>
-        <Header code={state.data.code} getUrl={getUrl} group={group}/>
-        <div
-            className="box d-flex flex-column align-items-center p-0">
-            <div className="col-12 col-lg-5 d-flex align-items-center justify-content-center h-100">
-                <img src={heroPay} className={'w-100'} alt=""/>
-            </div>
+        <Header code={state.data.code} getUrl={getUrl} group={group} year={year}/>
+        <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
+            <h4 className={'text-center mb-5'}>پرداخت</h4>
+            <Info text={'لطفاً طرح مورد نظر خود را برای انتخاب رشته ارشد انتخاب کنید.'}/>
+
             <div className="container d-flex flex-column flex-lg-row align-items-center">
                 <div className="col-12 d-flex flex-column justify-content-center align-content-center my-3 h-100">
                     <Payment type={'checkbox'} group={group} pageType={'ENTEKHAB_BEHDASHT'} setLoading={dispatch.setLoading} userId={state.data.code}/>
-                    <div className={'d-flex justify-content-center mt-3'}>
+                    <div className={'d-flex justify-content-center mt-3 align-items-center'}>
+                        <div className={'col-5'}>
+                            <img src={heroPay} className={'w-100'} alt=""/>
+                        </div>
                         <EnamadLogo/>
                     </div>
                 </div>

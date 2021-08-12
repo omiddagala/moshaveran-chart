@@ -10,7 +10,7 @@ import routes from "./routes";
 import {useHistory} from "react-router-dom";
 import Info from "./Components/Info";
 
-export default function Priority({state,dispatch,getUrl,group}){
+export default function Priority({state,dispatch,getUrl,group,year}){
     const [sorted,setSorted] = useState([])
     const [file,setFile] = useState(null)
     const [uploadPost,setUploadPost] = useState(false)
@@ -73,11 +73,33 @@ export default function Priority({state,dispatch,getUrl,group}){
         dispatch.setLoading([uploadStatus,priorityStatus].includes('LOADING'))
     },[uploadStatus,priorityStatus])
 
+    function print(){
+        let mywindow = window.open('', 'new div');
+        let element = document.querySelector('#pdf').outerHTML
+        mywindow.document.write('<html><head><meta charset="UTF-8">' +
+            '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">' +
+            '<meta http-equiv="X-UA-Compatible" content="ie=edge">' +
+            '<title></title>');
+        mywindow.document.write('<link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css" integrity="sha384-JvExCACAZcHNJEc7156QaHXTnQL3hQBixvj5RV5buE7vgnNEzzskDtx9NQ4p6BJe" crossorigin="anonymous"/>');
+        mywindow.document.write('</head><body dir="rtl">');
+        mywindow.document.write(element);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close();
+        mywindow.focus();
+        setTimeout(function(){
+            mywindow.print();
+            mywindow.close();
+        },100);
+
+        return true;
+    }
+
     return <div className={'w-100 container'}>
-        <Header code={state.data.code} getUrl={getUrl} group={group}/>
+        <Header code={state.data.code} getUrl={getUrl} group={group} year={year}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}> (اولویت‌بندی)</h4>
-            <Info text={'راهنمای تستی'}/>
+            <Info text={'انتخاب های شما در صفحه قبل براساس کیفیت رشته و اعتبار دانشگاه ها اولویت بندی شده اند. \n' +
+            'بدیهی است باید اولویت بندی نهایی خود را در سایت سنجش پزشکی به آدرس sanjeshp.ir وارد نموده و ثبت کنید.\n'}/>
             <div className={'w-100 d-flex justify-content-start'}>
                 <button className={'btn btn-info mb-4'} onClick={()=>{
                     history.replace(getUrl(routes.chance))
@@ -104,18 +126,7 @@ export default function Priority({state,dispatch,getUrl,group}){
                     </table>
                     <div className={'d-flex flex-lg-row flex-column justify-content-between'}>
                         <div className={'d-flex'}>
-                            <button className={'btn btn-primary mx-2'} onClick={()=>{
-                                let element = document.querySelector('#pdf')
-                                html2pdf(element,{
-                                    margin: 1,
-                                    filename: 'result.pdf',
-                                    html2canvas: { dpi: 192, letterRendering: true },
-                                    jsPDF: {
-                                        orientation: 'portrait',
-                                        unit: 'cm',
-                                    }
-                                });
-                            }}>دانلود pdf</button>
+                            <button className={'btn btn-primary mx-2'} onClick={print}>چاپ</button>
                             <ReactHTMLTableToExcel
                                 id="test-table-xls-button"
                                 className="btn btn-primary"
