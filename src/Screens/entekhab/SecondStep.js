@@ -44,6 +44,7 @@ export default function SecondStep({dispatch,state,getUrl,group,year}){
                 let zaribs = zaribhaData.list.map((item)=>{
                     return {
                         code:item.code,
+                        name: item.name,
                         rotbeBaSahmie:null,
                         rotbeBiSahmie:null,
                         allowed:true,
@@ -168,7 +169,7 @@ export default function SecondStep({dispatch,state,getUrl,group,year}){
                 <table className={'w-100 table'}>
                     <thead>
                     <tr>
-                        <th>کد ضریب</th>
+                    <th>{group === 1 ? 'گرایش' : 'کد ضریب'}</th>
                         <th>رتبه در سهمیه</th>
                         {
                             state.data.share.id === 2 && <th>رتبه بدون سهمیه</th>
@@ -180,7 +181,7 @@ export default function SecondStep({dispatch,state,getUrl,group,year}){
                     {
                         state.data.ranks.map((item,index)=>{
                             return <tr>
-                                <td>{item.code}</td>
+                                <td>{group === 1 ? item.name : item.code}</td>
                                 <td>
                                     <div className={'has-validation'}>
                                         <InputNumber value={item.rotbeBaSahmie} type={'integer'} onchange={value=> {

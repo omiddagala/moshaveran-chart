@@ -29,6 +29,8 @@ function periodsLabel(name){
             return 'مجازی دولتی';
         case 'GheireEntefaei':
             return 'غیر انتفاعی';
+        case 'shahriehpardaz':
+            return 'شهریه پرداز';
     }
 }
 
