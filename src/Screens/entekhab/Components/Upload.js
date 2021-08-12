@@ -37,10 +37,12 @@ export default function Upload({dispatch, choiceId}){
     return <div className={'d-flex flex-column align-items-center'}>
         <Info text={'اختیاری: جهت پشتیبانی بهتر در مراحل انتخاب رشته، فایل چاپی، یا تصویر و یا صفحه اینترنتی ذخیره شده آن را در این قسمت بارگزاری کنید.'}/>
         <div className={'d-flex flex-lg-row flex-column rounded align-items-center my-5 my-lg-0 align-items-center'}>
-            <label className={'mx-3 mb-0'} htmlFor="">
+            <label className={'mx-3 mb-0' +
+            ''} htmlFor="">
                 آپلود فایل کارنامه:
             </label>
-            <input type="file" accept="image/jpeg"  onChange={(event) => {
+            <input type="file" accept="image/x-png,image/jpeg,image/jpeg,image/gif,image/png,image/x-eps,application/msword, application/vnd.ms-excel,application/html,application/pdf,application/msword,
+  application/vnd.openxmlformats-officedocument.wordprocessingml.document"  onChange={(event) => {
                 setFile(event.target.files[0])
             }}/>
             <button className={'btn btn-success'} onClick={()=>{

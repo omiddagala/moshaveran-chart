@@ -181,7 +181,7 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
     return <div className={'w-100 container'}>
         <Header code={state.data.code} getUrl={getUrl} group={group} year={year}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <h4 className={'text-center mb-5'}> (تعیین شانس‌ها و احتمال قبولی)</h4>
+            <h4 className={'text-center mb-5'}> تعیین شانس‌ها و احتمال قبولی</h4>
             <Info text={'شانس های قبولی شما براساس کلمات زیر مشخص شده است. معنای هر کدارم از این عبارت ها به ترتیب زیر است:\n' +
             'قبول: در سال های گذشته با رتبه هایی بدتر از رتبه شما در این رشته محل ها قبول شده اند. پس با احتمال قطعی شما نیز قبول می شوید.\n' +
             'پراحتمال: در سال های گذشته با رتبه هایی شبیه به رتبه شما در این رشته محل ها ها قبول شده اند. پس احتمال قبولی شما نیز بالاست.\n' +
@@ -192,6 +192,7 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
                 <form key={filterKey} action=""
                       className={'d-flex flex-column flex-lg-row  w-100 justify-content-around my-4'}>
                     <div>
+
                         <label htmlFor="">
                             استان
                         </label>

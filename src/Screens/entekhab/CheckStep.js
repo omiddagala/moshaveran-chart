@@ -35,7 +35,7 @@ export default function CheckStep({state,dispatch,getUrl,group, year}){
     return <div className={'w-100 container'}>
         <Header code={state.data.code} getUrl={getUrl}  group={group} year={year}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
-            <h4 className={'text-center mb-5'}> (مرحله تایید صحت اطلاعات)</h4>
+            <h4 className={'text-center mb-5'}>مرحله تایید صحت اطلاعات</h4>
             <Info text={'اطلاعاتی که تاکنون وارد کرده‌اید در زیر آمده است.در صورت صحت اطلاعات، بر روی دکمه تایید کلیک کنید'}/>
             <div className={'d-flex justify-content-around w-100 card'}>
                 <div className={'d-flex justify-content-around flex-wrap'}>

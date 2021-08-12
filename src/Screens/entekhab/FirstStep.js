@@ -101,8 +101,8 @@ export default function FirstStep({group, state, dispatch, getUrl, year}) {
                 e.preventDefault()
                 validation()
             }} action="">
-                <h4 className={'text-center mb-4'}> (مرحله اول)</h4>
-                <Info text={'راهنمای تستی'}/>
+                <h4 className={'text-center mb-4'}>مرحله اول</h4>
+                {/*<Info text={'راهنمای تستی'}/>*/}
                 <div className={'has-validation'}>
                     {fields.length > 0 && <div className={'mb-5'}>
                         <label htmlFor="">رشته امتحانی</label>
