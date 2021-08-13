@@ -30,7 +30,7 @@ export default function Pay({group,state,dispatch,getUrl,year}){
                 </div>
             </div>
         </div>
-            <h1 className="hero-title my-3 text-center w-100">عنوان بخش</h1>
+            {/* <h1 className="hero-title my-3 text-center w-100">عنوان بخش</h1> */}
             <h3 className="my-5 text-center w-100">ویژگی‌ها</h3>
             <div className={'d-flex flex-column flex-lg-row flex-lg-wrap'}>
                 <div className="col-lg-4 col-12 mt-3">

@@ -79,7 +79,7 @@ export default function Level({state,dispatch,getUrl,group,year}){
 
     function getCode(item){
         let temp = state.data.ranks.filter(r=>r.tendencyOfChoice.id===item.tendency)
-        return temp[0].tendencyOfChoice.code
+        return group === 1 ? temp[0].tendencyOfChoice.name : temp[0].tendencyOfChoice.code
     }
 
     useEffect(()=>{
@@ -95,7 +95,7 @@ export default function Level({state,dispatch,getUrl,group,year}){
                 <table className={'table'}>
                     <thead>
                     <tr>
-                        <th>کد ضریب</th>
+                        <th>{group === 1 ? 'گرایش' : 'کد ضریب'}</th>
                         <th>نمره کل</th>
                     </tr>
                     </thead>

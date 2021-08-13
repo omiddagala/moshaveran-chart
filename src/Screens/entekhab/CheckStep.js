@@ -73,7 +73,7 @@ export default function CheckStep({state,dispatch,getUrl,group, year}){
                 <table className={'w-100 table text-center'}>
                     <thead>
                     <tr>
-                        <th>کد ضریب</th>
+                        <th>{group === 1 ? 'گرایش' : 'کد ضریب'}</th>
                         <th>رتبه در سهمیه</th>
                         {
                             state.data.share.id === 2 && <th>رتبه بدون سهمیه</th>
@@ -85,7 +85,7 @@ export default function CheckStep({state,dispatch,getUrl,group, year}){
                     {
                         state.data.ranks.map((item,index)=>{
                             return <tr>
-                                <td>{item.code}</td>
+                                <td>{group === 1 ? item.name : item.code}</td>
                                 <td>
                                     {item.rotbeBaSahmie}
                                 </td>
