@@ -187,7 +187,7 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
 
                 {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM', 'UPGRADE'].includes(pageType) &&
                 <div className={'d-flex justify-content-center mt-4'}>
-                    <p className={' h5 m-0'}>قیمت : {sumPrice === 0 ? sumPrice : sumPrice - offValue} تومان </p>
+                    <p className={' h5 m-0'}>قیمت : {sumPrice - offValue < 0 ? 0 : sumPrice - offValue} تومان </p>
                 </div>}
                 <div className={'d-flex flex-column align-items-center justify-content-center'}>
                     {['ENTEKHAB_BEHDASHT', 'ENTEKHAB_OLOOM', 'UPGRADE'].includes(pageType) &&
