@@ -93,7 +93,7 @@ export default function Home({dispatch,getUrl,group,year}){
             {/*        </div>*/}
             {/*    </div>*/}
             {/*</div>*/}
-            <div className="col-12 mt-5">
+            {/* <div className="col-12 mt-5">
                 <div className="box p-0 p-lg-5">
                    <ul className={'d-flex flex-wrap'}>
                        <li className={'col-6 col-lg-4 mt-2'}>
@@ -113,24 +113,27 @@ export default function Home({dispatch,getUrl,group,year}){
                        </li>
                    </ul>
                 </div>
-            </div>
+            </div> */}
             <div className={'d-flex flex-lg-row flex-column'}>
-                <div className={'col-12 col-lg-8'}>
-                    <ul className={'d-flex flex-wrap list-unstyled text-center'}>
-                        <li className={'col-6 col-lg-4 mt-5'}>
-                            <a href="">دانلود دفترچه انتخاب رشته</a>
-                        </li>
-                        <li className={'col-6 col-lg-4 mt-5'}>
-                            <a href="">درباره‌ما</a>
-                        </li>
-                        <li className={'col-6 col-lg-4 mt-5'}>
-                            <a href="">تماس با ما</a>
-                        </li>
-                        <li className={'col-6 col-lg-4 mt-5'}>
-                            <a href="">قوانین و مقررات</a>
-                        </li>
-                    </ul>
-                </div>
+                {group === 1 ? 
+                    <div className={'col-12 col-lg-8'}>
+                        <ul className={'d-flex flex-wrap list-unstyled text-center'}>
+                            <li className={'col-6 col-lg-4 mt-5'}>
+                                <a href="https://moshaveranetahsili.ir/%d8%b1%d8%a7%d9%87%d9%86%d9%85%d8%a7%db%8c-%d9%86%d8%b1%d9%85-%d8%a7%d9%81%d8%b2%d8%a7%d8%b1-%d8%a7%d9%86%d8%aa%d8%ae%d8%a7%d8%a8-%d8%b1%d8%b4%d8%aa%d9%87-%d9%85%d8%b4%d8%a7%d9%88%d8%b1%d8%a7%d9%86/" target="_blank" rel="noopener">راهنمای نرم افزار انتخاب رشته</a>
+                            </li>
+                            <li className={'col-6 col-lg-4 mt-5'}>
+                                <a href="https://moshaveranetahsili.ir/product/%d9%85%d8%b4%d8%a7%d9%88%d8%b1%d9%87-%d8%a7%d9%86%d8%aa%d8%ae%d8%a7%d8%a8-%d8%b1%d8%b4%d8%aa%d9%87-%d8%a7%d8%b1%d8%b4%d8%af-%d9%88%d8%b2%d8%a7%d8%b1%d8%aa-%d8%a8%d9%87%d8%af%d8%a7%d8%b4%d8%aa/" target="_blank" rel="noopener">مشاوره تلفنی</a>
+                            </li>
+                            <li className={'col-6 col-lg-4 mt-5'}>
+                                <a href="https://moshaveranetahsili.ir/%d8%af%d8%a7%d9%86%d9%84%d9%88%d8%af-%d8%af%d9%81%d8%aa%d8%b1%da%86%d9%87-%d8%a7%d9%86%d8%aa%d8%ae%d8%a7%d8%a8-%d8%b1%d8%b4%d8%aa%d9%87-%d8%a7%d8%b1%d8%b4%d8%af-%d8%a8%d9%87%d8%af%d8%a7%d8%b4%d8%aa/" target="_blank" rel="noopener">دانلود دفترچه انتخاب رشته 1400</a>
+                            </li>
+                            <li className={'col-6 col-lg-4 mt-5'}>
+                                <a href="https://moshaveranetahsili.ir/%d8%aa%d9%85%d8%a7%d8%b3-%d8%a8%d8%a7-%d9%85%d8%a7/" target="_blank" rel="noopener">تماس با ما</a>
+                            </li>
+                        </ul>
+                    </div> 
+                    : ''
+                }
                 <div className={'col-12 col-lg-4'}>
                     <div className={'w-100 d-flex justify-content-center mt-4'}>
                         <SamandehiLogo
