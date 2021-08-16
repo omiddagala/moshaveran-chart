@@ -41,9 +41,9 @@ function chanceLabel(name){
         case 'HIGH_CHANCE':
             return ['پراحتمال','primary'];
         case 'OPTIMISTIC':
-            return ['خوشبینانه','info'];
+            return ['خوشبینانه','warning'];
         case 'NOT_ACCEPTED':
-            return ['عدم قبولی','danger'];
+            return ['کم احتمال','danger'];
     }
 }
 

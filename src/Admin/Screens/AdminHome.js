@@ -12,6 +12,7 @@ export default function AdminHome() {
     const [courseFile, setCourseFile] = useState(null)
     const [rotbeZaribFile, setRotbeZaribFile] = useState(null)
     const [notebookFile, setNotebookFile] = useState(null)
+    const [priorityFile, setPriorityFile] = useState(null)
     const [typeFile, setTypeFile] = useState(null)
     const [uploadActive, setUploadActive] = useState(false)
 
@@ -40,6 +41,9 @@ export default function AdminHome() {
                     break
                 case 'NOTEBOOK':
                     file = notebookFile;
+                    break
+                case 'PRIORITY':
+                    file = priorityFile;
                     break
             }
             formData.append('file', file)
@@ -145,6 +149,17 @@ export default function AdminHome() {
                                 <button className={'btn btn-primary align-self-end mt-2'} onClick={() => {
                                     setTypeFile('NOTEBOOK')
                                 }}>آپلود فایل دفترچه
+                                </button>}
+                            </div>
+                            <div className={'mt-4'}>
+                                <label htmlFor="">فایل اولویت بندی</label>
+                                <input onChange={(event) => {
+                                    setPriorityFile(event.target.files[0])
+                                }} className={'form-control'} type="file"/>
+                                {priorityFile &&
+                                <button className={'btn btn-primary align-self-end mt-2'} onClick={() => {
+                                    setTypeFile('PRIORITY')
+                                }}>آپلود فایل اولویت بندی
                                 </button>}
                             </div>
                         </div>}
