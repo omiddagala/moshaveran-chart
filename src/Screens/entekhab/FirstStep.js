@@ -15,6 +15,7 @@ export default function FirstStep({group, state, dispatch, getUrl, year}) {
     const [firstPost, setFirstPost] = useState(false)
     const [invalid, setInvalid] = useState({
         filed: false,
+        benefit: false
         // ave:false
     })
     const [changeKey, setChangeKey] = useState(0)
@@ -59,9 +60,11 @@ export default function FirstStep({group, state, dispatch, getUrl, year}) {
 
     function validation() {
         let invalidArr = {
-            fieldOfChoice: state.data.fieldOfChoice.id === null,
+            fieldOfChoice: [NaN, null].includes(state.data.fieldOfChoice.id),
+            benefit: [NaN, null].includes(state.data.share.id),
             // ave : state.data.ave === ''
         }
+
         setInvalid(invalidArr)
         if (!Object.values(invalidArr).includes(true)) {
             if (editKey > changeKey) {
@@ -126,14 +129,19 @@ export default function FirstStep({group, state, dispatch, getUrl, year}) {
                 {
                     fieldDescription && <p className={'alert alert-info'}>{fieldDescription}</p>
                 }
-                {benefits.length > 0 && <div className={'mb-5'}>
-                    <label htmlFor="">سهمیه:</label>
-                    <Select placeHolder={'انتخاب سهمیه'} options={benefits} value={state.data.share.id}
-                            onChange={value => {
-                                setEditKey(editKey + 1)
-                                dispatch.setData({...state.data, share: {id: parseInt(value)}})
-                            }}/>
-                </div>}
+                <div className={'has-validation'}>
+                    {benefits.length > 0 && <div className={'mb-5 has-validation'}>
+                        <label htmlFor="">سهمیه:</label>
+                        <Select placeHolder={'انتخاب سهمیه'} options={benefits} value={state.data.share.id}
+                                className={invalid.benefit ? 'is-invalid' : ''}
+                                onChange={value => {
+                                    setEditKey(editKey + 1)
+                                    dispatch.setData({...state.data, share: {id: parseInt(value)}})
+                                }}/>
+                        <p className={'invalid-feedback'}>لطفا سهمیه را وارد نمایید.</p>
+                    </div>}
+                </div>
+
                 {/*<p className={'alert alert-info'}>معدل موثر تا ۲۰ درصد در وضعیت کارنامه شما تاثیر گذار است.</p>*/}
                 {/*<div className={'has-validation'}>*/}
                 {/*    <label htmlFor="">معدل موثر</label>*/}
