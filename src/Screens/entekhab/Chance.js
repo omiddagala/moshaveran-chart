@@ -295,6 +295,7 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
                             <th>شانس قبولی</th>
                             <th>رشته/گرایش</th>
                             <th>دانشگاه/دوره</th>
+                            {group === 2 && <th>توضیحات</th>}
                         </tr>
                         </thead>
                         <tbody>
@@ -344,6 +345,9 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
                                     <td>
                                         <p>{item.universityName}-{periodsLabel(item.uniTypeName)}</p>
                                     </td>
+                                    {group ===2 && <td>
+                                        <p>{item?.description}</p>
+                                    </td>}
                                 </tr>
                             })
                         }
