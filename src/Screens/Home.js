@@ -19,6 +19,18 @@ export default function Home({group,year}) {
                     یک آگاهی حدودی از رتبه نیست</h2>
                 <h4 className={'mt-5'}>تخمین رتبه سرآغاز تحلیل درست شرایط و نظم بخشیدن به افکار مزاحم، پراکنده، غلط و آشفته است</h4>
             </div>
+            { group === 1 ?
+                <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center'}>
+                    <h4 className={'mt-5'}>برای انتخاب رشته ارشد وزارت بهداشت از نرم افزار انتخاب رشته مرکز مشاوران تحصیلی استفاده کنید</h4>
+                    <a target="_blank" href="https://apps.moshaveranetahsili.ir/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D9%86%D8%AA%D8%AE%D8%A7%D8%A8-%D8%B1%D8%B4%D8%AA%D9%87-%D8%A8%D9%87%D8%AF%D8%A7%D8%B4%D8%AA-1400">نرم افزار انتخاب رشته ارشد وزارت بهداشت</a>
+                </div>
+            :
+                ''
+                // <div className={'input-box d-flex w-100 mb-5 p-5 flex-column text-center'}>
+                //     <h4 className={'mt-5'}>برای انتخاب رشته ارشد وزارت علوم از نرم افزار انتخاب رشته مرکز مشاوران تحصیلی استفاده کنید</h4>
+                //     <a target="_blank" href="https://apps.moshaveranetahsili.ir/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D9%86%D8%AA%D8%AE%D8%A7%D8%A8-%D8%B1%D8%B4%D8%AA%D9%87-%D8%B9%D9%84%D9%88%D9%85-1400">نرم افزار انتخاب رشته ارشد وزارت علوم</a>
+                // </div>
+            }
             <div className={'input-box d-flex flex-wrap align-item-center justify-content-center py-5  mb-5 w-100'} >
                 <div className="d-flex flex-column col-12 col-lg-6 align-self-center mt-3">
                     <Prediction setLoading={setLoading} group={group}/>
