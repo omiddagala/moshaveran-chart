@@ -104,9 +104,9 @@ export default function Level({state,dispatch,getUrl,group,year}){
                         levels.map((item,index)=>{
                             return <tr>
                                 <td>{item.code??getCode(item)}</td>
-                                <td><InputNumber type="integer" value={levels[index].level} onchange={(v)=>{
+                                <td><InputNumber type="float" value={levels[index].level} onchange={(v)=>{
                                     let temp = levels;
-                                    temp[index].level = parseInt(v)
+                                    temp[index].level = v
                                     setLevels([...temp])
                                 }} className={'form-control'}/></td>
                             </tr>

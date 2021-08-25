@@ -168,7 +168,7 @@ function postProcessUser(urlName, data) {
         case 'sms':
             return {}
         case 'off':
-            return {amount:data.amount}
+            return {amount:data.amount, percentage: data.percentage}
         case 'confirm':
             return {
                 freeTries:data.freeTries,

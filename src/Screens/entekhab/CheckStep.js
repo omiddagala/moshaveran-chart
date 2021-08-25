@@ -85,7 +85,7 @@ export default function CheckStep({state,dispatch,getUrl,group, year}){
                     {
                         state.data.ranks.map((item,index)=>{
                             return <tr>
-                                <td>{group === 1 ? item.name : item.code}</td>
+                                <td>{group === 1 ? item.name : item.number}</td>
                                 <td>
                                     {item.rotbeBaSahmie}
                                 </td>

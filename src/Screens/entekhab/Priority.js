@@ -81,8 +81,12 @@ export default function Priority({state,dispatch,getUrl,group,year}){
         <Header code={state.data.code} getUrl={getUrl} group={group} year={year}/>
         <div className={'box p-lg-5 pt-5 p-2 mb-3 w-100 d-flex flex-column align-items-center'}>
             <h4 className={'text-center mb-5'}>اولویت‌بندی</h4>
-            <Info text={'انتخاب های شما در صفحه قبل براساس کیفیت رشته و اعتبار دانشگاه ها اولویت بندی شده اند. \n' +
-            'بدیهی است باید اولویت بندی نهایی خود را در سایت سنجش پزشکی به آدرس sanjeshp.ir وارد نموده و ثبت کنید.\n'}/>
+            <Info text={group === 1 ? 
+            'انتخاب های شما در صفحه قبل براساس کیفیت رشته و اعتبار دانشگاه ها اولویت بندی شده اند. \n' +
+            'بدیهی است باید اولویت بندی نهایی خود را در سایت سنجش پزشکی به آدرس sanjeshp.ir وارد نموده و ثبت کنید.\n'
+            : 
+            'انتخاب های شما در صفحه قبل براساس کیفیت رشته و اعتبار دانشگاه ها اولویت بندی شده اند. \n' +
+            'بدیهی است باید اولویت بندی نهایی خود را در سایت سازمان سنجش به آدرس sanjesh.org وارد نموده و ثبت کنید.\n'}/>
             <div className={'w-100 d-flex justify-content-start'}>
                 <button className={'btn btn-info mb-4'} onClick={()=>{
                     history.replace(getUrl(routes.chance))

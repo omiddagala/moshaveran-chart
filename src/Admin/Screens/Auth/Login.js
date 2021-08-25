@@ -71,7 +71,7 @@ export default function Login() {
                 <div className="px-4 text-center">
                     <img className="d-block mx-auto mb-2" src="/logo.svg" alt="" width="172"
                          height="157"/>
-                    <h1 className="mb-5">انتخاب برتر</h1>
+                    <h1 className="mb-5">مشاوران تحصیلی</h1>
                     <form className={'mt-5'} onSubmit={submitForm}>
                         <label htmlFor="username">نام کاربری</label>
                         <div className={'has-validation'}>

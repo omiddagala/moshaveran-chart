@@ -44,6 +44,7 @@ export default function SecondStep({dispatch, state, getUrl, group, year}) {
             if (state.data.ranks.length === 0) {
                 let zaribs = zaribhaData.list.map((item) => {
                     return {
+                        number: item.number,
                         code: item.code,
                         name: item.name,
                         rotbeBaSahmie: null,
@@ -120,7 +121,10 @@ export default function SecondStep({dispatch, state, getUrl, group, year}) {
             <h4 className={'text-center mb-5'}>مرحله دوم</h4>
             <Info text={'لطفاً مشخصات خود را وارد کنید.'}/>
             <Info
-                text={'اگر مجاز به انتخاب دوره های روزانه نشده اید، لطفاً تیک مربوط به مجاز بودن در این دوره ها را در قسمت مربوط به درج اطلاعات رتبه هایتان، بردارید.'}/>
+                text={group === 1 ? 
+                        'اگر مجاز به انتخاب دوره های روزانه نشده اید، لطفاً تیک مربوط به مجاز بودن در این دوره ها را در قسمت مربوط به درج اطلاعات رتبه هایتان، بردارید.'
+                    :
+                        'اگر مجاز به انتخاب دوره های روزانه و نوبت دوم نشده اید، لطفاً تیک مربوط به مجاز بودن در این دوره ها را در قسمت مربوط به درج اطلاعات رتبه هایتان، بردارید.'}/>
             <div className={'d-flex flex-column flex-lg-row justify-content-around w-100'}>
                 <div className={'has-validation'}>
                     <label htmlFor="">
@@ -177,10 +181,6 @@ export default function SecondStep({dispatch, state, getUrl, group, year}) {
                 <table className={'w-100 table'}>
                     <thead>
                     <tr>
-                        {
-                            group === 2 && <th>ردیف</th>
-
-                        }
                         <th>{group === 1 ? 'گرایش' : 'کد ضریب'}</th>
                         <th>رتبه در سهمیه</th>
                         {
@@ -193,11 +193,7 @@ export default function SecondStep({dispatch, state, getUrl, group, year}) {
                     {
                         state.data.ranks.map((item, index) => {
                             return <tr>
-                                {
-                                    group === 2 && <td>{index+1}</td>
-
-                                }
-                                <td>{group === 1 ? item.name : item.code}</td>
+                                <td>{group === 1 ? item.name : item.number}</td>
                                 <td>
                                     <div className={'has-validation'}>
                                         <InputNumber value={item.rotbeBaSahmie} type={'integer'} onchange={value => {

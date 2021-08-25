@@ -86,7 +86,13 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
 
     useEffect(() => {
         if (offStatus === 'SUCCESS') {
-            if (offData.amount) {
+            if (offData.percentage !== null) {
+                console.log(offData.percentage)
+                console.log(parseInt(offData.percentage * sumPrice))
+                setOffValue(parseInt(offData.percentage * sumPrice))
+                setOffCodeFinal(offCode)
+                cogoToast.success('کد تخفیف با موفقیت اعمال گردید.')
+            } else if (offData.amount) {
                 setOffValue(offData.amount)
                 setOffCodeFinal(offCode)
                 cogoToast.success('کد تخفیف با موفقیت اعمال گردید.')
