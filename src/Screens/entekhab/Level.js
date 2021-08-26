@@ -79,7 +79,7 @@ export default function Level({state,dispatch,getUrl,group,year}){
 
     function getCode(item){
         let temp = state.data.ranks.filter(r=>r.tendencyOfChoice.id===item.tendency)
-        return group === 1 ? temp[0].tendencyOfChoice.name : temp[0].tendencyOfChoice.code
+        return group === 1 ? temp[0].tendencyOfChoice.name : temp[0].tendencyOfChoice.number
     }
 
     useEffect(()=>{
@@ -101,7 +101,9 @@ export default function Level({state,dispatch,getUrl,group,year}){
                     </thead>
                     <tbody>
                     {
-                        levels.map((item,index)=>{
+                        levels.
+                        sort((a, b) => getCode(a) > getCode(b) ? 1 : -1).
+                        map((item,index)=>{
                             return <tr>
                                 <td>{item.code??getCode(item)}</td>
                                 <td><InputNumber type="float" value={levels[index].level} onchange={(v)=>{
