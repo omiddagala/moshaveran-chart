@@ -152,6 +152,11 @@ const apiAddress = [
         url: 'v1/choice/saved',
         method: 'get',
     },
+    {
+        name: 'locked',
+        url: 'v1/choice/locked',
+        method: 'get',
+    },
 ];
 
 function preProcessUser(urlName, params) {

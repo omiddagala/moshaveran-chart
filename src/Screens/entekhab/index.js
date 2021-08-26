@@ -15,6 +15,9 @@ import Level from "./Level";
 import Priority from "./Priority";
 import routes from "./routes";
 import ScrollToTop from "../../Components/ScrollToTop";
+import useApi from "../../useApi/useApi";
+import {postProcessUser, preProcessUser} from "../../useApi/preProcesses/UserProcesseApi";
+import Lock from "../Lock";
 
 export default function Index({group, url,year}) {
     const init = {
@@ -32,7 +35,7 @@ export default function Index({group, url,year}) {
     }
     const [updateFromStorage, setUpdateFromStorage] = useState(1)
     const [selectedChance, setSelectedChance] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [data, setData] = useState(init)
     const location = useLocation();
     const history = useHistory();
@@ -40,6 +43,19 @@ export default function Index({group, url,year}) {
     function getUrl(route) {
         return url + route
     }
+
+    const [lockData, lockStatus] = useApi(
+        preProcessUser('locked', {code: group}),
+        undefined, [true],
+        true);
+
+        useEffect(()=>{
+            setLoading(false)
+            if (lockStatus === 'SUCCESS'){
+                if (lockData === true)
+                    history.push(getUrl(routes.lock))
+            }
+        },[lockStatus])
 
     useEffect(() => {
         Store.get('data-choice').then(d => {
@@ -105,6 +121,7 @@ export default function Index({group, url,year}) {
                                                             getUrl={getUrl} group={group} year={year}/></Route>
             <Route path={getUrl(routes.priority)} exact><Priority dispatch={{setData, setLoading}} getUrl={getUrl}
                                                                   state={{data, selectedChance}} group={group} year={year}/></Route>
+            <Route path={getUrl(routes.lock)}><Lock/></Route>
             <Route path=""><NotFound/></Route>
         </Switch>
     </div>

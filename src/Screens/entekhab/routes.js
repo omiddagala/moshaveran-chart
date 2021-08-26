@@ -9,4 +9,5 @@ export default {
     startWithoutCode : '/start-without-code',
     priority : '/priority',
     chance : '/chance',
+    lock: '/lock'
 }
