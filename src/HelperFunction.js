@@ -31,6 +31,12 @@ function periodsLabel(name){
             return 'غیر انتفاعی';
         case 'shahriehpardaz':
             return 'شهریه پرداز';
+        case 'Moshtarak':
+            return 'مشترک';
+        case 'MajaziPayamNoor':
+            return 'مجازی پیام نور';
+        case 'MajaziGheireEntefaei':
+            return 'مجازی غیرانتفاعی';
     }
 }
 
