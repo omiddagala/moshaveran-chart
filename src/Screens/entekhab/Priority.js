@@ -48,6 +48,9 @@ export default function Priority({state,dispatch,getUrl,group,year}){
                 <td>
                     <p>{chance.universityName}-{periodsLabel(chance.uniTypeName)}</p>
                 </td>
+                {group ===2 && <td>
+                    <p>{chance?.description}</p>
+                </td>}
             </tr>
         }
     }
@@ -101,6 +104,7 @@ export default function Priority({state,dispatch,getUrl,group,year}){
                             <th>شانس قبولی</th>
                             <th>رشته/گرایش</th>
                             <th>دانشگاه/دوره</th>
+                            {group === 2 && <th>توضیحات</th>}
                         </tr>
                         </thead>
                         <tbody>
