@@ -41,23 +41,21 @@ export default function SecondStep({dispatch, state, getUrl, group, year}) {
                     return false;
                 })
             })
-            if (state.data.ranks.length === 0) {
-                let zaribs = zaribhaData.list.map((item) => {
-                    return {
-                        number: item.number,
-                        code: item.code,
-                        name: item.name,
-                        rotbeBaSahmie: null,
-                        rotbeBiSahmie: null,
-                        allowed: true,
-                        choice: {id: state.data.id},
-                        tendencyOfChoice: {
-                            id: item.id
-                        }
+            let zaribs = zaribhaData.list.map((item) => {
+                return {
+                    number: item.number,
+                    code: item.code,
+                    name: item.name,
+                    rotbeBaSahmie: null,
+                    rotbeBiSahmie: null,
+                    allowed: true,
+                    choice: {id: state.data.id},
+                    tendencyOfChoice: {
+                        id: item.id
                     }
-                })
-                dispatch.setData({...state.data, ranks: zaribs})
-            }
+                }
+            })
+            dispatch.setData({...state.data, ranks: zaribs})
             setZaribha(zaribhaData.list)
         }
     }, [zaribhaStatus])

@@ -71,6 +71,7 @@ export default function Level({state,dispatch,getUrl,group,year}){
                 return {level:levelsGetData.list.filter(c=>c.tendency === item.tendencyOfChoice.id)[0]?.level,
                     choice: {id:state.data.id},
                     code:item.code,
+                    number: item.number,
                     tendency:item.tendencyOfChoice.id}
             }))
         }
@@ -105,7 +106,7 @@ export default function Level({state,dispatch,getUrl,group,year}){
                         sort((a, b) => getCode(a) > getCode(b) ? 1 : -1).
                         map((item,index)=>{
                             return <tr>
-                                <td>{item.code??getCode(item)}</td>
+                                <td>{getCode(item)}</td>
                                 <td><InputNumber type="float" value={levels[index].level} onchange={(v)=>{
                                     let temp = levels;
                                     temp[index].level = v

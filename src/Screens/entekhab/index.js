@@ -53,7 +53,7 @@ export default function Index({group, url,year}) {
             setLoading(false)
             if (lockStatus === 'SUCCESS'){
                 if (lockData === true)
-                    history.push(getUrl(routes.lock))
+                    history.replace(getUrl(routes.lock))
             }
         },[lockStatus])
 
