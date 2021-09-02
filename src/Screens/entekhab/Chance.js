@@ -312,14 +312,6 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
                                         <input type="checkbox" checked={chances.list[index].selected}
                                                className={'form-control'} onChange={(e) => {
                                             let flag = true
-                                            if (e.target.value) {
-                                                if (savedList.length === 100) {
-                                                    flag = false
-                                                    cogoToast.error('انتخاب بیش از ۱۰۰ آیتم مجاز نیست', {
-                                                        hideAfter: 10
-                                                    })
-                                                }
-                                            }
                                             if (flag) {
                                                 let temp = chances.list
                                                 let savedTemp = savedList;
@@ -327,6 +319,13 @@ export default function Chance({state, dispatch, getUrl, group , year}) {
                                                     let f =savedTemp.indexOf(item.nId)
                                                     savedTemp.splice(f,1)
                                                 }else{
+                                                    if (savedList.length >= 100) {
+                                                        flag = false
+                                                        cogoToast.error('انتخاب بیش از ۱۰۰ آیتم مجاز نیست', {
+                                                            hideAfter: 10
+                                                        })
+                                                        return
+                                                    }
                                                     savedTemp.push(item)
                                                 }
                                                 temp[index].selected = e.target.checked

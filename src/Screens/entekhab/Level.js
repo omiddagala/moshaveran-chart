@@ -10,6 +10,7 @@ import aveBehdasht from "../../assets/aveBehdasht.jpeg";
 import aveOloom from "../../assets/aveOloom.jpeg";
 import {Modal} from "react-bootstrap";
 import Info from "./Components/Info";
+import cogoToast from "cogo-toast";
 export default function Level({state,dispatch,getUrl,group,year}){
     const [levels,setLevels]= useState([])
     const [levelsPost,setLevelsPost]= useState(false)
@@ -34,6 +35,9 @@ export default function Level({state,dispatch,getUrl,group,year}){
     useEffect(()=>{
         if (loginStatus === 'SUCCESS'){
             if (loginData.list.state!=='PAID'){
+                cogoToast.error('عملیات پرداخت با خطا مواجه شد', {
+                    hideAfter: 10
+                })
                 history.push(getUrl(routes.pay))
             }else{
                 dispatch.setData(loginData.list)
