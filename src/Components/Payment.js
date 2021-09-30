@@ -22,7 +22,7 @@ export default function Payment({userId, setLoading, group, type = 'radio', page
             if (group === 1) {
                 return 'ENTEKHAB_BEHDASHT'
             } else {
-                return 'TAKHMIN_OLOOM'
+                return 'ENTEKHAB_OLOOM'
             }
         } else if (['TAKHMIN_BEHDASHT', 'TAKHMIN_OLOOM'].includes(pageType)) {
             if (group === 1) {
