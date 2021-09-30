@@ -33,7 +33,7 @@ export default function AdminChoice(){
     const [choiceData, choiceStatus] = useApi(
         preProcessAdmin('resultList', {
             "page": page,
-            "size": 50,
+            "size": 10,
             "sortBy": "id",
             "direction": "ASC"
         }),
@@ -42,7 +42,7 @@ export default function AdminChoice(){
 
     useEffect(()=>{
         if (choiceStatus==='SUCCESS'){
-            setShowMore(choiceData.list.length === 50)
+            setShowMore(choiceData.list.length === 10)
             let temp=[]
             if (page===0){
                 temp = choiceData.list
@@ -77,22 +77,6 @@ export default function AdminChoice(){
     return <div className={'container'}>
         <SpinnerLoading
             show={[choiceStatus, choiceSingleStatus].includes('LOADING')}/>
-        <form 
-        className={'d-flex flex-lg-row flex-column mt-4 px-3 flex-wrap justify-content-center'} action="">
-            <div className={'col-12 col-lg-3'}>
-                <label htmlFor="">کد اختصاصی</label>
-            </div>
-            <div className={'col-12 col-lg-3'}>
-                <label htmlFor="">نام</label>
-                <input type="text" value={name} onChange={(e)=>{setName(e.target.value)}} className={'form-control'}/>
-            </div>
-            <div className={'col-12 col-lg-3'}>
-                <label htmlFor="">نام خانوادگی</label>
-            </div>
-            <div className={'col-12 col-lg-3'}>
-                <label htmlFor="">شماره موبایل</label>
-            </div>
-        </form>
         <div className={'table-responsive mt-5'} >
                 <table className={'table'}>
                     <thead>
@@ -100,7 +84,7 @@ export default function AdminChoice(){
                         <th>گروه</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
-                        <th>ویرایش</th>
+                        <th>مشاهده</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -108,7 +92,7 @@ export default function AdminChoice(){
                         choices.list.map((item,index)=>{
                             return <tr key={index}>
                                 <td>
-                                    {item.choice.group.code}
+                                    {item.choice.group.name}
                                 </td>
                                 <td>
                                     {item.choice.name}
@@ -119,7 +103,7 @@ export default function AdminChoice(){
                                 <td>
                                     <button className={'btn btn-primary'} onClick={()=>{
                                         setSelectedFile({id:item.id})
-                                    }}>ویرایش</button>
+                                    }}>مشاهده</button>
                                 </td>
                             </tr>
                         })

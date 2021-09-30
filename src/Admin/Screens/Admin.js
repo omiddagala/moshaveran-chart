@@ -19,20 +19,22 @@ export default function Admin() {
     return <Router>
         <AdminHeader/>
         <Switch>
-            {isAdmin && <>
-                <Route path="/zinc" exact><AdminHome/></Route>
-                <Route path="/zinc/chart" exact><AdminChart/></Route>
-                <Route path="/zinc/choice" exact><AdminChoice/></Route>
-                <Route path="/zinc/result" exact><AdminResult/></Route>
-            </>}
-            {
-                !isAdmin && <>
-                <Route path="/zinc" exact><AdminChoice/></Route>
-                <Route path="/zinc/result" exact><AdminResult/></Route>
-            </>}
-            <Route path="/zinc/login" exact><Login/></Route>
-            <Route path="/zinc/logout" exact><Logout/></Route>
-            <Route path=""><NotFound/></Route>
+            <>
+                {isAdmin && <>
+                    <Route path="/zinc" exact><AdminHome/></Route>
+                    <Route path="/zinc/chart" exact><AdminChart/></Route>
+                    <Route path="/zinc/choice" exact><AdminChoice/></Route>
+                    <Route path="/zinc/result" exact><AdminResult/></Route>
+                </>}
+                {
+                    !isAdmin && <>
+                    <Route path="/zinc" exact><AdminChoice/></Route>
+                    <Route path="/zinc/result" exact><AdminResult/></Route>
+                </>}
+                <Route path="/zinc/login" exact><Login/></Route>
+                <Route path="/zinc/logout" exact><Logout/></Route>
+                <Route path=""><NotFound/></Route>
+            </>
         </Switch>
     </Router>
 }
