@@ -55,6 +55,18 @@ const apiAddress = [
         method: 'post',
         auth: true
     },
+    {
+        name: 'resultList',
+        url: 'v1/admin/result/list',
+        method: 'post',
+        auth: true
+    },
+    {
+        name: 'selectedFile',
+        url: 'v1/admin/result/get',
+        method: 'post',
+        auth: true
+    },
 ];
 
 function preProcessAdmin(urlName, params) {

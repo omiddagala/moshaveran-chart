@@ -7,6 +7,7 @@ import Logout from "./Auth/logout";
 import AdminChart from "./AdminChart";
 import NotFound from "../../Screens/NotFound";
 import AdminChoice from "./AdminChoice";
+import AdminResult from "./AdminResult";
 import AuthContext from "../../Storage/Contexts/AuthContext";
 
 export default function Admin() {
@@ -22,10 +23,13 @@ export default function Admin() {
                 <Route path="/zinc" exact><AdminHome/></Route>
                 <Route path="/zinc/chart" exact><AdminChart/></Route>
                 <Route path="/zinc/choice" exact><AdminChoice/></Route>
+                <Route path="/zinc/result" exact><AdminResult/></Route>
             </>}
             {
-                !isAdmin && <Route path="/zinc" exact><AdminChoice/></Route>
-            }
+                !isAdmin && <>
+                <Route path="/zinc" exact><AdminChoice/></Route>
+                <Route path="/zinc/result" exact><AdminResult/></Route>
+            </>}
             <Route path="/zinc/login" exact><Login/></Route>
             <Route path="/zinc/logout" exact><Logout/></Route>
             <Route path=""><NotFound/></Route>
