@@ -81,6 +81,7 @@ export default function AdminChoice(){
                 <table className={'table'}>
                     <thead>
                     <tr>
+                        <th>ردیف</th>
                         <th>گروه</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
@@ -91,6 +92,9 @@ export default function AdminChoice(){
                     {
                         choices.list.map((item,index)=>{
                             return <tr key={index}>
+                                <td>
+                                    {index + 1}
+                                </td>
                                 <td>
                                     {item.choice.group.name}
                                 </td>
