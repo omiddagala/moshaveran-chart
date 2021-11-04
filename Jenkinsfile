@@ -9,8 +9,7 @@ pipeline {
    agent any
 
     tools {  
-    jdk 'openjdk-11'  
-    maven 'mvn-3.8.3'  
+        maven 'mvn-3.8.3'  
     }
 
    stages {
@@ -48,9 +47,7 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                container('helm') {
-                    sh "helm upgrade --install --force --set app.image.tag=${VERSION} ${NAME} ./helm"
-                }
+                sh "helm upgrade --install --force --set app.image.tag=${VERSION} ${NAME} /opt/moshaveran/helm"
             }
         }
    }
