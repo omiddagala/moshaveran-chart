@@ -17,7 +17,7 @@ pipeline {
       stage('Checkout') {
          steps {
             script {
-               git url: 'https://gitlab.com/omidjavaheri/moshaveran.git', credentialsId: 'GITLAB_ID'
+               git url: 'https://gitlab.com/omidjavaheri/moshaveran-front.git', credentialsId: 'GITLAB_ID'
             }
          }
       }
