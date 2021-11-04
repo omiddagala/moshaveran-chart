@@ -47,7 +47,7 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                sh "helm upgrade --install --force --set app.image.tag=${VERSION} ${NAME} /opt/moshaveran/helm"
+                sh 'helm upgrade --install --force --set app.image.tag="${VERSION}" "${NAME}" /opt/moshaveran/helm'
             }
         }
    }
