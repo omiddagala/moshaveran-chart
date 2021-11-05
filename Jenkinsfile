@@ -1,20 +1,18 @@
 pipeline {
-  environment {
-        DEPLOY = "${env.BRANCH_NAME == "master" || env.BRANCH_NAME == "develop" ? "true" : "false"}"
-        NAME = "moshaveran"
-        REGISTRY = 'omiddagala/moshaveran_front'
-        REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
-        app = ''
-    }
-   agent {
+    agent {
         kubernetes {
-            inheritFrom 'jenkins-slave'
             defaultContainer 'jnlp'
             yamlFile 'jenkins_agent.yaml'
         }
     }
-
-   stages {
+    environment {
+            DEPLOY = "${env.BRANCH_NAME == "master" || env.BRANCH_NAME == "develop" ? "true" : "false"}"
+            NAME = "moshaveran"
+            REGISTRY = 'omiddagala/moshaveran_front'
+            REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
+            app = ''
+    }
+    stages {
       stage('Checkout') {
          steps {
             script {
