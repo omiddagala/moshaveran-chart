@@ -8,6 +8,7 @@ pipeline {
     }
    agent {
         kubernetes {
+            inheritFrom 'jenkins-slave'
             defaultContainer 'jnlp'
             yamlFile 'jenkins_agent.yaml'
         }
