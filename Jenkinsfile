@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        kubernetes {
-            defaultContainer 'jnlp'
-            yamlFile 'jenkins_agent.yaml'
-        }
-    }
+    agent any
     environment {
             DEPLOY = "${env.BRANCH_NAME == "master" || env.BRANCH_NAME == "develop" ? "true" : "false"}"
             NAME = "moshaveran"
