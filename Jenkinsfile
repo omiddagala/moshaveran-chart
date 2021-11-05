@@ -1,15 +1,16 @@
 pipeline {
   environment {
-        DEPLOY = "true"
+        DEPLOY = "${env.BRANCH_NAME == "master" || env.BRANCH_NAME == "develop" ? "true" : "false"}"
         NAME = "moshaveran"
         REGISTRY = 'omiddagala/moshaveran_front'
         REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
         app = ''
     }
-   agent any
-
-    tools {  
-        maven 'mvn-3.8.3'  
+   agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yamlFile 'jenkins_agent.yaml'
+        }
     }
 
    stages {
@@ -25,8 +26,10 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                script {
-                    app = docker.build "${REGISTRY}:${BUILD_NUMBER}"
+                container('docker') {
+                    script {
+                        app = docker.build "${REGISTRY}:${BUILD_NUMBER}"
+                    }
                 }
             }
         }
@@ -35,11 +38,13 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', "${REGISTRY_CREDENTIAL}") {            
-                        app.push()            
+                container('docker') {
+                    script {
+                        docker.withRegistry('https://registry.hub.docker.com', "${REGISTRY_CREDENTIAL}") {            
+                            app.push()            
+                        }  
                     }  
-                }  
+                }
             }
         }
         stage('Kubernetes Deploy') {
@@ -47,7 +52,9 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                sh 'helm upgrade --install --force --set app.image.tag="${VERSION}" "${NAME}" /opt/moshaveran/helm'
+                container('helm') {
+                    sh 'helm upgrade --install --force --set app.image.tag="${VERSION}" "${NAME}" /opt/moshaveran/helm'
+                }
             }
         }
    }
