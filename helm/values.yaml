@@ -1,0 +1,82 @@
+# Default values for moshaveran.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+app:
+  name: backend
+  image:
+    repository: omiddagala/moshaveran
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: latest
+    secret: regcred
+
+db:
+  name: db
+  image:
+    repository: mdillon/postgis
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 11-alpine
+
+persistentVolumeName: pv-volume
+volumeClaimName: pvc-volume
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+
+service:
+  type: ClusterIP
+  app:
+    name: app
+    port: 8080
+  db:
+    name: db
+    port: 5432
+  front:
+    name: front
+    port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: apps.moshaveranetahsili.ir
+      paths:
+      - path: /api
+        pathType: ImplementationSpecific
+        serviceName: app
+        servicePort: 8080
+      - path: /jenkins
+        pathType: ImplementationSpecific
+        serviceName: jenkins-service
+        servicePort: 8090
+      - path: /
+        pathType: ImplementationSpecific
+        serviceName: front
+        servicePort: 80
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+

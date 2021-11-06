@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: moshaveran-ingress
+  labels:
+    app: moshaveran-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # nginx.ingress.kubernetes.io/rewrite-target: /$1
+    kubernetes.io/ingress.class: "nginx"
+    
+spec:
+  tls:
+    - hosts:
+      - apps.moshaveranetahsili.ir
+      secretName: moshaveran-tls
+  rules:
+    - host: apps.moshaveranetahsili.ir
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/api"
+          backend:
+            service:
+              name: app
+              port:
+                number: 8080
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: front
+              port:
+                number: 80

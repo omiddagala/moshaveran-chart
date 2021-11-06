@@ -33,7 +33,7 @@ export default function AdminChoice(){
     const [choiceData, choiceStatus] = useApi(
         preProcessAdmin('resultList', {
             "page": page,
-            "size": 10,
+            "size": 200,
             "sortBy": "id",
             "direction": "ASC"
         }),
@@ -42,7 +42,7 @@ export default function AdminChoice(){
 
     useEffect(()=>{
         if (choiceStatus==='SUCCESS'){
-            setShowMore(choiceData.list.length === 10)
+            setShowMore(choiceData.list.length === 200)
             let temp=[]
             if (page===0){
                 temp = choiceData.list

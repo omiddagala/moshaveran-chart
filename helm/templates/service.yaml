@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.app.name }}
+  labels:
+    service: {{ .Values.service.app.name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.app.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Values.app.name }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.db.name }}
+  labels:
+    service: {{ .Values.service.db.name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.db.port }}
+      targetPort: dbport
+      protocol: TCP
+      name: dbport
+  selector:
+    app: {{ .Values.db.name }}
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.front.name }}
+  labels:
+    service: {{ .Values.service.front.name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.front.port }}
+      targetPort: front-port
+      protocol: TCP
+      name: front
+  selector:
+    app: react-deployment
+
+
