@@ -1,18 +1,14 @@
 pipeline {
-    agent {
-        kubernetes {
-            defaultContainer 'jnlp'
-            yamlFile 'jenkins_agent.yaml'
-        }
+  environment {
+        DEPLOY = "true"
+        NAME = "moshaveran"
+        REGISTRY = 'omiddagala/moshaveran_front'
+        REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
+        app = ''
     }
-    environment {
-            DEPLOY = "true"
-            NAME = "moshaveran"
-            REGISTRY = 'omiddagala/moshaveran_front'
-            REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
-            app = ''
-    }
-    stages {
+   agent any
+
+   stages {
       stage('Checkout') {
          steps {
             script {
@@ -25,10 +21,8 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                container('docker') {
-                    script {
-                        app = docker.build "${REGISTRY}:${BUILD_NUMBER}"
-                    }
+                script {
+                    app = docker.build "${REGISTRY}:${BUILD_NUMBER}"
                 }
             }
         }
@@ -37,23 +31,19 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                container('docker') {
-                    script {
-                        docker.withRegistry('https://registry.hub.docker.com', "${REGISTRY_CREDENTIAL}") {            
-                            app.push()            
-                        }  
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', "${REGISTRY_CREDENTIAL}") {            
+                        app.push()            
                     }  
-                }
+                }  
             }
         }
         stage('Kubernetes Deploy') {
             when {
                 environment name: 'DEPLOY', value: 'true'
             }
-            steps {
-                container('helm') {
-                    sh 'helm upgrade --install --force --set app.image.tag="${VERSION}" "${NAME}" ./helm'
-                }
+        steps {
+                sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" /opt/moshaveran/helm'
             }
         }
    }
