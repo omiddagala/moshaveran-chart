@@ -26,7 +26,6 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                sh "gpasswd -a $USER docker"
                 script {
                     app = docker.build "${REGISTRY}:${BUILD_NUMBER}"
                 }
