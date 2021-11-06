@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-            DEPLOY = "${env.BRANCH_NAME == "master" || env.BRANCH_NAME == "develop" ? "true" : "false"}"
+            DEPLOY = "true"
             NAME = "moshaveran"
             REGISTRY = 'omiddagala/moshaveran_front'
             REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
