@@ -8,9 +8,10 @@ pipeline {
     }
    agent any
 
-    stage('Initialize'){
-        def dockerHome = tool 'mydocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
+    tools {
+        docker 'mydocker'
+        maven 'maven-3.8.3'
+        jdk 'openjdk-11' 
     }
 
    stages {
