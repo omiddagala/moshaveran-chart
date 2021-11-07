@@ -1,18 +1,19 @@
 pipeline {
-    agent {
+  environment {
+        DEPLOY = "true"
+        NAME = "moshaveran"
+        REGISTRY = 'omiddagala/moshaveran_front'
+        REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
+        app = ''
+    }
+   agent {
         kubernetes {
             defaultContainer 'jnlp'
-            yamlFile 'jenkins_agent.yaml'
+            yamlFile 'gitlab-agent.yaml'
         }
     }
-    environment {
-            DEPLOY = "true"
-            NAME = "moshaveran"
-            REGISTRY = 'omiddagala/moshaveran_front'
-            REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
-            app = ''
-    }
-    stages {
+
+   stages {
       stage('Checkout') {
          steps {
             script {
@@ -51,7 +52,7 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                sh 'helm upgrade --install --force --set app.image.tag="${VERSION}" "${NAME}" /opt/moshaveran/helm'
+                sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" /opt/moshaveran/helm'
             }
         }
    }
