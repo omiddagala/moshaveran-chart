@@ -52,9 +52,10 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                script {
-                    
-                    helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran
+                container('helm') {
+                    script {
+                        helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran
+                    }
                 }
             }
         }
