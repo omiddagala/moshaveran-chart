@@ -53,7 +53,7 @@ pipeline {
             }
             steps {
                 container('helm') {
-                    sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" /opt/moshaveran/helm'
+                    sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" ./helm'
                 }
             }
         }
