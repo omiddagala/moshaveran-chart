@@ -14,7 +14,7 @@ spec:
         - name: m2
           mountPath: /root/.m2
     - name: docker
-      image: docker:19.03
+      image: docker:20.10.10
       command:
         - cat
       tty: true
