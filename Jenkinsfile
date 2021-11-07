@@ -6,11 +6,11 @@ pipeline {
         REGISTRY_CREDENTIAL = 'DOKCER_HUB_ID'
         app = ''
     }
-   agent any
-
-    tools {
-        maven 'maven-3.8.3'
-        jdk 'openjdk-11' 
+   agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yamlFile 'build.yaml'
+        }
     }
 
    stages {
@@ -26,8 +26,10 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                script {
-                    app = docker.build "${REGISTRY}:${BUILD_NUMBER}"
+                container('docker') {
+                    script {
+                        app = docker.build "${REGISTRY}:${BUILD_NUMBER}"
+                    }
                 }
             }
         }
@@ -36,19 +38,23 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', "${REGISTRY_CREDENTIAL}") {            
-                        app.push()            
+                container('docker') {
+                    script {
+                        docker.withRegistry('https://registry.hub.docker.com', "${REGISTRY_CREDENTIAL}") {            
+                            app.push()            
+                        }  
                     }  
-                }  
+                }
             }
         }
         stage('Kubernetes Deploy') {
             when {
                 environment name: 'DEPLOY', value: 'true'
             }
-        steps {
-                sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" /opt/moshaveran/helm'
+            steps {
+                container('helm') {
+                    sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" /opt/moshaveran/helm'
+                }
             }
         }
    }
