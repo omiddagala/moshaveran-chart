@@ -9,7 +9,7 @@ pipeline {
    agent {
         kubernetes {
             defaultContainer 'jnlp'
-            yamlFile 'gitlab-agent.yaml'
+            yamlFile 'jenkins-agent.yaml'
         }
     }
 
