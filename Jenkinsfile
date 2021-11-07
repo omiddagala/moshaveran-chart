@@ -54,7 +54,8 @@ pipeline {
             steps {
                 container('helm') {
                     script {
-                        helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran
+                        sh 'helm repo add omid https://omiddagala.github.io/moshaveran-chart/charts'
+                        sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran'
                     }
                 }
             }
