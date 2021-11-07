@@ -52,7 +52,7 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" ./helm'
+                sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" /opt/moshaveran/helm'
             }
         }
    }
