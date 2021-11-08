@@ -55,7 +55,7 @@ pipeline {
                 container('helm') {
                     sh 'helm repo add omid https://omiddagala.github.io/moshaveran-chart/chart'
                     sh 'helm uninstall moshaveran omid/moshaveran'
-                    sh 'helm upgrade --install --force --set name="${NAME}" --set domain=localhost  --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran'
+                    sh 'helm upgrade --install --force --set name="${NAME}" --set domain="localhost"  --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran'
                 }
             }
         }
