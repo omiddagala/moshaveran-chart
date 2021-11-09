@@ -52,7 +52,7 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                container('docker') {
+                container('helm') {
                     sh 'helm upgrade --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran'
                 }
             }
