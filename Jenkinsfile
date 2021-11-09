@@ -52,9 +52,11 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                    sh 'curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3'
-                    sh 'chmod 700 get_helm.sh'
-                    sh './get_helm.sh'
+                    sh 'curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -'
+                    sh 'apt-get install apt-transport-https --yes'
+                    sh 'echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list'
+                    sh 'apt-get update'
+                    sh 'apt-get install helm'
                     sh 'helm upgrade --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran'
             }
         }
