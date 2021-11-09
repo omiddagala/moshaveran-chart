@@ -13,6 +13,11 @@ app:
     tag: latest
     secret: regcred
 
+front:
+  image:
+    repository: omiddagala/moshaveran-front
+    tag: 1
+
 db:
   name: db
   image:

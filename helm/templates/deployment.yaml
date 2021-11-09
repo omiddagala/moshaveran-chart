@@ -118,7 +118,7 @@ spec:
     spec:
       containers:
       - name: react-container
-        image: nginx:1.21.3
+        image: "{{ .Values.front.image.repository }}:{{ .Values.front.image.tag }}"
         ports:
         - name: front-port
           containerPort: 80
