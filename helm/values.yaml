@@ -16,7 +16,7 @@ app:
 front:
   image:
     repository: omiddagala/moshaveran-front
-    tag: 1
+    tag: 81
 
 db:
   name: db
