@@ -52,10 +52,10 @@ pipeline {
                 environment name: 'DEPLOY', value: 'true'
             }
             steps {
-                container('helm') {
-                    sh 'helm repo add omid https://omiddagala.github.io/moshaveran-chart/chart/'
-                    sh 'helm upgrade --install --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran'
-                }
+                    sh 'curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3'
+                    sh 'chmod 700 get_helm.sh'
+                    sh './get_helm.sh'
+                    sh 'helm upgrade --force --set app.image.tag="${BUILD_NUMBER}" "${NAME}" omid/moshaveran'
             }
         }
    }
