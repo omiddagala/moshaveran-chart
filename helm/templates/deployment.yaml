@@ -65,6 +65,8 @@ spec:
       labels:
         app: {{ .Values.db.name }}
     spec:
+      imagePullSecrets:
+        - name: {{ .Values.app.image.secret }}
       containers:
       - name: {{ .Values.db.name }}
         image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag | default .Chart.AppVersion }}"
