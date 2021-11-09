@@ -65,8 +65,6 @@ spec:
       labels:
         app: {{ .Values.db.name }}
     spec:
-      imagePullSecrets:
-        - name: {{ .Values.app.image.secret }}
       containers:
       - name: {{ .Values.db.name }}
         image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag | default .Chart.AppVersion }}"
@@ -118,6 +116,8 @@ spec:
       labels:
         app: react-deployment
     spec:
+      imagePullSecrets:
+        - name: {{ .Values.app.image.secret }}
       containers:
       - name: react-container
         image: "{{ .Values.front.image.repository }}:{{ .Values.front.image.tag }}"
