@@ -19,14 +19,14 @@ spec:
       http:
         paths:
         - pathType: Prefix
-          path: "/(api)(.*)"
+          path: "/api(/|$)(.*)"
           backend:
             service:
               name: app
               port:
                 number: 8080
-        - pathType: Exact
-          path: "()(.*)"
+        - pathType: Prefix
+          path: "(/|$)(.*)"
           backend:
             service:
               name: front
