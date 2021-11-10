@@ -18,13 +18,15 @@ spec:
     - host: apps.moshaveranetahsili.ir
       http:
         paths:
-        - path: "/(api)(.*)"
+        - pathType: Prefix
+          path: "/(api)(.*)"
           backend:
             service:
               name: app
               port:
                 number: 8080
-        - path: "()(.*)"
+        - pathType: Exact
+          path: "()(.*)"
           backend:
             service:
               name: front
