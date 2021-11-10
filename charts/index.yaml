@@ -3,12 +3,12 @@ entries:
   moshaveran:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-11-10T18:29:03.880581+03:30"
+    created: "2021-11-10T18:33:36.396843+03:30"
     description: A Helm chart for Kubernetes
-    digest: bf9b3e8bce0eb31f705324535738ec800b5210f849565645d33f6cf5c3019695
+    digest: 1a1dd7286638867042deac5c2fc53aa7be607ad20ef605f48ad2ff253dc8a158
     name: moshaveran
     type: application
     urls:
     - moshaveran-0.1.0.tgz
     version: 0.1.0
-generated: "2021-11-10T18:29:03.877708+03:30"
+generated: "2021-11-10T18:33:36.395197+03:30"
