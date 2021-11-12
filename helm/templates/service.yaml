@@ -51,5 +51,22 @@ spec:
   selector:
     app: react-deployment
 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    service: redis
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+  selector:
+    app: redis
+
 
 

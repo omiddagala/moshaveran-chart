@@ -11,6 +11,17 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: my-redis-config
+data:
+  redis-config: |
+    maxmemory 2mb
+    maxmemory-policy allkeys-lru
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: nginx-config
   namespace: default
 data:
